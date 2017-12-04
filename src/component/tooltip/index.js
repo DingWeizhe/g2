@@ -5,7 +5,7 @@
 const Util = require('../../util');
 const Base = require('../../base');
 const Global = require('../../global');
-const { DomUtil } = require('@antv/g');
+const { DomUtil } = require('antv-g-node');
 
 const CONTAINER_CLASS = 'g2-tooltip';
 const TITLE_CLASS = 'g2-tooltip-title';

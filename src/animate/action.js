@@ -3,7 +3,7 @@
  * @author sima.zhang
  */
 const Util = require('../util');
-const G = require('@antv/g');
+const G = require('antv-g-node');
 const PathUtil = G.PathUtil;
 
 function getClip(coord) {
@@ -111,6 +111,7 @@ function getAngle(shape, coord) {
 }
 
 function getAnimateParam(animateCfg, index, id) {
+  console.error("nodejs version g, don't support 'getAnimateParam'", new Error().stack.split('\n')[2]);
   const result = {};
   if (animateCfg.delay) {
     result.delay = Util.isFunction(animateCfg.delay) ? animateCfg.delay(index, id) : animateCfg.delay;

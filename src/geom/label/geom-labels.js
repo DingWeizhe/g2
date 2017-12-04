@@ -1,4 +1,4 @@
-const { Group } = require('@antv/g');
+const { Group } = require('antv-g-node');
 const Labels = require('../../component/label/index');
 const Global = require('../../global');
 const Util = require('../../util');

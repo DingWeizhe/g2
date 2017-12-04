@@ -5,7 +5,7 @@
 
 const Util = require('../../util');
 const PathUtil = require('../util/path');
-const GPath = require('@antv/g').PathUtil;
+const GPath = require('antv-g-node').PathUtil;
 const Shape = {};
 
 const ShapeBase = {

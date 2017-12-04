@@ -5,7 +5,7 @@
 const Util = require('../../util');
 const Global = require('../../global');
 const Base = require('./base');
-const { Event, Group } = require('@antv/g');
+const { Event, Group } = require('antv-g-node');
 const Slider = require('./slider');
 const TRIGGER_WIDTH = 12;
 

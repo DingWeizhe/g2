@@ -4,7 +4,7 @@
  */
 const Util = require('../../util');
 const Base = require('./base');
-const { DomUtil, Event, Group } = require('@antv/g');
+const { DomUtil, Event, Group } = require('antv-g-node');
 const Global = require('../../global');
 const LEGEND_STYLE = Global.legend.html;
 

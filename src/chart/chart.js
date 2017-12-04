@@ -5,7 +5,7 @@
 
 const Util = require('../util');
 const View = require('./view');
-const G = require('@antv/g');
+const G = require('antv-g-node');
 const Canvas = G.Canvas;
 const DomUtil = G.DomUtil;
 const Component = require('../component/index');
@@ -60,14 +60,14 @@ class Chart extends View {
   init() {
     this._initCanvas();
     this._initPlot();
-    this._initEvents();
+    // this._initEvents();
     super.init();
 
-    const tooltipController = new Controller.Tooltip({
-      chart: this,
-      options: {}
-    });
-    this.set('tooltipController', tooltipController);
+    // const tooltipController = new Controller.Tooltip({
+    //   chart: this,
+    //   options: {}
+    // });
+    // this.set('tooltipController', tooltipController);
 
     const legendController = new Controller.Legend({
       chart: this
@@ -85,8 +85,6 @@ class Chart extends View {
       container = id;
       this.set('container', id);
     }
-    let width = this.get('width');
-    const height = this.get('height');
     if (Util.isString(container)) {
       container = document.getElementById(container);
       if (!container) {
@@ -94,19 +92,24 @@ class Chart extends View {
       }
       this.set('container', container);
     }
-    const wrapperEl = DomUtil.createDom('<div style="position:relative;"></div>');
-    container.appendChild(wrapperEl);
-    this.set('wrapperEl', wrapperEl);
-    if (this.get('forceFit')) {
-      width = DomUtil.getWidth(container);
-      this.set('width', width);
-    }
+    // const wrapperEl = DomUtil.createDom('<div style="position:relative;"></div>');
+    // container.appendChild(wrapperEl);
+    // this.set('wrapperEl', wrapperEl);
+    // if (this.get('forceFit')) {
+    //   width = DomUtil.getWidth(container);
+    //   this.set('width', width);
+    // }
+    const el = this.get('el');
+    this.set('width', el.height);
+    this.set('height', el.width);
+
     const canvas = new Canvas({
-      containerDOM: wrapperEl,
-      width,
-      height,
+      el,
+      width: el.width,
+      height: el.height,
       pixelRatio: this.get('pixelRatio')
     });
+
     this.set('canvas', canvas);
   }
 
@@ -142,9 +145,9 @@ class Chart extends View {
   }
 
   _initEvents() {
-    if (this.get('forceFit')) {
-      window.addEventListener('resize', Util.wrapBehavior(this, '_initForceFitEvent'));
-    }
+    // if (this.get('forceFit')) {
+    //   window.addEventListener('resize', Util.wrapBehavior(this, '_initForceFitEvent'));
+    // }
   }
 
   _initForceFitEvent() {
@@ -188,12 +191,12 @@ class Chart extends View {
 
   // 绘制 tooltip
   _renderTooltips() {
-    const options = this.get('options');
-    if (Util.isNil(options.tooltip) || options.tooltip !== false) { // 用户没有关闭 tooltip
-      const tooltipController = this.get('tooltipController');
-      tooltipController.options = options.tooltip || {};
-      tooltipController.renderTooltip();
-    }
+    // const options = this.get('options');
+    // if (Util.isNil(options.tooltip) || options.tooltip !== false) { // 用户没有关闭 tooltip
+    //   const tooltipController = this.get('tooltipController');
+    //   tooltipController.options = options.tooltip || {};
+    //   tooltipController.renderTooltip();
+    // }
   }
 
   /**
@@ -291,9 +294,9 @@ class Chart extends View {
     cfg.middlePlot = this.get('middlePlot');
     cfg.frontPlot = this.get('frontPlot');
     cfg.canvas = this.get('canvas');
-    if (Util.isNil(cfg.animate)) {
-      cfg.animate = this.get('animate');
-    }
+    // if (Util.isNil(cfg.animate)) {
+    //   cfg.animate = this.get('animate');
+    // }
     cfg.options = Util.mix({}, this._getSharedOptions(), cfg.options);
     const view = new View(cfg);
     view.set('_id', 'view' + this.get('views').length); // 标识 ID，防止同用户设定的 id 重名

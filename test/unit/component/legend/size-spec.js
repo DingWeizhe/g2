@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const Simulate = require('event-simulate');
-const { Canvas, Event } = require('@antv/g');
+const { Canvas, Event } = require('antv-g-node');
 const { Size } = require('../../../../src/component/legend/index');
 
 const div = document.createElement('div');

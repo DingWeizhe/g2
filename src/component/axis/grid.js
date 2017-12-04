@@ -2,7 +2,7 @@
  * @fileOverview the grid of axis
  * @author sima.zhang
  */
-const { Group } = require('@antv/g');
+const { Group } = require('antv-g-node');
 const Util = require('../../util');
 
 class Grid extends Group {

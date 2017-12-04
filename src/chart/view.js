@@ -9,7 +9,7 @@ const Util = require('../util');
 const Controller = require('./controller/index');
 const Global = require('../global');
 const FIELD_ORIGIN = '_origin';
-const Animate = require('../animate/index');
+// const Animate = require('../animate/index');
 
 function isFullCircle(coord) {
   const startAngle = coord.startAngle;
@@ -851,7 +851,6 @@ class View extends Base {
   render(stopDraw) {
     this.emit('beforerender');
     const views = this.get('views');
-    const animate = this.get('animate');
     // 初始化 View 的数据
     Util.each(views, function(view) {
       view.initView();
@@ -869,15 +868,7 @@ class View extends Base {
       backPlot.sort();
       const canvas = this.get('canvas');
 
-      if (animate) {
-        const isUpdate = this.get('isUpdate');
-        Util.each(views, function(view) {
-          Animate.execAnimation(view, isUpdate);
-        });
-        Animate.execAnimation(this, isUpdate);
-      } else {
-        canvas.draw();
-      }
+      canvas.draw();
     }
     this.emit('afterrender');
     return this;

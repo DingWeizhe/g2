@@ -1,4 +1,4 @@
-const G = require('@antv/g');
+const G = require('antv-g-node');
 const Animate = require('./src/animate/animate');
 const Chart = require('./src/chart/chart');
 const Global = require('./src/global');

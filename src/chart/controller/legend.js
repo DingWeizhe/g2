@@ -6,8 +6,8 @@ const Shape = require('../../geom/shape/index');
 const FIELD_ORIGIN = '_origin';
 const MARGIN = 24;
 const MARGIN_LEGEND = 24;
-const requireAnimationFrameFn = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-  window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+// const requireAnimationFrameFn = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+//   window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
 function _snapEqual(v1, v2, scale) {
   let isEqual;
@@ -161,15 +161,15 @@ class LegendController {
         }
         return true;
       });
-      const geoms = chart.getAllGeoms() || [];
-      for (let i = 0; i < geoms.length; i++) {
-        const geom = geoms[i];
-        if (geom.get('type') === 'heatmap') {
-          requireAnimationFrameFn(() => {
-            geom.drawWithRange(range);
-          });
-        }
-      }
+      // const geoms = chart.getAllGeoms() || [];
+      // for (let i = 0; i < geoms.length; i++) {
+        // const geom = geoms[i];
+        // if (geom.get('type') === 'heatmap') {
+        //   // requireAnimationFrameFn(() => {
+        //   //   geom.drawWithRange(range);
+        //   // });
+        // }
+      // }
     });
   }
 
