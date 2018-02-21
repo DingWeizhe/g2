@@ -4,7 +4,7 @@
  */
 const Util = require('../util');
 const Base = require('./base');
-const MatrixUtil = require('antv-g-node').MatrixUtil;
+const MatrixUtil = require('g-node').MatrixUtil;
 const mat3 = MatrixUtil.mat3;
 const vec2 = MatrixUtil.vec2;
 const vec3 = MatrixUtil.vec3;
@@ -97,8 +97,8 @@ class Polar extends Base {
         maxY: 1
       };
     }
-    const xs = [ 0, Math.cos(startAngle), Math.cos(endAngle) ];
-    const ys = [ 0, Math.sin(startAngle), Math.sin(endAngle) ];
+    const xs = [0, Math.cos(startAngle), Math.cos(endAngle)];
+    const ys = [0, Math.sin(startAngle), Math.sin(endAngle)];
 
     for (let i = -Math.PI * 5 / 2; i < Math.PI * 3 / 2; i += Math.PI / 2) {
       if (startAngle <= i && i <= endAngle) {
@@ -135,14 +135,14 @@ class Polar extends Base {
 
   invertPoint(point) {
     const center = this.getCenter();
-    const vPoint = [ point.x - center.x, point.y - center.y ];
+    const vPoint = [point.x - center.x, point.y - center.y];
     const x = this.x;
-    const m = [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ];
+    const m = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     mat3.rotate(m, m, x.start);
 
-    let vStart = [ 1, 0, 0 ];
+    let vStart = [1, 0, 0];
     vec3.transformMat3(vStart, vStart, m);
-    vStart = [ vStart[0], vStart[1] ];
+    vStart = [vStart[0], vStart[1]];
     let angle = vec2.angleTo(vStart, vPoint, x.end < x.start);
     if (Util.snapEqual(angle, Math.PI * 2)) {
       angle = 0;

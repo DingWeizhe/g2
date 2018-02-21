@@ -1,5 +1,7 @@
 // const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Tooltip = require('../../../../src/component/tooltip/index');
 
 const div = document.createElement('div');
@@ -14,15 +16,30 @@ const canvas = new Canvas({
 });
 
 const plotRange = {
-  tl: { x: 25, y: 50 },
-  tr: { x: 425, y: 50 },
-  bl: { x: 25, y: 440 },
-  br: { x: 425, y: 440 },
-  cc: { x: 225, y: 245 }
+  tl: {
+    x: 25,
+    y: 50
+  },
+  tr: {
+    x: 425,
+    y: 50
+  },
+  bl: {
+    x: 25,
+    y: 440
+  },
+  br: {
+    x: 425,
+    y: 440
+  },
+  cc: {
+    x: 225,
+    y: 245
+  }
 };
 
-describe('Tooltip', function() {
-  it('默认', function() {
+describe('Tooltip', function () {
+  it('默认', function () {
     const tooltip = new Tooltip({
       x: 10,
       y: 10,
@@ -34,13 +51,24 @@ describe('Tooltip', function() {
         type: 'cross',
         lineStyle: {
           stroke: '#f80',
-          lineStash: [ 2, 2 ]
+          lineStash: [2, 2]
         }
       },
-      items: [
-        { color: 'red', name: 'name1', value: '1222333' },
-        { color: 'blue', name: 'n2', value: '1233' },
-        { color: 'yellow', name: 'name3', value: 'swww - afas' }
+      items: [{
+          color: 'red',
+          name: 'name1',
+          value: '1222333'
+        },
+        {
+          color: 'blue',
+          name: 'n2',
+          value: '1233'
+        },
+        {
+          color: 'yellow',
+          name: 'name3',
+          value: 'swww - afas'
+        }
       ],
       offset: 50,
       canvas,
@@ -51,4 +79,3 @@ describe('Tooltip', function() {
     canvas.draw();
   });
 });
-

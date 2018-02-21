@@ -4,7 +4,11 @@
  */
 const Util = require('../../util');
 const Base = require('./base');
-const { DomUtil, Event, Group } = require('antv-g-node');
+const {
+  DomUtil,
+  Event,
+  Group
+} = require('g-node');
 const Global = require('../../global');
 const LEGEND_STYLE = Global.legend.html;
 
@@ -39,7 +43,7 @@ function getParentNode(node, className) {
 function findItem(items, refer) {
   let rst = null;
   const value = (refer instanceof Group) ? refer.get('value') : refer;
-  Util.each(items, function(item) {
+  Util.each(items, function (item) {
     if (item.value === value) {
       rst = item;
       return false;
@@ -106,7 +110,7 @@ class Category extends Base {
        * 边框内边距
        * @type {Array}
        */
-      backPadding: [ 0, 0, 0, 0 ],
+      backPadding: [0, 0, 0, 0],
       /**
        * 是否能被点击
        * @type {Boolean}
@@ -366,7 +370,7 @@ class Category extends Base {
       display: (position === 'right' || position === 'left') ? 'block' : 'inline-block'
     }, self.get(ITEM_CLASS));
     const markerStyle = Util.mix({}, LEGEND_STYLE[MARKER_CLASS], self.get(MARKER_CLASS));
-    Util.each(items, function(item, index) {
+    Util.each(items, function (item, index) {
       const checked = item.checked;
       const value = self._formatItemValue(item.value);
       const markerColor = item.marker.fill || item.marker.stroke;
@@ -534,7 +538,7 @@ class Category extends Base {
     if (self.get('reversed')) {
       items.reverse();
     }
-    Util.each(items, function(item, index) {
+    Util.each(items, function (item, index) {
       self._addItem(item, index);
     });
   }
@@ -562,7 +566,7 @@ class Category extends Base {
     let nextX = 0;
 
     if (layout === 'horizontal') { // 水平布局
-      Util.each(children, function(v) {
+      Util.each(children, function (v) {
         nextX += (itemWidth ? itemWidth : v.getBBox().width) + itemGap;
       });
     }
@@ -582,7 +586,7 @@ class Category extends Base {
     }
 
     if (layout === 'vertical') { // 竖直布局
-      Util.each(children, function(v) {
+      Util.each(children, function (v) {
         nextY += v.getBBox().height + itemMarginBottom;
       });
     }
@@ -682,7 +686,7 @@ class Category extends Base {
     let box;
     const itemWidth = this.get('itemWidth');
     if (itemsGroup.getBBox().width > maxLength) {
-      Util.each(children, function(child) {
+      Util.each(children, function (child) {
         box = child.getBBox();
         width = itemWidth || box.width;
         height = box.height + itemMarginBottom;
@@ -716,7 +720,7 @@ class Category extends Base {
     let totalLength = 0;
 
     if (itemsGroup.getBBox().height > maxLength) {
-      Util.each(children, function(v) {
+      Util.each(children, function (v) {
         box = v.getBBox();
         width = box.width;
         height = box.height;

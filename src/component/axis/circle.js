@@ -4,7 +4,9 @@
  */
 const Util = require('../../util');
 const Base = require('./base');
-const { vec2 } = require('antv-g-node').MatrixUtil;
+const {
+  vec2
+} = require('g-node').MatrixUtil;
 
 class Circle extends Base {
   getDefaultCfg() {
@@ -76,7 +78,7 @@ class Circle extends Base {
   getSideVector(offset, point) {
     const self = this;
     const center = self.get('center');
-    const vector = [ point.x - center.x, point.y - center.y ];
+    const vector = [point.x - center.x, point.y - center.y];
     if (!Util.isNil(offset)) {
       const vecLen = vec2.length(vector);
       vec2.scale(vector, vector, offset / vecLen);
@@ -127,11 +129,11 @@ class Circle extends Base {
     let path = [];
     if (Math.abs(endAngle - startAngle) === Math.PI * 2) {
       path = [
-        [ 'M', x, y ],
-        [ 'm', 0, -ry ],
-        [ 'a', rx, ry, 0, 1, 1, 0, 2 * ry ],
-        [ 'a', rx, ry, 0, 1, 1, 0, -2 * ry ],
-        [ 'z' ]
+        ['M', x, y],
+        ['m', 0, -ry],
+        ['a', rx, ry, 0, 1, 1, 0, 2 * ry],
+        ['a', rx, ry, 0, 1, 1, 0, -2 * ry],
+        ['z']
       ];
     } else {
       const startPoint = self._getCirclePoint(startAngle);
@@ -140,10 +142,10 @@ class Circle extends Base {
       const sweep = startAngle > endAngle ? 0 : 1;
       if (!inner) {
         path = [
-          [ 'M', x, y ],
-          [ 'L', startPoint.x, startPoint.y ],
-          [ 'A', rx, ry, 0, large, sweep, endPoint.x, endPoint.y ],
-          [ 'L', x, y ]
+          ['M', x, y],
+          ['L', startPoint.x, startPoint.y],
+          ['A', rx, ry, 0, large, sweep, endPoint.x, endPoint.y],
+          ['L', x, y]
         ];
       } else {
         const innerStartVector = self.getSideVector(inner * rx, startPoint);
@@ -158,11 +160,11 @@ class Circle extends Base {
         };
 
         path = [
-          [ 'M', innerStartPoint.x, innerStartPoint.y ],
-          [ 'L', startPoint.x, startPoint.y ],
-          [ 'A', rx, ry, 0, large, sweep, endPoint.x, endPoint.y ],
-          [ 'L', innerEndPoint.x, innerEndPoint.y ],
-          [ 'A', rx * inner, ry * inner, 0, large, Math.abs(sweep - 1), innerStartPoint.x, innerStartPoint.y ]
+          ['M', innerStartPoint.x, innerStartPoint.y],
+          ['L', startPoint.x, startPoint.y],
+          ['A', rx, ry, 0, large, sweep, endPoint.x, endPoint.y],
+          ['L', innerEndPoint.x, innerEndPoint.y],
+          ['A', rx * inner, ry * inner, 0, large, Math.abs(sweep - 1), innerStartPoint.x, innerStartPoint.y]
         ];
       }
     }
@@ -188,7 +190,7 @@ class Circle extends Base {
       const avgAngle = totalAngle / (ticks.length - 1);
       const avgWidth = Math.sin(avgAngle / 2) * radius * 2;
       const maxLength = self.getMaxLabelWidth(labelsGroup);
-      Util.each(labelsGroup.get('children'), function(label, index) {
+      Util.each(labelsGroup.get('children'), function (label, index) {
         const tick = ticks[index];
         let angle = tick.value * totalAngle + startAngle;
         const mode = angle % (Math.PI * 2);

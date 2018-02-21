@@ -1,7 +1,12 @@
 const expect = require('chai').expect;
 const Simulate = require('event-simulate');
-const { Canvas, Event } = require('antv-g-node');
-const { Size } = require('../../../../src/component/legend/index');
+const {
+  Canvas,
+  Event
+} = require('g-node');
+const {
+  Size
+} = require('../../../../src/component/legend/index');
 
 const div = document.createElement('div');
 div.id = 'legend';
@@ -13,15 +18,22 @@ const canvas = new Canvas({
   height: 500
 });
 
-const items = [
-  { value: '10' },
-  { value: '20' },
-  { value: '40' },
-  { value: '50' }
+const items = [{
+    value: '10'
+  },
+  {
+    value: '20'
+  },
+  {
+    value: '40'
+  },
+  {
+    value: '50'
+  }
 ];
 
-describe('连续图例 - Size', function() {
-  it('大小图例，不可筛选', function() {
+describe('连续图例 - Size', function () {
+  it('大小图例，不可筛选', function () {
     const legend = canvas.addGroup(Size, {
       items,
       title: {
@@ -39,7 +51,7 @@ describe('连续图例 - Size', function() {
     expect(legend.get('type')).to.equal('size-legend');
   });
 
-  it('水平大小图例，可筛选', function() {
+  it('水平大小图例，可筛选', function () {
     const legend = canvas.addGroup(Size, {
       items,
       layout: 'horizontal',
@@ -69,7 +81,7 @@ describe('连续图例 - Size', function() {
       }
     }, true, true);
     event.currentTarget = legend.get('minButtonElement');
-    slider.trigger('mousedown', [ event ]);
+    slider.trigger('mousedown', [event]);
 
     const canvasDOM = canvas.get('el');
     Simulate.simulate(canvasDOM, 'mousemove', {
@@ -85,7 +97,7 @@ describe('连续图例 - Size', function() {
     expect(legend.get('minTextElement').attr('text')).to.equal('18');
   });
 
-  it('垂直大小图例，可筛选，不带标题', function() {
+  it('垂直大小图例，可筛选，不带标题', function () {
 
     const legend = canvas.addGroup(Size, {
       items,
@@ -115,7 +127,7 @@ describe('连续图例 - Size', function() {
       }
     }, true, true);
     event.currentTarget = legend.get('maxButtonElement');
-    slider.trigger('mousedown', [ event ]);
+    slider.trigger('mousedown', [event]);
 
     const canvasDOM = canvas.get('el');
     Simulate.simulate(canvasDOM, 'mousemove', {

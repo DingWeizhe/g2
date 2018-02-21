@@ -3,7 +3,9 @@
  * @author sima.zhang
  */
 const Util = require('../util');
-const { Group } = require('antv-g-node');
+const {
+  Group
+} = require('g-node');
 
 class PlotBack extends Group {
   getDefaultCfg() {

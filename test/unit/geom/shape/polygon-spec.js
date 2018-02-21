@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Polygon = require('../../../../src/geom/shape/polygon');
 const Coord = require('../../../../src/coord/');
 
@@ -24,19 +26,19 @@ const canvas = new Canvas({
   height: 500
 });
 
-describe('polygon shapes', function() {
+describe('polygon shapes', function () {
   Polygon._coord = coord;
-  describe('default', function() {
-    it('default shape type', function() {
+  describe('default', function () {
+    it('default shape type', function () {
       expect(Polygon.defaultShapeType).equal('polygon');
     });
   });
-  describe('polygon', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('polygon', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'polygon';
       const points = Polygon.getShapePoints(type, {
-        x: [ 0.1, 0.3, 0.3, 0.4 ],
-        y: [ 0.2, 0.5, 0.12, 0.88 ]
+        x: [0.1, 0.3, 0.3, 0.4],
+        y: [0.2, 0.5, 0.12, 0.88]
       });
       expect(points[0].x).eql(0.1);
       expect(points[0].y).eql(0.2);
@@ -59,13 +61,13 @@ describe('polygon shapes', function() {
       expect(shape.attr('path')[4].length).eql(3);
       expect(shape.attr('path')[5].length).eql(1);
     });
-    it('getMarkerCfg', function() {
+    it('getMarkerCfg', function () {
       const markerCfg = Polygon.getMarkerCfg('polygon', {
         color: '#f80'
       });
       expect(markerCfg.symbol).eql('square');
     });
-    xit('getActiveCfg', function() {
+    xit('getActiveCfg', function () {
       const activeCfg = Polygon.getActiveCfg('polygon');
 
       expect(activeCfg).eql({
@@ -74,12 +76,12 @@ describe('polygon shapes', function() {
       });
     });
   });
-  describe('hollow', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('hollow', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'hollow';
       const points = Polygon.getShapePoints(type, {
-        x: [ 0.1, 0.3, 0.1, 0.4 ],
-        y: [ 0.2, 0.5, 0.2, 0.88 ]
+        x: [0.1, 0.3, 0.1, 0.4],
+        y: [0.2, 0.5, 0.2, 0.88]
       });
       expect(points[0].x).eql(0.1);
       expect(points[0].y).eql(0.2);

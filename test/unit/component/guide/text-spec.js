@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Coord = require('../../../../src/coord/index');
 const Text = require('../../../../src/component/guide/text');
 const Scale = require('../../../../src/scale/index');
@@ -8,10 +10,16 @@ const div = document.createElement('div');
 div.id = 'c1';
 document.body.appendChild(div);
 
-describe('Guide: 辅助文本', function() {
+describe('Guide: 辅助文本', function () {
   const coord = new Coord.Rect({
-    start: { x: 60, y: 460 },
-    end: { x: 460, y: 60 }
+    start: {
+      x: 60,
+      y: 460
+    },
+    end: {
+      x: 460,
+      y: 60
+    }
   });
 
   const canvas = new Canvas({
@@ -24,7 +32,7 @@ describe('Guide: 辅助文本', function() {
   const group = canvas.addGroup();
 
   const xScale = Scale.cat({
-    values: [ '一月', '二月', '三月', '四月', '五月' ]
+    values: ['一月', '二月', '三月', '四月', '五月']
   });
 
   const yScale = Scale.linear({
@@ -32,7 +40,7 @@ describe('Guide: 辅助文本', function() {
     max: 1200
   });
 
-  it('guide text', function() {
+  it('guide text', function () {
     const text = new Text({
       xScales: {
         month: xScale
@@ -55,7 +63,7 @@ describe('Guide: 辅助文本', function() {
     expect(children[0].attr('y')).to.equal(460);
   });
 
-  it('guide text has some offset', function() {
+  it('guide text has some offset', function () {
     group.clear();
     const text = new Text({
       xScales: {
@@ -93,7 +101,7 @@ describe('Guide: 辅助文本', function() {
     expect(children[0].attr('rotate')).to.equal(Math.PI);
   });
 
-  it('guide text with the start is a function', function() {
+  it('guide text with the start is a function', function () {
     group.clear();
     const text = new Text({
       xScales: {

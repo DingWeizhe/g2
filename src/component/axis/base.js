@@ -3,8 +3,12 @@
  * @author sima.zhang
  */
 const Util = require('../../util');
-const { LabelsRenderer } = require('../label/index');
-const { Group } = require('antv-g-node');
+const {
+  LabelsRenderer
+} = require('../label/index');
+const {
+  Group
+} = require('g-node');
 const Grid = require('./grid');
 const Global = require('../../global');
 
@@ -189,7 +193,7 @@ class Base extends Group {
     let ticks = self.get('ticks');
     ticks = self._parseTicks(ticks);
 
-    Util.each(ticks, function(tick, index) {
+    Util.each(ticks, function (tick, index) {
       const tickPoint = self.getTickPoint(tick.value, index);
       if (tickLineCfg) {
         self._addTickItem(index, tickPoint, tickLineCfg.length);
@@ -201,7 +205,7 @@ class Base extends Group {
 
     if (subTickCount) { // 如果有设置次级分点，添加次级tick
       const subTickLineCfg = self.get('subTickLine');
-      Util.each(ticks, function(tick, index) {
+      Util.each(ticks, function (tick, index) {
         if (index > 0) {
           let diff = tick.value - ticks[index - 1].value;
           diff = diff / (self.get('subTickCount') + 1);
@@ -230,9 +234,9 @@ class Base extends Group {
     const self = this;
     const cfg = Util.mix({}, lineCfg);
     const path = [];
-    Util.each(ticks, function(item) {
-      path.push([ 'M', item.x1, item.y1 ]);
-      path.push([ 'L', item.x2, item.y2 ]);
+    Util.each(ticks, function (item) {
+      path.push(['M', item.x1, item.y1]);
+      path.push(['L', item.x2, item.y2]);
     });
     delete cfg.length;
     cfg.path = path;
@@ -307,7 +311,7 @@ class Base extends Group {
   getMaxLabelWidth(labelsGroup) {
     const labels = labelsGroup.get('children');
     let max = 0;
-    Util.each(labels, function(label) {
+    Util.each(labels, function (label) {
       const bbox = label.getBBox();
       const width = bbox.width;
       if (max < width) {

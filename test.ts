@@ -19,7 +19,15 @@ const chart = new G2.Chart({
   el: canvas,
   forceFit: true
 });
-chart.source(data);
+chart
+  .source(data)
+  .transform({
+    type: 'fold',
+    fields: ['gold', 'silver'], // 展开字段集
+    key: 'key',                   // key字段
+    value: 'value',               // value字段
+    retains: ['country']        // 保留字段集，默认为除 fields 以外的所有字段
+  });
 chart.scale('value', {
   min: 0
 });

@@ -3,7 +3,7 @@
  * @author sima.zhang
  */
 const Util = require('../util');
-const G = require('antv-g-node');
+const G = require('g-node');
 const PathUtil = G.PathUtil;
 
 function getClip(coord) {
@@ -135,18 +135,18 @@ function scaleInY(shape, animateCfg) {
   } else {
     y = box.minY;
   }
-  const v = [ x, y, 1 ];
+  const v = [x, y, 1];
   shape.apply(v);
   shape.attr('transform', [
-    [ 't', -x, -y ],
-    [ 's', 1, 0.01 ],
-    [ 't', x, y ]
+    ['t', -x, -y],
+    ['s', 1, 0.01],
+    ['t', x, y]
   ]);
   const endState = {
     transform: [
-      [ 't', -x, -y ],
-      [ 's', 1, 100 ],
-      [ 't', x, y ]
+      ['t', -x, -y],
+      ['s', 1, 100],
+      ['t', x, y]
     ]
   };
   const animateParam = getAnimateParam(animateCfg, index, id, endState);
@@ -166,20 +166,20 @@ function scaleInX(shape, animateCfg) {
   } else {
     x = box.minX;
   }
-  const v = [ x, y, 1 ];
+  const v = [x, y, 1];
   shape.apply(v);
   shape.attr({
     transform: [
-      [ 't', -x, -y ],
-      [ 's', 0.01, 1 ],
-      [ 't', x, y ]
+      ['t', -x, -y],
+      ['s', 0.01, 1],
+      ['t', x, y]
     ]
   });
   const endState = {
     transform: [
-      [ 't', -x, -y ],
-      [ 's', 100, 1 ],
-      [ 't', x, y ]
+      ['t', -x, -y],
+      ['s', 100, 1],
+      ['t', x, y]
     ]
   };
   const animateParam = getAnimateParam(animateCfg, index, id, endState);
@@ -194,7 +194,7 @@ function lineWidthOut(shape, animateCfg) {
   const id = shape._id;
   const index = shape.get('index');
   const animateParam = getAnimateParam(animateCfg, index, id, endState);
-  shape.animate(endState, animateParam.duration, animateParam.easing, function() {
+  shape.animate(endState, animateParam.duration, animateParam.easing, function () {
     shape.remove();
   }, animateParam.delay);
 }
@@ -212,20 +212,20 @@ function zoomIn(shape, animateCfg, coord) {
     x = (box.minX + box.maxX) / 2;
     y = (box.minY + box.maxY) / 2;
   }
-  const v = [ x, y, 1 ];
+  const v = [x, y, 1];
   shape.apply(v);
   shape.attr({
     transform: [
-      [ 't', -x, -y ],
-      [ 's', 0.01, 0.01 ],
-      [ 't', x, y ]
+      ['t', -x, -y],
+      ['s', 0.01, 0.01],
+      ['t', x, y]
     ]
   });
   const endState = {
     transform: [
-      [ 't', -x, -y ],
-      [ 's', 100, 100 ],
-      [ 't', x, y ]
+      ['t', -x, -y],
+      ['s', 100, 100],
+      ['t', x, y]
     ]
   };
   const animateParam = getAnimateParam(animateCfg, index, id, endState);
@@ -245,17 +245,17 @@ function zoomOut(shape, animateCfg, coord) {
     x = (box.minX + box.maxX) / 2;
     y = (box.minY + box.maxY) / 2;
   }
-  const v = [ x, y, 1 ];
+  const v = [x, y, 1];
   shape.apply(v);
   const endState = {
     transform: [
-      [ 't', -x, -y ],
-      [ 's', 0.01, 0.01 ],
-      [ 't', x, y ]
+      ['t', -x, -y],
+      ['s', 0.01, 0.01],
+      ['t', x, y]
     ]
   };
   const animateParam = getAnimateParam(animateCfg, index, id, endState);
-  shape.animate(endState, animateParam.duration, animateParam.easing, function() {
+  shape.animate(endState, animateParam.duration, animateParam.easing, function () {
     shape.remove();
   }, animateParam.delay);
 }
@@ -265,7 +265,7 @@ function pathIn(shape, animateCfg) {
   const id = shape._id;
   const index = shape.get('index');
   const path = PathUtil.pathToAbsolute(shape.attr('path'));
-  shape.attr('path', [ path[0] ]);
+  shape.attr('path', [path[0]]);
   const endState = {
     path
   };
@@ -279,10 +279,10 @@ function pathOut(shape, animateCfg) {
   const index = shape.get('index');
   const path = PathUtil.pathToAbsolute(shape.attr('path'));
   const endState = {
-    path: [ path[0] ]
+    path: [path[0]]
   };
   const animateParam = getAnimateParam(animateCfg, index, id, endState);
-  shape.animate(endState, animateParam.duration, animateParam.easing, function() {
+  shape.animate(endState, animateParam.duration, animateParam.easing, function () {
     shape.remove();
   }, animateParam.delay);
 }
@@ -307,7 +307,7 @@ function clipIn(shape, animateCfg, coord, startAngle, endAngle) {
   shape.setSilent('animating', true);
   const animateParam = getAnimateParam(animateCfg, index, id, endState);
   clip.animate(endState, animateParam.duration, animateParam.easing,
-    function() {
+    function () {
       if (shape && !shape.get('destroyed')) {
         shape.attr('clip', null);
         shape.setSilent('cacheShape', null);
@@ -340,7 +340,7 @@ function fadeOut(shape, animateCfg) {
     strokeOpacity: 0
   };
   const animateParam = getAnimateParam(animateCfg, index, id, endState);
-  shape.animate(endState, animateParam.duration, animateParam.easing, function() {
+  shape.animate(endState, animateParam.duration, animateParam.easing, function () {
     shape.remove();
   }, animateParam.delay);
 }

@@ -7,11 +7,11 @@
 
 const Util = require('../../util');
 const ShapeUtil = require('../util/shape');
-const Marker = require('antv-g-node').Marker;
+const Marker = require('g-node').Marker;
 const Global = require('../../global');
 const Shape = require('./shape');
-const SHAPES = [ 'circle', 'square', 'bowtie', 'diamond', 'hexagon', 'triangle', 'triangle-down' ];
-const HOLLOW_SHAPES = [ 'cross', 'tick', 'plus', 'hyphen', 'line', 'pointerLine', 'pointerArrow' ];
+const SHAPES = ['circle', 'square', 'bowtie', 'diamond', 'hexagon', 'triangle', 'triangle-down'];
+const HOLLOW_SHAPES = ['cross', 'tick', 'plus', 'hyphen', 'line', 'pointerLine', 'pointerArrow'];
 const SQRT_3 = Math.sqrt(3);
 
 // 增加marker
@@ -115,11 +115,13 @@ function getRectPath(cfg) {
   const y = cfg.points[0].y;
   const w = cfg.size[0];
   const h = cfg.size[1];
-  const path = [[ 'M', x - 0.5 * w, y - 0.5 * h ],
-      [ 'L', x + 0.5 * w, y - 0.5 * h ],
-      [ 'L', x + 0.5 * w, y + 0.5 * h ],
-      [ 'L', x - 0.5 * w, y + 0.5 * h ],
-      [ 'z' ]];
+  const path = [
+    ['M', x - 0.5 * w, y - 0.5 * h],
+    ['L', x + 0.5 * w, y - 0.5 * h],
+    ['L', x + 0.5 * w, y + 0.5 * h],
+    ['L', x - 0.5 * w, y + 0.5 * h],
+    ['z']
+  ];
   return path;
 }
 
@@ -145,7 +147,7 @@ Shape.registerShape('point', 'rect', {
 });
 
 // 添加shapes
-Util.each(SHAPES, function(shape) {
+Util.each(SHAPES, function (shape) {
   Shape.registerShape('point', shape, {
     draw(cfg, container) {
       // cfg.points = this.parsePoints(cfg.points);
@@ -188,7 +190,7 @@ Util.each(SHAPES, function(shape) {
 });
 
 // 添加 hollowShapes
-Util.each(HOLLOW_SHAPES, function(shape) {
+Util.each(HOLLOW_SHAPES, function (shape) {
   Shape.registerShape('point', shape, {
     draw(cfg, container) {
       const attrs = getLineAttrs(cfg);

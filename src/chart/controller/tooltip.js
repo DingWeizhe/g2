@@ -4,16 +4,18 @@
  */
 const Util = require('../../util');
 const Global = require('../../global');
-const { Tooltip } = require('../../component/index');
-const MatrixUtil = require('antv-g-node').MatrixUtil;
+const {
+  Tooltip
+} = require('../../component/index');
+const MatrixUtil = require('g-node').MatrixUtil;
 const Vector2 = MatrixUtil.vec2;
 
-const TYPE_SHOW_MARKERS = [ 'line', 'area', 'path', 'areaStack' ]; // 默认展示 tooltip marker 的几何图形
-const TYPE_SHOW_CROSSHAIRS = [ 'line', 'area' ]; // 默认展示十字瞄准线的几何图形
+const TYPE_SHOW_MARKERS = ['line', 'area', 'path', 'areaStack']; // 默认展示 tooltip marker 的几何图形
+const TYPE_SHOW_CROSSHAIRS = ['line', 'area']; // 默认展示十字瞄准线的几何图形
 
 function _indexOfArray(items, item) {
   let rst = -1;
-  Util.each(items, function(sub, index) {
+  Util.each(items, function (sub, index) {
     if (sub.title === item.title && sub.name === item.name && sub.value === item.value && sub.color === item.color) {
       rst = index;
       return false;
@@ -53,7 +55,7 @@ function _isParent(dom, cls) {
 // 去除重复的值, 去除不同图形相同数据，只展示一份即可
 function _uniqItems(items) {
   const tmp = [];
-  Util.each(items, function(item) {
+  Util.each(items, function (item) {
     const index = _indexOfArray(tmp, item);
     if (index === -1) {
       tmp.push(item);
@@ -107,11 +109,11 @@ class TooltipController {
     const options = self.options;
     const defaultCfg = Util.mix({}, Global.tooltip);
     const chart = self.chart;
-    const geoms = chart.getAllGeoms().filter(function(geom) {
+    const geoms = chart.getAllGeoms().filter(function (geom) {
       return geom.get('visible');
     });
     const shapes = [];
-    Util.each(geoms, function(geom) {
+    Util.each(geoms, function (geom) {
       const type = geom.get('type');
       const adjusts = geom.get('adjusts');
       let isSymmetric = false;
@@ -230,8 +232,8 @@ class TooltipController {
     };
     if ((timeStamp - lastTimeStamp) > 16) {
       let target;
-      if (ev.shape
-        && Util.inArray([ 'point', 'interval', 'polygon', 'schema' ], ev.shape.name)) {
+      if (ev.shape &&
+        Util.inArray(['point', 'interval', 'polygon', 'schema'], ev.shape.name)) {
         target = ev.shape;
       }
       this.showTooltip(point, ev.views, target);
@@ -318,8 +320,8 @@ class TooltipController {
         const type = geom.get('type');
         if (geom.get('visible') && geom.get('tooltipCfg') !== false) {
           const dataArray = geom.get('dataArray');
-          if (geom.isShareTooltip() || (options.shared === false && Util.inArray([ 'area', 'line', 'path' ], type))) {
-            Util.each(dataArray, function(obj) {
+          if (geom.isShareTooltip() || (options.shared === false && Util.inArray(['area', 'line', 'path'], type))) {
+            Util.each(dataArray, function (obj) {
               const tmpPoint = geom.findPoint(point, obj);
               if (tmpPoint) {
                 const subItems = geom.getTipItems(tmpPoint, options.title);
@@ -370,7 +372,7 @@ class TooltipController {
         let nearestItem = first;
         let nearestDistance = Infinity;
         items.forEach(item => {
-          const distance = Vector2.distance([ point.x, point.y ], [ item.x, item.y ]);
+          const distance = Vector2.distance([point.x, point.y], [item.x, item.y]);
           if (distance < nearestDistance) {
             nearestDistance = distance;
             nearestItem = item;
@@ -390,9 +392,9 @@ class TooltipController {
           }
         });
         if (snapItem && snapItem.x && snapItem.y) {
-          markersItems = [ snapItem ];
+          markersItems = [snapItem];
         }
-        items = [ snapItem ];
+        items = [snapItem];
       }
       // 3.0 采用当前鼠标位置作为 tooltip 的参考点
       // if (!Util.isEmpty(markersItems)) {
@@ -416,4 +418,3 @@ class TooltipController {
 }
 
 module.exports = TooltipController;
-

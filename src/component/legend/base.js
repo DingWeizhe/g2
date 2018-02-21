@@ -4,7 +4,9 @@
  */
 const Util = require('../../util');
 const Global = require('../../global');
-const { Group } = require('antv-g-node');
+const {
+  Group
+} = require('g-node');
 
 class Base extends Group {
   getDefaultCfg() {
@@ -69,7 +71,7 @@ class Base extends Group {
   getCheckedCount() {
     const itemsGroup = this.get('itemsGroup');
     const items = itemsGroup.get('children');
-    const checkedArr = Util.filter(items, function(item) {
+    const checkedArr = Util.filter(items, function (item) {
       return item.get('checked');
     });
     return checkedArr.length;

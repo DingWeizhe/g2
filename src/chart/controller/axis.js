@@ -3,8 +3,12 @@
  * @author sima.zhang
  */
 const Util = require('../../util');
-const { Axis } = require('../../component/index');
-const { vec2 } = require('antv-g-node').MatrixUtil;
+const {
+  Axis
+} = require('../../component/index');
+const {
+  vec2
+} = require('g-node').MatrixUtil;
 const Global = require('../../global');
 
 function formatTicks(ticks) {
@@ -156,8 +160,8 @@ class AxisController {
 
     start = coord.convert(start);
     const center = coord.circleCentre;
-    const startVector = [ start.x - center.x, start.y - center.y ];
-    const normalVector = [ 1, 0 ];
+    const startVector = [start.x - center.x, start.y - center.y];
+    const normalVector = [1, 0];
     let startAngle;
     if (start.y > center.y) {
       startAngle = vec2.angle(startVector, normalVector);
@@ -317,9 +321,14 @@ class AxisController {
         // TODO: 临时解决，需要添加一条以满足最后一格能颜色交替
         if ((ticks.length % 2 === 0) && (cfg.grid.align === 'center') && cfg.grid.alternateColor) {
           gridPoints.push({
-            points: [
-              { x: coord.end.x, y: coord.start.y },
-              { x: coord.end.x, y: coord.end.y }
+            points: [{
+                x: coord.end.x,
+                y: coord.start.y
+              },
+              {
+                x: coord.end.x,
+                y: coord.end.y
+              }
             ]
           });
         }
@@ -415,14 +424,14 @@ class AxisController {
 
   changeVisible(visible) {
     const axes = this.axes;
-    Util.each(axes, function(axis) {
+    Util.each(axes, function (axis) {
       axis.set('visible', visible);
     });
   }
 
   clear() {
     const axes = this.axes;
-    Util.each(axes, function(axis) {
+    Util.each(axes, function (axis) {
       axis.remove();
     });
     this.axes = [];

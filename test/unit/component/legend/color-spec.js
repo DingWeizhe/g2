@@ -1,7 +1,12 @@
 const expect = require('chai').expect;
 const Simulate = require('event-simulate');
-const { Canvas, Event } = require('antv-g-node');
-const { Color } = require('../../../../src/component/legend/index');
+const {
+  Canvas,
+  Event
+} = require('g-node');
+const {
+  Color
+} = require('../../../../src/component/legend/index');
 
 const div = document.createElement('div');
 div.id = 'legend';
@@ -13,17 +18,34 @@ const canvas = new Canvas({
   height: 500
 });
 
-const items = [
-  { value: '0', attrValue: 'blue' },
-  { value: '20', attrValue: '#4D4DB2' },
-  { value: '40', attrValue: 'green' },
-  { value: '60', attrValue: 'orange' },
-  { value: '80', attrValue: '#FF00FE' },
-  { value: '100', attrValue: 'red' }
+const items = [{
+    value: '0',
+    attrValue: 'blue'
+  },
+  {
+    value: '20',
+    attrValue: '#4D4DB2'
+  },
+  {
+    value: '40',
+    attrValue: 'green'
+  },
+  {
+    value: '60',
+    attrValue: 'orange'
+  },
+  {
+    value: '80',
+    attrValue: '#FF00FE'
+  },
+  {
+    value: '100',
+    attrValue: 'red'
+  }
 ];
 
-describe('连续图例 - Color', function() {
-  it('水平渐变图例，不可筛选', function() {
+describe('连续图例 - Color', function () {
+  it('水平渐变图例，不可筛选', function () {
     const legend = canvas.addGroup(Color, {
       items,
       layout: 'horizontal',
@@ -42,7 +64,7 @@ describe('连续图例 - Color', function() {
     expect(legend.get('type')).to.equal('color-legend');
   });
 
-  it('水平渐变图例，不可筛选', function() {
+  it('水平渐变图例，不可筛选', function () {
     const legend = canvas.addGroup(Color, {
       items,
       layout: 'vertical',
@@ -64,7 +86,7 @@ describe('连续图例 - Color', function() {
     expect(legend.get('type')).to.equal('color-legend');
   });
 
-  it('水平渐变图例，可筛选', function() {
+  it('水平渐变图例，可筛选', function () {
     const legend = canvas.addGroup(Color, {
       items,
       layout: 'horizontal',
@@ -94,7 +116,7 @@ describe('连续图例 - Color', function() {
       }
     }, true, true);
     event.currentTarget = legend.get('minButtonElement');
-    slider.trigger('mousedown', [ event ]);
+    slider.trigger('mousedown', [event]);
 
     const canvasDOM = canvas.get('el');
     Simulate.simulate(canvasDOM, 'mousemove', {
@@ -110,7 +132,7 @@ describe('连续图例 - Color', function() {
     expect(legend.get('minTextElement').attr('text')).to.equal('20');
   });
 
-  it('垂直渐变图例，可筛选，不带标题', function() {
+  it('垂直渐变图例，可筛选，不带标题', function () {
     const legend = canvas.addGroup(Color, {
       items,
       layout: 'vertical',
@@ -139,7 +161,7 @@ describe('连续图例 - Color', function() {
       }
     }, true, true);
     event.currentTarget = legend.get('maxButtonElement');
-    slider.trigger('mousedown', [ event ]);
+    slider.trigger('mousedown', [event]);
 
     const canvasDOM = canvas.get('el');
     Simulate.simulate(canvasDOM, 'mousemove', {

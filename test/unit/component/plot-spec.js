@@ -1,6 +1,8 @@
 const expect = require('chai').expect;
 const PlotBack = require('../../../src/component/plot');
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 
 const div = document.createElement('div');
 div.id = 'c1';
@@ -13,7 +15,7 @@ const canvas = new Canvas({
   pixelRatio: 1
 });
 
-describe('绘制区域 plotRange', function() {
+describe('绘制区域 plotRange', function () {
   const plotback = canvas.addGroup(PlotBack, {
     padding: 30,
     background: {
@@ -26,7 +28,7 @@ describe('绘制区域 plotRange', function() {
   });
   canvas.draw();
 
-  it('plotrange', function() {
+  it('plotrange', function () {
     const plotRange = plotback.get('plotRange');
     expect(plotRange).not.to.be.undefined;
     expect(plotRange.tl.x).to.equal(30);
@@ -35,7 +37,7 @@ describe('绘制区域 plotRange', function() {
     expect(plotRange.br.y).to.equal(470);
   });
 
-  it('border', function() {
+  it('border', function () {
     const rect = plotback.get('backgroundShape');
     expect(rect).not.to.be.undefined;
     expect(rect.attr('x')).to.equal(0);
@@ -43,16 +45,16 @@ describe('绘制区域 plotRange', function() {
     expect(rect.attr('width')).to.equal(canvas.get('width'));
   });
 
-  it('background', function() {
+  it('background', function () {
     const plotBackShape = plotback.get('plotBackShape');
     expect(plotBackShape.attr('x')).to.equal(30);
     expect(plotBackShape.attr('y')).to.equal(30);
     expect(plotBackShape.attr('width')).to.equal(canvas.get('width') - 30 * 2);
   });
 
-  it('change margin', function(done) {
-    setTimeout(function() {
-      plotback.set('padding', [ 20, 40 ]);
+  it('change margin', function (done) {
+    setTimeout(function () {
+      plotback.set('padding', [20, 40]);
       plotback.repaint();
       canvas.draw();
       const plotRange = plotback.get('plotRange');
@@ -64,11 +66,11 @@ describe('绘制区域 plotRange', function() {
     }, 500);
   });
 
-  it('padding is an array like [ 20, 40, 20, 40 ]', function() {
+  it('padding is an array like [ 20, 40, 20, 40 ]', function () {
     canvas.clear();
 
     const plotback = canvas.addGroup(PlotBack, {
-      padding: [ 20, 40, 20, 40 ],
+      padding: [20, 40, 20, 40],
       background: {
         stroke: '#ededed'
       },
@@ -86,11 +88,11 @@ describe('绘制区域 plotRange', function() {
     expect(plotRange.br.y).to.equal(480);
   });
 
-  it('padding is an array like [a, b]', function() {
+  it('padding is an array like [a, b]', function () {
     canvas.clear();
 
     const plotback = canvas.addGroup(PlotBack, {
-      padding: [ 20, 40 ],
+      padding: [20, 40],
       background: {
         stroke: '#ededed'
       },
@@ -108,11 +110,11 @@ describe('绘制区域 plotRange', function() {
     expect(plotRange.br.y).to.equal(480);
   });
 
-  it('padding is an array like [a]', function() {
+  it('padding is an array like [a]', function () {
     canvas.clear();
 
     const plotback = canvas.addGroup(PlotBack, {
-      padding: [ 20 ],
+      padding: [20],
       background: {
         stroke: '#ededed'
       },
@@ -131,11 +133,11 @@ describe('绘制区域 plotRange', function() {
     expect(plotRange.br.y).to.equal(480);
   });
 
-  it('padding is an array like [a, b, c]', function() {
+  it('padding is an array like [a, b, c]', function () {
     canvas.clear();
 
     const plotback = canvas.addGroup(PlotBack, {
-      padding: [ 20, 80, 20 ],
+      padding: [20, 80, 20],
       background: {
         stroke: '#ededed'
       },
@@ -154,11 +156,11 @@ describe('绘制区域 plotRange', function() {
     expect(plotRange.br.y).to.equal(480);
   });
 
-  it('padding value is like 1%', function() {
+  it('padding value is like 1%', function () {
     canvas.clear();
 
     const plotback = canvas.addGroup(PlotBack, {
-      padding: [ '2%', '8%', '2%' ],
+      padding: ['2%', '8%', '2%'],
       background: {
         stroke: '#ededed'
       },
@@ -177,7 +179,7 @@ describe('绘制区域 plotRange', function() {
     expect(plotRange.br.y).to.equal(490);
   });
 
-  it('padding is object', function() {
+  it('padding is object', function () {
     canvas.clear();
 
     const plotback = canvas.addGroup(PlotBack, {
@@ -204,9 +206,9 @@ describe('绘制区域 plotRange', function() {
     expect(plotRange.br.y).to.equal(480);
   });
 
-  it('change canvas width,height', function(done) {
+  it('change canvas width,height', function (done) {
     const plotback = canvas.addGroup(PlotBack, {
-      padding: [ 20, 40, 20 ],
+      padding: [20, 40, 20],
       background: {
         stroke: '#ededed'
       },
@@ -215,7 +217,7 @@ describe('绘制区域 plotRange', function() {
         stroke: '#fff'
       }
     });
-    setTimeout(function() {
+    setTimeout(function () {
       canvas.changeSize(300, 300);
       plotback.repaint();
       canvas.draw();
@@ -230,7 +232,7 @@ describe('绘制区域 plotRange', function() {
   });
 });
 
-describe('plotback image', function() {
+describe('plotback image', function () {
   const canvas = new Canvas({
     containerId: 'c1',
     width: 500,
@@ -251,15 +253,15 @@ describe('plotback image', function() {
 
   const plotRange = plotback.get('plotRange');
 
-  it('image', function() {
+  it('image', function () {
     const plotBackShape = plotback.get('plotBackShape');
     expect(plotBackShape.attr('x')).to.equal(30);
     expect(plotBackShape.attr('y')).to.equal(30);
     expect(plotBackShape.attr('width')).to.equal(canvas.get('width') - 30 * 2);
   });
 
-  it('change', function(done) {
-    setTimeout(function() {
+  it('change', function (done) {
+    setTimeout(function () {
       canvas.changeSize(300, 300);
       plotback.repaint();
       canvas.draw();

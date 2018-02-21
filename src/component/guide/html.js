@@ -3,7 +3,9 @@
  * @author sima.zhang
  */
 const Util = require('../../util');
-const { DomUtil } = require('antv-g-node');
+const {
+  DomUtil
+} = require('g-node');
 const Base = require('./base');
 
 class Html extends Base {
@@ -42,9 +44,9 @@ class Html extends Base {
        */
       offsetY: null,
       /**
-      * html内容
-      *@type {String | Function}
-      */
+       * html内容
+       *@type {String | Function}
+       */
       html: null
     });
   }

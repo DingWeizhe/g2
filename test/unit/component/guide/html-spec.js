@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Coord = require('../../../../src/coord/index');
 const Html = require('../../../../src/component/guide/html');
 const Scale = require('../../../../src/scale/index');
@@ -8,10 +10,16 @@ const div = document.createElement('div');
 div.id = 'c1';
 document.body.appendChild(div);
 
-describe('Guide: 辅助 html', function() {
+describe('Guide: 辅助 html', function () {
   const coord = new Coord.Rect({
-    start: { x: 60, y: 460 },
-    end: { x: 460, y: 60 }
+    start: {
+      x: 60,
+      y: 460
+    },
+    end: {
+      x: 460,
+      y: 60
+    }
   });
 
   const canvas = new Canvas({
@@ -24,7 +32,7 @@ describe('Guide: 辅助 html', function() {
   const group = canvas.addGroup();
 
   const xScale = Scale.cat({
-    values: [ '一月', '二月', '三月', '四月', '五月' ]
+    values: ['一月', '二月', '三月', '四月', '五月']
   });
 
   const yScale = Scale.linear({
@@ -32,7 +40,7 @@ describe('Guide: 辅助 html', function() {
     max: 1200
   });
 
-  it('guide html, with defaul position(middle, middle)', function() {
+  it('guide html, with defaul position(middle, middle)', function () {
     const html = new Html({
       xScales: {
         month: xScale
@@ -55,7 +63,7 @@ describe('Guide: 辅助 html', function() {
     expect(children.length).to.equal(0);
   });
 
-  it('guide html, with alignX = "middle", alignY = "top"', function() {
+  it('guide html, with alignX = "middle", alignY = "top"', function () {
     const html = new Html({
       xScales: {
         month: xScale
@@ -79,7 +87,7 @@ describe('Guide: 辅助 html', function() {
     expect(dom[1].style.top).to.equal('265px');
   });
 
-  it('guide html, with alignX = "middle", alignY = "bottom"', function() {
+  it('guide html, with alignX = "middle", alignY = "bottom"', function () {
     const html = new Html({
       xScales: {
         month: xScale
@@ -102,7 +110,7 @@ describe('Guide: 辅助 html', function() {
     expect(dom[2].style.top).to.equal('195px');
   });
 
-  it('guide html, with alignX = "left", alignY = "middle"', function() {
+  it('guide html, with alignX = "left", alignY = "middle"', function () {
     const html = new Html({
       xScales: {
         month: xScale
@@ -125,7 +133,7 @@ describe('Guide: 辅助 html', function() {
     expect(dom[3].style.top).to.equal('230px');
   });
 
-  it('guide html, with alignX = "right", alignY = "middle"', function() {
+  it('guide html, with alignX = "right", alignY = "middle"', function () {
     const html = new Html({
       xScales: {
         month: xScale
@@ -148,7 +156,7 @@ describe('Guide: 辅助 html', function() {
     expect(dom[4].style.top).to.equal('230px');
   });
 
-  it('guide html, with alignX = "left", alignY = "top"', function() {
+  it('guide html, with alignX = "left", alignY = "top"', function () {
     const html = new Html({
       xScales: {
         month: xScale
@@ -171,7 +179,7 @@ describe('Guide: 辅助 html', function() {
     expect(dom[5].style.top).to.equal('260px');
   });
 
-  it('guide html, with alignX = "right", alignY = "top"', function() {
+  it('guide html, with alignX = "right", alignY = "top"', function () {
     const html = new Html({
       xScales: {
         month: xScale
@@ -194,7 +202,7 @@ describe('Guide: 辅助 html', function() {
     expect(dom[6].style.top).to.equal('260px');
   });
 
-  it('guide html, with alignX = "left", alignY = "bottom"', function() {
+  it('guide html, with alignX = "left", alignY = "bottom"', function () {
     const html = new Html({
       xScales: {
         month: xScale
@@ -218,7 +226,7 @@ describe('Guide: 辅助 html', function() {
     expect(dom[7].style.top).to.equal('200px');
   });
 
-  it('guide html, with alignX = "right", alignY = "bottom"', function() {
+  it('guide html, with alignX = "right", alignY = "bottom"', function () {
     const html = new Html({
       xScales: {
         month: xScale
@@ -242,7 +250,7 @@ describe('Guide: 辅助 html', function() {
     expect(dom[8].style.top).to.equal('200px');
   });
 
-  it('guide html, html is a function', function() {
+  it('guide html, html is a function', function () {
     const html = new Html({
       xScales: {
         month: xScale

@@ -4,7 +4,9 @@
  */
 const Util = require('../../util');
 const Base = require('./base');
-const { vec2 } = require('antv-g-node').MatrixUtil;
+const {
+  vec2
+} = require('g-node').MatrixUtil;
 
 class Line extends Base {
   getDefaultCfg() {
@@ -67,8 +69,8 @@ class Line extends Base {
 
   _drawLines(start, end, group) {
     const path = [
-      [ 'M', start.x, start.y ],
-      [ 'L', end.x, end.y ]
+      ['M', start.x, start.y],
+      ['L', end.x, end.y]
     ];
     const guideLine = group.addShape('Path', {
       attrs: Util.mix({
@@ -117,7 +119,7 @@ class Line extends Base {
     cfg.text = textCfg.content;
     cfg = Util.mix({}, cfg, textStyle);
     if (textCfg.autoRotate && !textStyle.rotate) {
-      const angle = vec2.angleTo([ end.x - start.x, end.y - start.y ], [ 1, 0 ], 1);
+      const angle = vec2.angleTo([end.x - start.x, end.y - start.y], [1, 0], 1);
       cfg.rotate = angle;
     } else if (textStyle.rotate) {
       cfg.rotate = (textStyle.rotate * Math.PI) / 180;

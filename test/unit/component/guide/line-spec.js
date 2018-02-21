@@ -1,5 +1,8 @@
 const expect = require('chai').expect;
-const { Canvas, Group } = require('antv-g-node');
+const {
+  Canvas,
+  Group
+} = require('g-node');
 const Coord = require('../../../../src/coord/index');
 const Line = require('../../../../src/component/guide/line');
 const Scale = require('../../../../src/scale/index');
@@ -8,10 +11,16 @@ const div = document.createElement('div');
 div.id = 'c1';
 document.body.appendChild(div);
 
-describe('Guide: 辅助线', function() {
+describe('Guide: 辅助线', function () {
   const coord = new Coord.Rect({
-    start: { x: 60, y: 460 },
-    end: { x: 460, y: 60 }
+    start: {
+      x: 60,
+      y: 460
+    },
+    end: {
+      x: 460,
+      y: 60
+    }
   });
 
   const canvas = new Canvas({
@@ -24,7 +33,7 @@ describe('Guide: 辅助线', function() {
   const group = canvas.addGroup();
 
   const xScale = Scale.cat({
-    values: [ '一月', '二月', '三月', '四月', '五月' ]
+    values: ['一月', '二月', '三月', '四月', '五月']
   });
 
   const yScale = Scale.linear({
@@ -32,7 +41,7 @@ describe('Guide: 辅助线', function() {
     max: 1200
   });
 
-  it('guide line without text', function() {
+  it('guide line without text', function () {
     const line = new Line({
       xScales: {
         month: xScale
@@ -51,7 +60,7 @@ describe('Guide: 辅助线', function() {
       lineStyle: {
         stroke: '#999',
         lineWidth: 2,
-        lineDash: [ 2, 2 ]
+        lineDash: [2, 2]
       }
     });
     line.render(coord, group);
@@ -62,7 +71,7 @@ describe('Guide: 辅助线', function() {
     expect(children[0].getCount()).to.equal(1);
   });
 
-  it('guide line, the point is array', function() {
+  it('guide line, the point is array', function () {
     group.clear();
 
     const line = new Line({
@@ -72,7 +81,7 @@ describe('Guide: 辅助线', function() {
       yScales: {
         temp: yScale
       },
-      start: [ '一月', 200 ],
+      start: ['一月', 200],
       end: {
         month: '五月',
         temp: 200
@@ -80,7 +89,7 @@ describe('Guide: 辅助线', function() {
       lineStyle: {
         stroke: '#999',
         lineWidth: 2,
-        lineDash: [ 2, 2 ]
+        lineDash: [2, 2]
       }
     });
     line.render(coord, group);
@@ -92,7 +101,7 @@ describe('Guide: 辅助线', function() {
   });
 
 
-  it('guide line with text, and autoRotate is true', function() {
+  it('guide line with text, and autoRotate is true', function () {
     group.clear();
 
     const line = new Line({
@@ -137,7 +146,7 @@ describe('Guide: 辅助线', function() {
     expect(textShape.attr('y')).to.equal(260);
   });
 
-  it('guide line with text, the text has offset', function() {
+  it('guide line with text, the text has offset', function () {
     group.clear();
 
     const line = new Line({
@@ -182,7 +191,7 @@ describe('Guide: 辅助线', function() {
     expect(textShape.attr('y')).to.equal(270);
   });
 
-  it('guide line with text but not rotate with line.', function() {
+  it('guide line with text but not rotate with line.', function () {
     group.clear();
 
     const line = new Line({
@@ -224,7 +233,7 @@ describe('Guide: 辅助线', function() {
     expect(textShape.attr('rotate')).to.be.undefined;
   });
 
-  it('guide line with text, and text has own angle.', function() {
+  it('guide line with text, and text has own angle.', function () {
     group.clear();
 
     const line = new Line({
@@ -268,7 +277,7 @@ describe('Guide: 辅助线', function() {
     expect(textShape.attr('rotate')).to.equal(Math.PI / 3);
   });
 
-  it('guide line with text, the position is value like "40%"', function() {
+  it('guide line with text, the position is value like "40%"', function () {
     group.clear();
 
     const line = new Line({
@@ -309,7 +318,7 @@ describe('Guide: 辅助线', function() {
     expect(textShape.attr('x')).to.equal(380);
   });
 
-  it('guide line with text, the position is value like 0.5', function() {
+  it('guide line with text, the position is value like 0.5', function () {
     group.clear();
 
     const line = new Line({
@@ -351,7 +360,7 @@ describe('Guide: 辅助线', function() {
     expect(textShape.attr('x')).to.equal(100);
   });
 
-  it('guide line with text, the position is value like 150%', function() {
+  it('guide line with text, the position is value like 150%', function () {
     group.clear();
 
     const line = new Line({

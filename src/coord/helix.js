@@ -4,7 +4,7 @@
  */
 const Util = require('../util');
 const Base = require('./base');
-const MatrixUtil = require('antv-g-node').MatrixUtil;
+const MatrixUtil = require('g-node').MatrixUtil;
 const vec2 = MatrixUtil.vec2;
 
 class Helix extends Base {
@@ -40,7 +40,7 @@ class Helix extends Base {
     }
 
     const d = Math.floor(maxRadius * (1 - innerRadius) / index);
-    const a = d / (Math.PI * 2);// 螺线系数
+    const a = d / (Math.PI * 2); // 螺线系数
 
     const x = {
       start: startAngle,
@@ -99,11 +99,11 @@ class Helix extends Base {
     const center = this.center;
     const a = this.a;
     const d = this.d + this.y.start;
-    const v = vec2.subtract([], [ point.x, point.y ], [ center.x, center.y ]);
-    let thi = vec2.angleTo(v, [ 1, 0 ], true);
+    const v = vec2.subtract([], [point.x, point.y], [center.x, center.y]);
+    let thi = vec2.angleTo(v, [1, 0], true);
     let rMin = thi * a; // 坐标与原点的连线在第一圈上的交点，最小r值
 
-    if (vec2.length(v) < rMin) {  // 坐标与原点的连线不可能小于最小r值，但不排除因小数计算产生的略小于rMin的情况
+    if (vec2.length(v) < rMin) { // 坐标与原点的连线不可能小于最小r值，但不排除因小数计算产生的略小于rMin的情况
       rMin = vec2.length(v);
     }
 

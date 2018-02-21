@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const PolarLabels = require('../../../../src/geom/label/polar-labels');
 const Coord = require('../../../../src/coord/');
 const Scale = require('../../../../src/scale/index');
@@ -18,7 +20,7 @@ const canvas = new Canvas({
   height: 500
 });
 
-describe('polar labels', function() {
+describe('polar labels', function () {
   const coord = new Coord.Polar({
     start: {
       x: 0,
@@ -32,12 +34,38 @@ describe('polar labels', function() {
 
   const labelScale = Scale.cat({
     field: 'z',
-    values: [ '1', '2', '3', '4' ]
+    values: ['1', '2', '3', '4']
   });
-  const points = [
-    { x: 50, y: 10, z: 0, _origin: { x: 50, y: 10, z: '1' } },
-    { x: 100, y: 50, z: 1, _origin: { x: 100, y: 50, z: '2' } },
-    { x: 10, y: 50, z: 2, _origin: { x: 10, y: 50, z: '3' } }
+  const points = [{
+      x: 50,
+      y: 10,
+      z: 0,
+      _origin: {
+        x: 50,
+        y: 10,
+        z: '1'
+      }
+    },
+    {
+      x: 100,
+      y: 50,
+      z: 1,
+      _origin: {
+        x: 100,
+        y: 50,
+        z: '2'
+      }
+    },
+    {
+      x: 10,
+      y: 50,
+      z: 2,
+      _origin: {
+        x: 10,
+        y: 50,
+        z: '3'
+      }
+    }
   ];
 
   const point = coord.convertPoint({
@@ -45,34 +73,49 @@ describe('polar labels', function() {
     y: 0.8
   });
   point.z = 3;
-  point._origin = { x: point.z, y: point.y, z: '4' };
+  point._origin = {
+    x: point.z,
+    y: point.y,
+    z: '4'
+  };
   points.push(point);
 
   const points1 = [{
     x: 50,
-    y: [ 10, 20 ],
-    z: [ '1', '2' ],
-    _origin: { x: 50, y: [ 10, 20 ], z: [ '1', '2' ] }
+    y: [10, 20],
+    z: ['1', '2'],
+    _origin: {
+      x: 50,
+      y: [10, 20],
+      z: ['1', '2']
+    }
   }, {
-    x: [ 60, 80 ],
-    y: [ 50, 50 ],
-    z: [ '3', '4' ],
-    _origin: { x: [ 60, 80 ], y: [ 50, 50 ], z: [ '3', '4' ] }
+    x: [60, 80],
+    y: [50, 50],
+    z: ['3', '4'],
+    _origin: {
+      x: [60, 80],
+      y: [50, 50],
+      z: ['3', '4']
+    }
   }];
   const labelScale1 = Scale.cat({
     field: 'z',
-    values: [[ '1', '2' ], [ '3', '4' ]]
+    values: [
+      ['1', '2'],
+      ['3', '4']
+    ]
   });
-  describe('one point one label', function() {
+  describe('one point one label', function () {
     let gLabels;
-    it('init', function() {
+    it('init', function () {
       gLabels = canvas.addGroup(PolarLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: 10
           },
-          scales: [ labelScale ]
+          scales: [labelScale]
         },
         geomType: 'point'
       });
@@ -82,33 +125,33 @@ describe('polar labels', function() {
       expect(cfg.textStyle).not.to.equal(undefined);
     });
     let items;
-    it('get items', function() {
+    it('get items', function () {
       items = gLabels.getLabelsItems(points);
       expect(items.length).to.equal(points.length);
     });
 
-    it('first point rotate 0', function() {
+    it('first point rotate 0', function () {
       const first = items[0];
       expect(first.x).to.equal(points[0].x);
       expect(first.y).to.equal(points[0].y - 10);
       expect(first.rotate).to.equal(0);
     });
 
-    it('second point rotate 90', function() {
+    it('second point rotate 90', function () {
       const second = items[1];
       expect(second.x).to.equal(points[1].x + 10);
       expect(second.y).to.equal(points[1].y);
       expect(second.rotate).to.equal(Math.PI / 2);
     });
 
-    it('third rotate 90', function() {
+    it('third rotate 90', function () {
       const point = items[2];
       expect(point.x).to.equal(points[2].x - 10);
       expect(looseEqual(point.y, points[2].y)).to.equal(true);
       expect(point.rotate).to.equal(Math.PI / 2);
     });
 
-    it('point rotate 45', function() {
+    it('point rotate 45', function () {
       const point = items[3];
       const tmp = coord.convertPoint({
         x: 0.125,
@@ -121,16 +164,16 @@ describe('polar labels', function() {
     });
   });
 
-  describe('one point one label,inner text', function() {
+  describe('one point one label,inner text', function () {
     let gLabels;
-    it('init', function() {
+    it('init', function () {
       gLabels = canvas.addGroup(PolarLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: -10
           },
-          scales: [ labelScale ]
+          scales: [labelScale]
         },
         geomType: 'point'
       });
@@ -141,33 +184,33 @@ describe('polar labels', function() {
     });
 
     let items;
-    it('get items', function() {
+    it('get items', function () {
       items = gLabels.getLabelsItems(points);
       expect(items.length).to.equal(points.length);
     });
 
-    it('first point rotate 0', function() {
+    it('first point rotate 0', function () {
       const first = items[0];
       expect(first.x).to.equal(points[0].x);
       expect(first.y).to.equal(points[0].y + 10);
       expect(first.rotate).to.equal(0);
     });
 
-    it('second point rotate 90', function() {
+    it('second point rotate 90', function () {
       const second = items[1];
       expect(second.x).to.equal(points[1].x - 10);
       expect(second.y).to.equal(points[1].y);
       expect(second.rotate).to.equal(90 / 180 * Math.PI);
     });
 
-    it('third rotate 90', function() {
+    it('third rotate 90', function () {
       const point = items[2];
       expect(point.x).to.equal(points[2].x + 10);
       expect(looseEqual(point.y, points[2].y)).to.equal(true);
       expect(point.rotate).to.equal(Math.PI / 2);
     });
 
-    it('point rotate 45', function() {
+    it('point rotate 45', function () {
       const point = items[3];
       const tmp = coord.convertPoint({
         x: 0.125,
@@ -180,16 +223,16 @@ describe('polar labels', function() {
     });
   });
 
-  describe('one point two labels,outer text', function() {
+  describe('one point two labels,outer text', function () {
     let gLabels;
-    it('init', function() {
+    it('init', function () {
       gLabels = canvas.addGroup(PolarLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: 10
           },
-          scales: [ labelScale1 ]
+          scales: [labelScale1]
         },
         geomType: 'point'
       });
@@ -200,12 +243,12 @@ describe('polar labels', function() {
     });
 
     let items;
-    it('get items', function() {
+    it('get items', function () {
       items = gLabels.getLabelsItems(points1);
       expect(items.length).to.equal(points1.length * 2);
     });
 
-    it('point rotate 0', function() {
+    it('point rotate 0', function () {
       const first = items[0];
       expect(first.x).to.equal(points1[0].x);
       expect(first.y).to.equal(points1[0].y[0] + 10);
@@ -217,7 +260,7 @@ describe('polar labels', function() {
       expect(second.rotate).to.equal(0);
     });
 
-    it('point rotate 90', function() {
+    it('point rotate 90', function () {
       let point = items[2];
 
       expect(point.x).to.equal(points1[1].x[0] - 10);
@@ -231,16 +274,16 @@ describe('polar labels', function() {
 
   });
 
-  describe('one point two label,inner text', function() {
+  describe('one point two label,inner text', function () {
     let gLabels;
-    it('init', function() {
+    it('init', function () {
       gLabels = canvas.addGroup(PolarLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: -10
           },
-          scales: [ labelScale1 ]
+          scales: [labelScale1]
         },
         geomType: 'interval'
       });
@@ -253,12 +296,12 @@ describe('polar labels', function() {
     });
 
     let items;
-    it('get items', function() {
+    it('get items', function () {
       items = gLabels.getLabelsItems(points1);
       expect(items.length).to.equal(points1.length * 2);
     });
 
-    it('point rotate 0', function() {
+    it('point rotate 0', function () {
       const first = items[0];
       expect(first.x).to.equal(points1[0].x);
       expect(first.y).to.equal(points1[0].y[0] - 10);
@@ -270,7 +313,7 @@ describe('polar labels', function() {
       expect(second.rotate).to.equal(0);
     });
 
-    it('point rotate 90', function() {
+    it('point rotate 90', function () {
       let point = items[2];
 
       expect(point.x).to.equal(points1[1].x[0] + 10);
@@ -284,7 +327,7 @@ describe('polar labels', function() {
     });
   });
 
-  describe('transpose labels', function() {
+  describe('transpose labels', function () {
     const coord = new Coord.Polar({
       start: {
         x: 0,
@@ -297,16 +340,16 @@ describe('polar labels', function() {
     });
     coord.transpose();
 
-    describe('offset < 0', function() {
+    describe('offset < 0', function () {
       let gLabels;
-      it('init', function() {
+      it('init', function () {
         gLabels = canvas.addGroup(PolarLabels, {
           coord,
           labelCfg: {
             cfg: {
               offset: -10
             },
-            scales: [ labelScale ]
+            scales: [labelScale]
           },
           geomType: 'point'
         });
@@ -318,19 +361,19 @@ describe('polar labels', function() {
       });
 
       let items;
-      it('get items', function() {
+      it('get items', function () {
         items = gLabels.getLabelsItems(points);
         expect(items.length).to.equal(points.length);
       });
 
-      it('first point rotate 0', function() {
+      it('first point rotate 0', function () {
         const first = items[0];
         expect(first.x).to.equal(40.078432583507784);
         expect(first.y).to.equal(11.25);
         expect(first.rotate).to.equal(0);
       });
 
-      it('second point rotate 90', function() {
+      it('second point rotate 90', function () {
         const second = items[1];
 
         expect(second.x).to.equal(99);
@@ -339,7 +382,7 @@ describe('polar labels', function() {
 
       });
 
-      it('third rotate 90', function() {
+      it('third rotate 90', function () {
         const point = items[2];
         expect(+(point.x).toFixed(2)).to.equal(11.25);
         expect(point.y).to.equal(59.92156741649222);
@@ -348,16 +391,16 @@ describe('polar labels', function() {
 
     });
 
-    describe('offset > 0', function() {
+    describe('offset > 0', function () {
       let gLabels;
-      it('init', function() {
+      it('init', function () {
         gLabels = canvas.addGroup(PolarLabels, {
           coord,
           labelCfg: {
             cfg: {
               offset: 10
             },
-            scales: [ labelScale ]
+            scales: [labelScale]
           },
           geomType: 'point'
         });
@@ -368,19 +411,19 @@ describe('polar labels', function() {
       });
 
       let items;
-      it('get items', function() {
+      it('get items', function () {
         items = gLabels.getLabelsItems(points);
         expect(items.length).to.equal(points.length);
       });
 
-      it('first point rotate 0', function() {
+      it('first point rotate 0', function () {
         const first = items[0];
         expect(first.x).to.equal(59.92156741649222);
         expect(first.y).to.equal(11.25);
         expect(first.rotate).to.equal(0);
       });
 
-      it('second point rotate 90', function() {
+      it('second point rotate 90', function () {
         const second = items[1];
 
         expect(second.x).to.equal(99);
@@ -389,14 +432,14 @@ describe('polar labels', function() {
 
       });
 
-      it('third rotate 90', function() {
+      it('third rotate 90', function () {
         const point = items[2];
 
         expect(point.x).to.equal(11.25);
         expect(point.y).to.equal(40.078432583507784);
         expect(point.rotate).to.equal(Math.PI / 2);
       });
-      it('remove', function() {
+      it('remove', function () {
         div.parentNode.removeChild(div);
       });
     });

@@ -5,7 +5,9 @@
 const Util = require('../../util');
 const Base = require('../../base');
 const Global = require('../../global');
-const { DomUtil } = require('antv-g-node');
+const {
+  DomUtil
+} = require('g-node');
 
 const CONTAINER_CLASS = 'g2-tooltip';
 const TITLE_CLASS = 'g2-tooltip-title';
@@ -34,7 +36,7 @@ function refixTooltipPosition(x, y, el, viewWidth, viewHeight) {
   } else {
     y += gap;
   }
-  return [ x, y ];
+  return [x, y];
 }
 
 function calcTooltipPosition(x, y, position, dom, target) {
@@ -75,7 +77,7 @@ function calcTooltipPosition(x, y, position, dom, target) {
       y = y + rectHeight + gap;
       break;
   }
-  return [ x, y ];
+  return [x, y];
 }
 
 function confineTooltipPosition(x, y, el, plotRange) {
@@ -98,7 +100,7 @@ function confineTooltipPosition(x, y, el, plotRange) {
     y = plotRange.tl.y;
   }
 
-  return [ x, y ];
+  return [x, y];
 }
 
 class Tooltip extends Base {
@@ -148,17 +150,17 @@ class Tooltip extends Base {
        * tooltip 容器模板
        * @type {String}
        */
-      containerTpl: '<div class="' + CONTAINER_CLASS + '">'
-        + '<div class="' + TITLE_CLASS + '"></div>'
-        + '<ul class="' + LIST_CLASS + '"></ul>'
-        + '</div>',
+      containerTpl: '<div class="' + CONTAINER_CLASS + '">' +
+        '<div class="' + TITLE_CLASS + '"></div>' +
+        '<ul class="' + LIST_CLASS + '"></ul>' +
+        '</div>',
       /**
        * tooltip 列表项模板
        * @type {String}
        */
-      itemTpl: '<li data-index={index}>'
-        + '<span style="background-color:{color};" class=' + MARKER_CLASS + '></span>'
-        + '{name}: {value}</li>',
+      itemTpl: '<li data-index={index}>' +
+        '<span style="background-color:{color};" class=' + MARKER_CLASS + '></span>' +
+        '{name}: {value}</li>',
       /**
        * 将 tooltip 展示在指定区域内
        * @type {Boolean}
@@ -325,7 +327,9 @@ class Tooltip extends Base {
   }
 
   _renderVerticalLine(canvas, plotRange) {
-    const { style } = this.get('crosshairs');
+    const {
+      style
+    } = this.get('crosshairs');
     const attrs = Util.mix({
       x1: 0,
       y1: plotRange ? plotRange.bl.y : canvas.get('height'),
@@ -337,7 +341,9 @@ class Tooltip extends Base {
   }
 
   _renderHorizontalLine(canvas, plotRange) {
-    const { style } = this.get('crosshairs');
+    const {
+      style
+    } = this.get('crosshairs');
     const attrs = Util.mix({
       x1: plotRange ? plotRange.bl.x : canvas.get('width'),
       y1: 0,
@@ -349,7 +355,9 @@ class Tooltip extends Base {
   }
 
   _renderBackground(canvas, plotRange) {
-    const { style } = this.get('crosshairs');
+    const {
+      style
+    } = this.get('crosshairs');
     const crosshairsGroup = this.get('crosshairsGroup');
     const attrs = Util.mix({
       x: plotRange ? plotRange.tl.x : 0,

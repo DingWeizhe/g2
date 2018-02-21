@@ -2,7 +2,9 @@ const expect = require('chai').expect;
 const Animate = require('../../../src/animate/index');
 const Coord = require('../../../src/coord/index');
 const View = require('../../../src/chart/view');
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 
 const div = document.createElement('div');
 div.id = 'animateCanvas';
@@ -38,9 +40,9 @@ function addElements(count, container, backContainer) {
     const shape = backContainer.addShape('path', {
       attrs: {
         path: [
-          [ 'M', 300 * Math.random(), 300 * Math.random() ],
-          [ 'L', 100, 0 ],
-          [ 'C', 213, 323, 22, 10, 34, 90 ]
+          ['M', 300 * Math.random(), 300 * Math.random()],
+          ['L', 100, 0],
+          ['C', 213, 323, 22, 10, 34, 90]
         ],
         fill: 'red'
       }
@@ -51,7 +53,7 @@ function addElements(count, container, backContainer) {
   }
 }
 
-describe('Aniamte', function() {
+describe('Aniamte', function () {
   const canvas = new Canvas({
     containerId: 'animateCanvas',
     width: 600,
@@ -66,7 +68,7 @@ describe('Aniamte', function() {
     _id: 'view1'
   });
 
-  it('count', function() {
+  it('count', function () {
     addElements(10, container, backContainer);
     expect(canvas.get('children').length).eql(2);
     Animate.execAnimation(view);

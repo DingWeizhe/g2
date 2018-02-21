@@ -4,7 +4,9 @@
  */
 const Base = require('./base');
 const Util = require('../../util');
-const { MatrixUtil } = require('antv-g-node');
+const {
+  MatrixUtil
+} = require('g-node');
 const vec2 = MatrixUtil.vec2;
 
 class Line extends Base {
@@ -58,7 +60,7 @@ class Line extends Base {
   getAxisVector() {
     const start = this.get('start');
     const end = this.get('end');
-    return [ end.x - start.x, end.y - start.y ];
+    return [end.x - start.x, end.y - start.y];
   }
 
   getLinePath() {
@@ -66,8 +68,8 @@ class Line extends Base {
     const start = self.get('start');
     const end = self.get('end');
     const path = [];
-    path.push([ 'M', start.x, start.y ]);
-    path.push([ 'L', end.x, end.y ]);
+    path.push(['M', start.x, start.y]);
+    path.push(['L', end.x, end.y]);
     return path;
   }
 
@@ -115,8 +117,8 @@ class Line extends Base {
       if (title.autoRotate && !textStyle.rotate) { // 自动旋转并且用户没有指定标题的旋转角度
         let angle = 0;
         if (!Util.snapEqual(vector[1], 0)) { // 所有水平坐标轴，文本不转置
-          const v1 = [ 1, 0 ];
-          const v2 = [ vector[0], vector[1] ];
+          const v1 = [1, 0];
+          const v2 = [vector[0], vector[1]];
           angle = vec2.angleTo(v2, v1, true);
         }
 
@@ -187,7 +189,7 @@ class Line extends Base {
 
       if (angle) {
         const factor = self.get('factor');
-        Util.each(labelsGroup.get('children'), function(label) {
+        Util.each(labelsGroup.get('children'), function (label) {
           label.rotateAtStart(angle);
           if (Util.snapEqual(vector[1], 0)) {
             if (factor > 0) {

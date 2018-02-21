@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Scale = require('../../../../src/scale/index');
 const Coord = require('../../../../src/coord/index');
 const GuideController = require('../../../../src/chart/controller/guide');
@@ -8,7 +10,7 @@ const div = document.createElement('div');
 div.id = 'guideTest';
 document.body.appendChild(div);
 
-describe('GuideController', function() {
+describe('GuideController', function () {
   const canvas = new Canvas({
     containerId: 'guideTest',
     width: 200,
@@ -18,21 +20,21 @@ describe('GuideController', function() {
   const backContainer = canvas.addGroup();
 
   const xScale = Scale.cat({
-    range: [ 0.1, 0.9 ],
-    values: [ 'a', 'b', 'c', 'd', 'e' ],
-    ticks: [ 'a', 'b', 'c', 'd', 'e' ]
+    range: [0.1, 0.9],
+    values: ['a', 'b', 'c', 'd', 'e'],
+    ticks: ['a', 'b', 'c', 'd', 'e']
   });
   const yScale1 = Scale.linear({
     min: 100,
     max: 600,
-    values: [ 250, 350, 150, 450, 550 ],
-    ticks: [ 250, 350, 150, 450, 550 ]
+    values: [250, 350, 150, 450, 550],
+    ticks: [250, 350, 150, 450, 550]
   });
   const yScale2 = Scale.linear({
     min: 0,
     max: 100,
-    values: [ 0, 20, 40, 60, 80, 100 ],
-    ticks: [ 0, 20, 40, 60, 80, 100 ]
+    values: [0, 20, 40, 60, 80, 100],
+    ticks: [0, 20, 40, 60, 80, 100]
   });
 
 
@@ -57,7 +59,7 @@ describe('GuideController', function() {
 
   let guideController;
 
-  it('Initialization.', function() {
+  it('Initialization.', function () {
     guideController = new GuideController({
       backContainer,
       frontContainer,
@@ -68,7 +70,7 @@ describe('GuideController', function() {
     expect(guideController.guides).to.be.empty;
   });
 
-  it('添加辅助线, line', function() {
+  it('添加辅助线, line', function () {
     const lineCfg = {
       start: {
         x: 'a',
@@ -102,7 +104,7 @@ describe('GuideController', function() {
     });
   });
 
-  it('添加图片, image', function() {
+  it('添加图片, image', function () {
     guideController.image({
       start: {
         x: 'a',
@@ -137,7 +139,7 @@ describe('GuideController', function() {
     expect(guidesOptions.length).to.equal(4);
   });
 
-  it('添加框, region', function() {
+  it('添加框, region', function () {
     guideController.region({
       start: {
         x: 'a',
@@ -153,7 +155,7 @@ describe('GuideController', function() {
     expect(guidesOptions.length).to.equal(5);
   });
 
-  it('添加文本, text', function() {
+  it('添加文本, text', function () {
     guideController.text({
       start: {
         x: 'b',
@@ -166,7 +168,7 @@ describe('GuideController', function() {
     expect(guidesOptions.length).to.equal(6);
   });
 
-  it('添加垂直于 x 轴的辅助线', function() {
+  it('添加垂直于 x 轴的辅助线', function () {
     guideController.line({
       start: {
         x: 'd',
@@ -181,7 +183,7 @@ describe('GuideController', function() {
     expect(guidesOptions.length).to.equal(7);
   });
 
-  it('添加中间段水平辅助线', function() {
+  it('添加中间段水平辅助线', function () {
     guideController.line({
       start: {
         x: 'a',
@@ -200,7 +202,7 @@ describe('GuideController', function() {
     expect(guidesOptions.length).to.equal(8);
   });
 
-  it('动态文本', function() {
+  it('动态文本', function () {
     guideController.text({
       content: '我是一条动态的文本。',
       style: {
@@ -222,7 +224,7 @@ describe('GuideController', function() {
   });
 
 
-  it('添加html.', function() {
+  it('添加html.', function () {
     guideController.html({
       position: {
         x: 'e',
@@ -237,7 +239,7 @@ describe('GuideController', function() {
     expect(guidesOptions.length).to.equal(10);
   });
 
-  it('绘制.', function() {
+  it('绘制.', function () {
     guideController.render(coord);
     canvas.draw();
 
@@ -248,7 +250,7 @@ describe('GuideController', function() {
     expect(backContainer.get('children').length).to.equal(8);
   });
 
-  it('clear', function() {
+  it('clear', function () {
     guideController.clear();
     const dom = div.getElementsByClassName('g-guide');
 
@@ -259,7 +261,7 @@ describe('GuideController', function() {
     expect(backContainer.get('children').length).to.equal(0);
   });
 
-  it('destroy', function() {
+  it('destroy', function () {
     canvas.destroy();
   });
 });

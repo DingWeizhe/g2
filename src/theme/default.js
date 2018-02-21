@@ -3,15 +3,18 @@
  * @author sima.zhang
  */
 const DEFAULT_COLOR = '#1890FF';
-const COLOR_PLATE_8 = [ '#1890FF', '#2FC25B', '#FACC14', '#223273', '#8543E0', '#13C2C2', '#3436C7', '#F04864' ];
-const COLOR_PLATE_16 = [ '#1890FF', '#41D9C7', '#2FC25B', '#FACC14', '#E6965C', '#223273', '#7564CC', '#8543E0',
-  '#5C8EE6', '#13C2C2', '#5CA3E6', '#3436C7', '#B381E6', '#F04864', '#D598D9' ];
-const COLOR_PLATE_24 = [ '#1890FF', '#66B5FF', '#41D9C7', '#2FC25B', '#6EDB8F', '#9AE65C', '#FACC14', '#E6965C',
+const COLOR_PLATE_8 = ['#1890FF', '#2FC25B', '#FACC14', '#223273', '#8543E0', '#13C2C2', '#3436C7', '#F04864'];
+const COLOR_PLATE_16 = ['#1890FF', '#41D9C7', '#2FC25B', '#FACC14', '#E6965C', '#223273', '#7564CC', '#8543E0',
+  '#5C8EE6', '#13C2C2', '#5CA3E6', '#3436C7', '#B381E6', '#F04864', '#D598D9'
+];
+const COLOR_PLATE_24 = ['#1890FF', '#66B5FF', '#41D9C7', '#2FC25B', '#6EDB8F', '#9AE65C', '#FACC14', '#E6965C',
   '#57AD71', '#223273', '#738AE6', '#7564CC', '#8543E0', '#A877ED', '#5C8EE6', '#13C2C2', '#70E0E0', '#5CA3E6',
-  '#3436C7', '#8082FF', '#DD81E6', '#F04864', '#FA7D92', '#D598D9' ];
-const COLOR_PIE = [ '#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0', '#3436C7', '#223273' ];
-const COLOR_PIE_16 = [ '#1890FF', '#73C9E6', '#13C2C2', '#6CD9B3', '#2FC25B', '#9DD96C', '#FACC14', '#E6965C',
-  '#F04864', '#D66BCA', '#8543E0', '#8E77ED', '#3436C7', '#737EE6', '#223273', '#7EA2E6' ];
+  '#3436C7', '#8082FF', '#DD81E6', '#F04864', '#FA7D92', '#D598D9'
+];
+const COLOR_PIE = ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0', '#3436C7', '#223273'];
+const COLOR_PIE_16 = ['#1890FF', '#73C9E6', '#13C2C2', '#6CD9B3', '#2FC25B', '#9DD96C', '#FACC14', '#E6965C',
+  '#F04864', '#D66BCA', '#8543E0', '#8E77ED', '#3436C7', '#737EE6', '#223273', '#7EA2E6'
+];
 
 const FONT_FAMILY = '"-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto,"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",SimSun, "sans-serif"';
 // tooltip 相关 dom 的 css 类名
@@ -31,7 +34,7 @@ const LEGEND_MARKER_CLASS = 'g2-legend-marker';
 const Theme = {
   defaultColor: DEFAULT_COLOR, // 默认主题色
   plotCfg: {
-    padding: [ 20, 20, 95, 80 ]
+    padding: [20, 20, 95, 80]
   },
   fontFamily: FONT_FAMILY,
   defaultLegendPosition: 'bottom', // 默认图例的展示位置
@@ -41,13 +44,14 @@ const Theme = {
   colors_pie: COLOR_PIE,
   colors_pie_16: COLOR_PIE_16,
   shapes: {
-    point: [ 'hollowCircle', 'hollowSquare', 'hollowDiamond', 'hollowBowtie', 'hollowTriangle',
-      'hollowHexagon', 'cross', 'tick', 'plus', 'hyphen', 'line' ],
-    line: [ 'line', 'dash', 'dot' ],
-    area: [ 'area' ]
+    point: ['hollowCircle', 'hollowSquare', 'hollowDiamond', 'hollowBowtie', 'hollowTriangle',
+      'hollowHexagon', 'cross', 'tick', 'plus', 'hyphen', 'line'
+    ],
+    line: ['line', 'dash', 'dot'],
+    area: ['area']
   },
-  sizes: [ 1, 10 ],
-  opacities: [ 0.1, 0.9 ],
+  sizes: [1, 10],
+  opacities: [0.1, 0.9],
   axis: {
     top: {
       // zIndex: 1, // 默认上下方向的坐标轴位于左右坐标轴的上方
@@ -118,7 +122,7 @@ const Theme = {
         lineStyle: {
           stroke: '#E9E9E9',
           lineWidth: 1,
-          lineDash: [ 3, 3 ]
+          lineDash: [3, 3]
         },
         hideFirstLine: true
       }
@@ -143,7 +147,7 @@ const Theme = {
         lineStyle: {
           stroke: '#E9E9E9',
           lineWidth: 1,
-          lineDash: [ 3, 3 ]
+          lineDash: [3, 3]
         },
         hideFirstLine: true
       }
@@ -173,7 +177,7 @@ const Theme = {
         lineStyle: {
           stroke: '#E9E9E9',
           lineWidth: 1,
-          lineDash: [ 3, 3 ]
+          lineDash: [3, 3]
         },
         hideFirstLine: true
       }
@@ -203,7 +207,7 @@ const Theme = {
         lineStyle: {
           stroke: '#E9E9E9',
           lineWidth: 1,
-          lineDash: [ 3, 3 ]
+          lineDash: [3, 3]
         },
         type: 'circle'
       }
@@ -520,7 +524,7 @@ const Theme = {
     line: {
       lineStyle: {
         stroke: DEFAULT_COLOR,
-        lineDash: [ 0, 2, 2 ],
+        lineDash: [0, 2, 2],
         lineWidth: 1
       },
       text: {

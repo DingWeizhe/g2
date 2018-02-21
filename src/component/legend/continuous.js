@@ -5,7 +5,10 @@
 const Util = require('../../util');
 const Global = require('../../global');
 const Base = require('./base');
-const { Event, Group } = require('antv-g-node');
+const {
+  Event,
+  Group
+} = require('g-node');
 const Slider = require('./slider');
 const TRIGGER_WIDTH = 12;
 
@@ -67,7 +70,7 @@ class Continuous extends Base {
       inRange: {
         fill: '#4E7CCC'
       },
-      _range: [ 0, 100 ],
+      _range: [0, 100],
       /**
        * 中滑块属性
        * @type {ATTRS}
@@ -201,9 +204,9 @@ class Continuous extends Base {
     const button = trigger.addShape('polygon', {
       attrs: Util.mix({
         points: [
-          [ (width / 2 + TRIGGER_WIDTH), 0 ],
-          [ (width / 2 + 1), 0 ],
-          [ (width / 2 + TRIGGER_WIDTH), type === 'min' ? TRIGGER_WIDTH : -TRIGGER_WIDTH ]
+          [(width / 2 + TRIGGER_WIDTH), 0],
+          [(width / 2 + 1), 0],
+          [(width / 2 + TRIGGER_WIDTH), type === 'min' ? TRIGGER_WIDTH : -TRIGGER_WIDTH]
         ]
       }, blockAttr)
     });
@@ -230,9 +233,9 @@ class Continuous extends Base {
     const button = trigger.addShape('polygon', {
       attrs: Util.mix({
         points: [
-          [ 0, 0 ],
-          [ 0, TRIGGER_WIDTH ],
-          [ type === 'min' ? -TRIGGER_WIDTH : TRIGGER_WIDTH, TRIGGER_WIDTH ]
+          [0, 0],
+          [0, TRIGGER_WIDTH],
+          [type === 'min' ? -TRIGGER_WIDTH : TRIGGER_WIDTH, TRIGGER_WIDTH]
         ]
       }, blockAttr)
     });
@@ -265,7 +268,7 @@ class Continuous extends Base {
         const maxValue = firstItemValue + (range[1] / 100) * (lastItemValue - firstItemValue);
         self._updateElement(minValue, maxValue);
         const itemFiltered = new Event('itemfilter', ev, true, true);
-        itemFiltered.range = [ minValue, maxValue ];
+        itemFiltered.range = [minValue, maxValue];
         self.emit('itemfilter', itemFiltered);
       });
     }

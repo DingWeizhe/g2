@@ -5,7 +5,7 @@
 
 const Util = require('../util');
 const View = require('./view');
-const G = require('antv-g-node');
+const G = require('g-node');
 const Canvas = G.Canvas;
 const DomUtil = G.DomUtil;
 const Component = require('../component/index');
@@ -301,7 +301,9 @@ class Chart extends View {
     const view = new View(cfg);
     view.set('_id', 'view' + this.get('views').length); // 标识 ID，防止同用户设定的 id 重名
     this.get('views').push(view);
-    this.emit('addview', { view });
+    this.emit('addview', {
+      view
+    });
     return view;
   }
 
@@ -314,7 +316,7 @@ class Chart extends View {
   _getSharedOptions() {
     const options = this.get('options');
     const sharedOptions = {};
-    Util.each([ 'scales', 'coord', 'axes' ], function(name) {
+    Util.each(['scales', 'coord', 'axes'], function (name) {
       sharedOptions[name] = Util.cloneDeep(options[name]);
     });
     return sharedOptions;
@@ -402,7 +404,7 @@ class Chart extends View {
 
   clearInner() {
     const views = this.get('views');
-    Util.each(views, function(view) {
+    Util.each(views, function (view) {
       view.clearInner();
     });
 
@@ -479,7 +481,7 @@ class Chart extends View {
 
   /**
    * 隐藏 tooltip
-  * @return {Chart}       返回 chart 实例
+   * @return {Chart}       返回 chart 实例
    */
   hideTooltip() {
     const tooltipController = this.get('tooltipController');

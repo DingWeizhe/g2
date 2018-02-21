@@ -1,13 +1,15 @@
-const { Group } = require('antv-g-node');
+const {
+  Group
+} = require('g-node');
 const Labels = require('../../component/label/index');
 const Global = require('../../global');
 const Util = require('../../util');
-const IGNORE_ARR = [ 'line', 'point', 'path' ];
+const IGNORE_ARR = ['line', 'point', 'path'];
 const ORIGIN = '_origin';
 
 function avg(arr) {
   let sum = 0;
-  Util.each(arr, function(value) {
+  Util.each(arr, function (value) {
     sum += value;
   });
   return sum / arr.length;
@@ -52,7 +54,7 @@ class GeomLabels extends Group {
     let value;
     if (callback) {
       const params = [];
-      Util.each(scales, function(scale) {
+      Util.each(scales, function (scale) {
         params.push(originRecord[scale.field]);
       });
       value = callback.apply(null, params);
@@ -61,7 +63,7 @@ class GeomLabels extends Group {
       value = originRecord[scale.field];
       if (Util.isArray(value)) {
         const tmp = [];
-        Util.each(value, function(subVal) {
+        Util.each(value, function (subVal) {
           tmp.push(scale.getText(subVal));
         });
         value = tmp;
@@ -117,11 +119,11 @@ class GeomLabels extends Group {
       origin = point._origin;
       let label = self._getLabelValue(point);
       if (!Util.isArray(label)) {
-        label = [ label ];
+        label = [label];
       }
       const total = label.length;
 
-      Util.each(label, function(sub, subIdx) {
+      Util.each(label, function (sub, subIdx) {
         let obj = self.getLabelPoint(label, point, subIdx);
         if (obj) {
           obj = Util.mix({}, origin, obj); // 为了格式化输出
@@ -162,7 +164,7 @@ class GeomLabels extends Group {
     const self = this;
     const offset = self.getDefaultOffset();
     if (offset > 0) {
-      Util.each(items, function(point) {
+      Util.each(items, function (point) {
         self.lineToLabel(point, labelLine);
       });
     }
@@ -190,7 +192,7 @@ class GeomLabels extends Group {
     }
     const lineShape = lineGroup.addShape('path', {
       attrs: Util.mix({
-        path: [ 'M' + start.x, start.y + ' Q' + inner.x, inner.y + ' ' + label.x, label.y ].join(','),
+        path: ['M' + start.x, start.y + ' Q' + inner.x, inner.y + ' ' + label.x, label.y].join(','),
         fill: null,
         stroke: label.color
       }, labelLine)

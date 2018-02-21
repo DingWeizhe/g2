@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Scale = require('../../../../src/scale/index');
 const Labels = require('../../../../src/geom/label/');
 const GeomLabels = require('../../../../src/geom/label/geom-labels');
@@ -7,19 +9,19 @@ const PolarLabels = require('../../../../src/geom/label/polar-labels');
 const PieLabels = require('../../../../src/geom/label/pie-labels');
 const Coord = require('../../../../src/coord/');
 
-describe('geom labels', function() {
-  describe('labels constructor', function() {
-    it('test default', function() {
+describe('geom labels', function () {
+  describe('labels constructor', function () {
+    it('test default', function () {
       expect(Labels.getLabelsClass()).to.equal(GeomLabels);
       expect(Labels.getLabelsClass('rect')).to.equal(GeomLabels);
       expect(Labels.getLabelsClass('rect', 'line')).to.equal(GeomLabels);
     });
 
-    it('test polar', function() {
+    it('test polar', function () {
       expect(Labels.getLabelsClass('polar')).to.equal(PolarLabels);
     });
 
-    it('test pie', function() {
+    it('test pie', function () {
       expect(Labels.getLabelsClass('theta')).to.equal(PieLabels);
     });
   });
@@ -47,68 +49,105 @@ describe('geom labels', function() {
 
   const labelScale = Scale.cat({
     field: 'z',
-    values: [ '1', '2' ]
+    values: ['1', '2']
   });
-  const points = [
-    { x: 100, y: 10, z: 0, _origin: { x: 100, y: 10, z: '1' } },
-    { x: 100, y: 20, z: 1, _origin: { x: 100, y: 20, z: '2' } }
+  const points = [{
+      x: 100,
+      y: 10,
+      z: 0,
+      _origin: {
+        x: 100,
+        y: 10,
+        z: '1'
+      }
+    },
+    {
+      x: 100,
+      y: 20,
+      z: 1,
+      _origin: {
+        x: 100,
+        y: 20,
+        z: '2'
+      }
+    }
   ];
 
   const labelScale1 = Scale.cat({
     field: 'z',
-    values: [[ '1', '2' ], [ '3', '4' ]]
+    values: [
+      ['1', '2'],
+      ['3', '4']
+    ]
   });
-  const points1 = [
-    { x: 100, y: [ 10, 20 ], z: [ '1', '2' ], _origin: { x: 100, y: [ 10, 20 ], z: [ '1', '2' ] } },
-    { x: 100, y: [ 30, 40 ], z: [ '3', '4' ], _origin: { x: 100, y: [ 30, 40 ], z: [ '3', '4' ] } }
+  const points1 = [{
+      x: 100,
+      y: [10, 20],
+      z: ['1', '2'],
+      _origin: {
+        x: 100,
+        y: [10, 20],
+        z: ['1', '2']
+      }
+    },
+    {
+      x: 100,
+      y: [30, 40],
+      z: ['3', '4'],
+      _origin: {
+        x: 100,
+        y: [30, 40],
+        z: ['3', '4']
+      }
+    }
   ];
 
-  describe('one point one label', function() {
+  describe('one point one label', function () {
     const gLabels = canvas.addGroup(GeomLabels, {
       coord,
       labelCfg: {
         cfg: {
           offset: 10
         },
-        scales: [ labelScale ]
+        scales: [labelScale]
       },
       geomType: 'point'
     });
 
-    it('get default label cfg', function() {
+    it('get default label cfg', function () {
       const cfg = gLabels.get('label');
       expect(cfg.offset).to.equal(10);
       expect(cfg.textStyle).not.to.equal(undefined);
     });
 
-    it('get label items', function() {
+    it('get label items', function () {
       const items = gLabels.getLabelsItems(points);
       const first = items[0];
       expect(first.x).to.equal(points[0].x);
       expect(first.y).to.equal(points[0].y - 10);
     });
 
-    it('show labels', function() {
+    it('show labels', function () {
       gLabels.showLabels(points);
       expect(gLabels.get('labelsGroup').get('children').length).to.equal(points.length);
       canvas.draw();
     });
-    it('destroy', function() {
+    it('destroy', function () {
       gLabels.remove();
       expect(gLabels.get('destroyed')).to.equal(true);
       expect(canvas.get('children').length).to.equal(0);
     });
   });
 
-  describe('one point two labels', function() {
-    it('get label items', function() {
+  describe('one point two labels', function () {
+    it('get label items', function () {
       const gLabels = canvas.addGroup(GeomLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: 10
           },
-          scales: [ labelScale1 ]
+          scales: [labelScale1]
         },
         geomType: 'point'
       });
@@ -126,16 +165,16 @@ describe('geom labels', function() {
     });
   });
 
-  describe('one point inner label', function() {
+  describe('one point inner label', function () {
     let gLabels;
-    it('init', function() {
+    it('init', function () {
       gLabels = canvas.addGroup(GeomLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: -10
           },
-          scales: [ labelScale ]
+          scales: [labelScale]
         },
         geomType: 'interval'
       });
@@ -144,18 +183,18 @@ describe('geom labels', function() {
       expect(cfg.offset).to.equal(-10);
       expect(cfg.textStyle.fill).to.equal('#fff');
     });
-    it('get labels', function() {
+    it('get labels', function () {
       const items = gLabels.getLabelsItems(points);
       expect(items.length).to.equal(points.length);
       const first = items[0];
       expect(first.x).to.equal(points[0].x);
       expect(first.y).to.equal(points[0].y + 10);
-    });/**/
+    }); /**/
   });
 
-  describe('two point inner label', function() {
+  describe('two point inner label', function () {
     let gLabels;
-    it('init', function() {
+    it('init', function () {
       gLabels = canvas.addGroup(GeomLabels, {
         coord,
         labelCfg: {
@@ -166,7 +205,7 @@ describe('geom labels', function() {
             },
             labelLine: true
           },
-          scales: [ labelScale1 ]
+          scales: [labelScale1]
         },
         geomType: 'interval'
       });
@@ -176,7 +215,7 @@ describe('geom labels', function() {
       expect(cfg.textStyle.fill).to.equal('#fff');
     });
 
-    it('get labels', function() {
+    it('get labels', function () {
       const items = gLabels.getLabelsItems(points1);
       expect(items.length).to.equal(points1.length * 2);
       const first = items[0];
@@ -193,18 +232,35 @@ describe('geom labels', function() {
   });
 
 
-  describe('stack points', function() {
+  describe('stack points', function () {
     const scale = Scale.cat({
       field: 'text',
-      values: [ 'a', 'b' ]
+      values: ['a', 'b']
     });
-    const points = [
-      { x: 0, y: 10, text: 'a', _origin: { x: 0, y: 10, text: 'a' } },
-      { x: 0, y: [ 10, 20 ], text: 'b', _origin: { x: 0, y: [ 10, 20 ], text: 'b' } }
+    const points = [{
+        x: 0,
+        y: 10,
+        text: 'a',
+        _origin: {
+          x: 0,
+          y: 10,
+          text: 'a'
+        }
+      },
+      {
+        x: 0,
+        y: [10, 20],
+        text: 'b',
+        _origin: {
+          x: 0,
+          y: [10, 20],
+          text: 'b'
+        }
+      }
     ];
 
     let gLabels;
-    it('init', function() {
+    it('init', function () {
       gLabels = canvas.addGroup(GeomLabels, {
         coord,
         labelCfg: {
@@ -215,7 +271,7 @@ describe('geom labels', function() {
             },
             labelLine: true
           },
-          scales: [ scale ]
+          scales: [scale]
         },
         geomType: 'interval'
       });
@@ -223,7 +279,7 @@ describe('geom labels', function() {
       expect(cfg.offset).to.equal(10);
     });
 
-    it('get labels', function() {
+    it('get labels', function () {
       const items = gLabels.getLabelsItems(points);
       expect(items.length).to.equal(points.length);
 
@@ -240,7 +296,7 @@ describe('geom labels', function() {
     });
   });
 
-  describe('transposed label', function() {
+  describe('transposed label', function () {
     const coord = new Coord.Cartesian({
       start: {
         x: 0,
@@ -254,14 +310,14 @@ describe('geom labels', function() {
     coord.transpose();
 
 
-    it('offset > 0', function() {
+    it('offset > 0', function () {
       const gLabels = canvas.addGroup(GeomLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: 10
           },
-          scales: [ labelScale ]
+          scales: [labelScale]
         },
         geomType: 'interval'
       });
@@ -271,14 +327,14 @@ describe('geom labels', function() {
       expect(first.y).to.equal(points[0].y);
     });
 
-    it('offset = 0', function() {
+    it('offset = 0', function () {
       const gLabels = canvas.addGroup(GeomLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: 0
           },
-          scales: [ labelScale ]
+          scales: [labelScale]
         },
         geomType: 'interval'
       });
@@ -288,14 +344,14 @@ describe('geom labels', function() {
       expect(first.y).to.equal(points[0].y);
     });
 
-    it('offset < 0', function() {
+    it('offset < 0', function () {
       const gLabels = canvas.addGroup(GeomLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: -10
           },
-          scales: [ labelScale ]
+          scales: [labelScale]
         },
         geomType: 'interval'
       });
@@ -305,34 +361,35 @@ describe('geom labels', function() {
       expect(first.y).to.equal(points[0].y);
     });
 
-    it('multiple labels', function() {
+    it('multiple labels', function () {
       const points = [{
-        x: [ 90, 100 ],
-        y: [ 20, 20 ],
-        z: [ '1', '2' ],
-        _origin: {
-          x: [ 90, 100 ],
-          y: [ 20, 20 ],
-          z: [ '1', '2' ]
+          x: [90, 100],
+          y: [20, 20],
+          z: ['1', '2'],
+          _origin: {
+            x: [90, 100],
+            y: [20, 20],
+            z: ['1', '2']
+          }
+        },
+        {
+          x: [30, 40],
+          y: [40, 40],
+          z: ['3', '4'],
+          _origin: {
+            x: [30, 40],
+            y: [40, 40],
+            z: ['3', '4']
+          }
         }
-      },
-      {
-        x: [ 30, 40 ],
-        y: [ 40, 40 ],
-        z: [ '3', '4' ],
-        _origin: {
-          x: [ 30, 40 ],
-          y: [ 40, 40 ],
-          z: [ '3', '4' ]
-        }
-      }];
+      ];
       const gLabels = canvas.addGroup(GeomLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: 10
           },
-          scales: [ labelScale1 ]
+          scales: [labelScale1]
         },
         geomType: 'interval'
       });
@@ -348,35 +405,36 @@ describe('geom labels', function() {
       expect(second.y).to.equal(points[0].y[0]);
     });
 
-    it('multiple labels inner', function() {
+    it('multiple labels inner', function () {
 
       const points = [{
-        x: [ 90, 100 ],
-        y: [ 20, 20 ],
-        z: [ '1', '2' ],
-        _origin: {
-          x: [ 90, 100 ],
-          y: [ 20, 20 ],
-          z: [ '1', '2' ]
+          x: [90, 100],
+          y: [20, 20],
+          z: ['1', '2'],
+          _origin: {
+            x: [90, 100],
+            y: [20, 20],
+            z: ['1', '2']
+          }
+        },
+        {
+          x: [30, 40],
+          y: [40, 40],
+          z: ['3', '4'],
+          _origin: {
+            x: [30, 40],
+            y: [40, 40],
+            z: ['3', '4']
+          }
         }
-      },
-      {
-        x: [ 30, 40 ],
-        y: [ 40, 40 ],
-        z: [ '3', '4' ],
-        _origin: {
-          x: [ 30, 40 ],
-          y: [ 40, 40 ],
-          z: [ '3', '4' ]
-        }
-      }];
+      ];
       const gLabels = canvas.addGroup(GeomLabels, {
         coord,
         labelCfg: {
           cfg: {
             offset: -10
           },
-          scales: [ labelScale1 ]
+          scales: [labelScale1]
         },
         geomType: 'interval'
       });
@@ -392,7 +450,7 @@ describe('geom labels', function() {
 
     });
 
-    it('clear', function() {
+    it('clear', function () {
       div.parentNode.removeChild(div);
     });
   });

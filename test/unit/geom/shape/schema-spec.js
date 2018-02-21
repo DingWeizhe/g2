@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Schema = require('../../../../src/geom/shape/schema');
 const Coord = require('../../../../src/coord/');
 
@@ -25,15 +27,15 @@ const coord = new Coord.Rect({
 });
 
 
-describe('schema shapes', function() {
+describe('schema shapes', function () {
   Schema._coord = coord;
-  describe('default', function() {
-    it('default shape type', function() {
+  describe('default', function () {
+    it('default shape type', function () {
       expect(Schema.defaultShapeType).equal('');
     });
   });
-  describe('box only x', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('box only x', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'box';
       const points = Schema.getShapePoints(type, {
         x: 0.88,
@@ -50,11 +52,11 @@ describe('schema shapes', function() {
     });
   });
 
-  describe('box only x && x = []', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('box only x && x = []', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'box';
       const points = Schema.getShapePoints(type, {
-        x: [ 0.2, 0.5, 0.12, 0.88 ],
+        x: [0.2, 0.5, 0.12, 0.88],
         y0: 0,
         size: 0.5
       });
@@ -68,12 +70,12 @@ describe('schema shapes', function() {
     });
   });
 
-  describe('box xy', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('box xy', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'box';
       const points = Schema.getShapePoints(type, {
         x: 0.1,
-        y: [ 0.2, 0.5, 0.12, 0.88 ],
+        y: [0.2, 0.5, 0.12, 0.88],
         y0: 0,
         size: 0.5
       });
@@ -86,7 +88,7 @@ describe('schema shapes', function() {
       expect(shape.attr('stroke')).eql('red');
       expect(shape.attr('path').length).eql(16);
     });
-    it('get marker', function() {
+    it('get marker', function () {
       const marker = Schema.getMarkerCfg('box', {
         color: 'red'
       });
@@ -94,7 +96,7 @@ describe('schema shapes', function() {
       expect(marker.stroke).equal('red');
     });
 
-    xit('getActiveCfg', function() {
+    xit('getActiveCfg', function () {
       const activeCfg = Schema.getActiveCfg();
 
       expect(activeCfg).eql({
@@ -102,8 +104,8 @@ describe('schema shapes', function() {
       });
     });
   });
-  describe('candle', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('candle', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'candle';
       const points = Schema.getShapePoints(type, {
         x: 0.1,
@@ -120,7 +122,7 @@ describe('schema shapes', function() {
       expect(shape.attr('stroke')).eql('red');
       expect(shape.attr('path').length).eql(9);
     });
-    it('get marker', function() {
+    it('get marker', function () {
       const marker = Schema.getMarkerCfg('candle', {
         color: 'red'
       });
@@ -128,12 +130,12 @@ describe('schema shapes', function() {
       expect(marker.stroke).equal('red');
     });
   });
-  describe('candle value = []', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('candle value = []', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'candle';
       const points = Schema.getShapePoints(type, {
         x: 0.1,
-        y: [ 0.2, 0.5, 0.12, 0.88 ],
+        y: [0.2, 0.5, 0.12, 0.88],
         y0: 0,
         size: 0.5
       });
@@ -147,12 +149,12 @@ describe('schema shapes', function() {
       expect(shape.attr('path').length).eql(9);
     });
   });
-  describe('candle value.length < 4', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('candle value.length < 4', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'candle';
       const points = Schema.getShapePoints(type, {
         x: 0.1,
-        y: [ 0.2, 0.5, 0.12 ],
+        y: [0.2, 0.5, 0.12],
         y0: 0,
         size: 0.5
       });
@@ -166,7 +168,7 @@ describe('schema shapes', function() {
       expect(shape.attr('path').length).eql(9);
     });
 
-    it('clear', function() {
+    it('clear', function () {
       canvas.destroy();
       document.body.removeChild(div);
     });

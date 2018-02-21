@@ -1,17 +1,27 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Coord = require('../../../../src/coord/index');
-const { Arc } = require('../../../../src/component/guide/index');
+const {
+  Arc
+} = require('../../../../src/component/guide/index');
 const Scale = require('../../../../src/scale/index');
 
 const div = document.createElement('div');
 div.id = 'c1';
 document.body.appendChild(div);
 
-describe('Guide: 辅助圆弧线', function() {
+describe('Guide: 辅助圆弧线', function () {
   const coord = new Coord.Polar({
-    start: { x: 60, y: 460 },
-    end: { x: 460, y: 60 },
+    start: {
+      x: 60,
+      y: 460
+    },
+    end: {
+      x: 460,
+      y: 60
+    },
     startAngle: -9 / 8 * Math.PI,
     endAngle: 1 / 8 * Math.PI
   });
@@ -26,7 +36,7 @@ describe('Guide: 辅助圆弧线', function() {
   const group = canvas.addGroup();
 
   const xScale = Scale.cat({
-    values: [ '一月', '二月', '三月', '四月', '五月' ]
+    values: ['一月', '二月', '三月', '四月', '五月']
   });
 
   const yScale = Scale.linear({
@@ -34,7 +44,7 @@ describe('Guide: 辅助圆弧线', function() {
     max: 1200
   });
 
-  it('guide arc', function() {
+  it('guide arc', function () {
     const arc = new Arc({
       xScales: {
         month: xScale

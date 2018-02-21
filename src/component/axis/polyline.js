@@ -4,7 +4,10 @@
  */
 const Util = require('../../util');
 const Base = require('./base');
-const { MatrixUtil, PathUtil } = require('antv-g-node');
+const {
+  MatrixUtil,
+  PathUtil
+} = require('g-node');
 const vec2 = MatrixUtil.vec2;
 
 class Polyline extends Base {
@@ -24,7 +27,7 @@ class Polyline extends Base {
     const points = [];
     points.push(start.x);
     points.push(start.y);
-    Util.each(tickPoints, function(tick) {
+    Util.each(tickPoints, function (tick) {
       points.push(tick.x);
       points.push(tick.y);
     });
@@ -32,7 +35,7 @@ class Polyline extends Base {
     points.push(end.y);
 
     const path = PathUtil.catmullRomToBezier(points);
-    path.unshift([ 'M', start.x, start.y ]);
+    path.unshift(['M', start.x, start.y]);
     return path;
   }
 
@@ -62,7 +65,7 @@ class Polyline extends Base {
       preTickPoint = tickPoints[index - 1];
     }
 
-    const vector = [ point.x - preTickPoint.x, point.y - preTickPoint.y ];
+    const vector = [point.x - preTickPoint.x, point.y - preTickPoint.y];
     const normal = vec2.normalize([], vector);
     const verticalVector = vec2.vertical([], normal, false);
     return vec2.scale([], verticalVector, offset);

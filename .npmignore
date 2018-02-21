@@ -74,3 +74,5 @@ test/
 .vscode/
 .github/
 bin/
+build/
+docs/

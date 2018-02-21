@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Geom = require('../../../src/geom/index');
 // const Global = require('../../../src/global');
 const Scale = require('../../../src/scale/index');
@@ -30,7 +32,7 @@ const scaleB = Scale.linear({
 
 const scaleC = Scale.cat({
   field: 'c',
-  values: [ '1', '2' ]
+  values: ['1', '2']
 });
 
 const ScaleRed = Scale.identity({
@@ -53,85 +55,94 @@ const coord = new Coord.Rect({
   }
 });
 
-describe('test geoms', function() {
+describe('test geoms', function () {
   const data = [{
-    a: 1,
-    b: 2,
-    c: '1'
-  }, {
-    a: 1,
-    b: 3,
-    c: '2'
-  },
-  {
-    a: 2,
-    b: 1,
-    c: '1'
-  }, {
-    a: 2,
-    b: 4,
-    c: '2'
-  },
-  {
-    a: 3,
-    b: 5,
-    c: '1'
-  }, {
-    a: 3,
-    b: 1,
-    c: '2'
-  }
+      a: 1,
+      b: 2,
+      c: '1'
+    }, {
+      a: 1,
+      b: 3,
+      c: '2'
+    },
+    {
+      a: 2,
+      b: 1,
+      c: '1'
+    }, {
+      a: 2,
+      b: 4,
+      c: '2'
+    },
+    {
+      a: 3,
+      b: 5,
+      c: '1'
+    }, {
+      a: 3,
+      b: 1,
+      c: '2'
+    }
   ];
 
-  describe('test create', function() {
+  describe('test create', function () {
     const geom = new Geom({
       type: 'test'
     });
 
-    it('create geom', function() {
+    it('create geom', function () {
       expect(geom.get('type')).equal('test');
     });
 
-    it('test base method', function() {
+    it('test base method', function () {
       expect(geom.on).to.be.a('function');
     });
 
-    it('test attr method position', function() {
+    it('test attr method position', function () {
       geom.position('a*b');
-      expect(geom.get('attrOptions').position).eqls({ field: 'a*b' });
-      geom.position([ 'a', 'b' ]).adjust('stack');
-      expect(geom.get('attrOptions').position).eqls({ field: [ 'a', 'b' ] });
-      expect(geom.get('adjusts')).eqls([{ type: 'stack' }]);
+      expect(geom.get('attrOptions').position).eqls({
+        field: 'a*b'
+      });
+      geom.position(['a', 'b']).adjust('stack');
+      expect(geom.get('attrOptions').position).eqls({
+        field: ['a', 'b']
+      });
+      expect(geom.get('adjusts')).eqls([{
+        type: 'stack'
+      }]);
 
-      geom.position([ 'a', 'b' ]).adjust([ 'stack', 'dodge' ]);
+      geom.position(['a', 'b']).adjust(['stack', 'dodge']);
       // expect(geom.get('adjusts')).eqls([{ type: 'stack' }, { type: 'dodge' }]);
       expect(geom.hasAdjust('stack')).equal(true);
     });
-    it('other attrs', function() {
+    it('other attrs', function () {
       geom.color('red')
-          .shape('a', [ 'circle', 'rect' ])
-          .size('b', function() {
+        .shape('a', ['circle', 'rect'])
+        .size('b', function () {
 
-          })
-          .opacity(0.8);
+        })
+        .opacity(0.8);
       const attrOptions = geom.get('attrOptions');
       // debugger;
       expect(attrOptions.color.field).eqls('red');
       // expect(attrOptions.color.values).eqls(Global.colors);
       expect(attrOptions.color.values).to.be.undefined;
-      expect(attrOptions.shape).eqls({ field: 'a', values: [ 'circle', 'rect' ] });
+      expect(attrOptions.shape).eqls({
+        field: 'a',
+        values: ['circle', 'rect']
+      });
       expect(attrOptions.size.field).equal('b');
       expect(attrOptions.size.callback).to.be.a('function');
       expect(attrOptions.opacity.field).equal(0.8);
     });
-    it('geom.active', function() {
+    it('geom.active', function () {
       expect(geom.get('allowActive')).to.be.undefined;
       geom.active(true);
       expect(geom.get('allowActive')).equal(true);
       geom.active(false);
       expect(geom.get('allowActive')).equal(false);
     });
-    it('geom.select', function() {
+    it('geom.select', function () {
       expect(geom.get('allowSelect')).to.be.undefined;
       geom.select(true);
       expect(geom.get('allowSelect')).equal(true);
@@ -142,24 +153,30 @@ describe('test geoms', function() {
       });
       expect(geom.get('allowSelect')).equal(true);
     });
-    it('init adjusts', function() {
+    it('init adjusts', function () {
       const newGeom = new Geom({
         adjusts: 'stack'
       });
-      expect(newGeom.get('adjusts')).eqls([{ type: 'stack' }]);
+      expect(newGeom.get('adjusts')).eqls([{
+        type: 'stack'
+      }]);
     });
   });
 
-  describe('test init data', function() {
+  describe('test init data', function () {
     const newData = data.slice(0);
     let geom;
-    it('init attrs', function() {
+    it('init attrs', function () {
       geom = new Geom({
         type: 'test',
         coord,
         container: canvas.addGroup(),
         data: newData,
-        scales: { a: scaleA, b: scaleB, c: scaleC }
+        scales: {
+          a: scaleA,
+          b: scaleB,
+          c: scaleC
+        }
       });
       geom.position('a*b').color('c');
       geom._initAttrs();
@@ -168,20 +185,20 @@ describe('test geoms', function() {
       expect(attrs.position.scales.length).equal(2);
       expect(attrs.color.scales.length).eqls(1);
     });
-    it('test group data', function() {
+    it('test group data', function () {
       const arr = geom._groupData(newData);
       expect(arr.length).equal(2);
       expect(arr[0][0].c).equal('1');
       expect(arr[1][0].c).equal('2');
     });
 
-    it('save origin', function() {
+    it('save origin', function () {
       const rst = geom._saveOrigin(newData);
       expect(newData[0]._origin).equal(undefined);
       expect(rst[0]._origin).equal(newData[0]);
     });
 
-    it('test numberic', function() {
+    it('test numberic', function () {
       geom.position('a*c');
       geom._initAttrs();
       const attrs = geom.get('attrs');
@@ -192,42 +209,44 @@ describe('test geoms', function() {
       expect(temp[0].c).to.be.equal(0);
     });
 
-    it('test adjust', function() {
+    it('test adjust', function () {
       geom.position('a*b').adjust('stack');
       geom._initAttrs();
       let arr = geom._groupData(Util.cloneDeep(newData));
       geom._adjust(arr);
-      expect(arr[0][0].b).eqls([ 3, 5 ]);
-      expect(arr[1][0].b).eqls([ 0, 3 ]);
+      expect(arr[0][0].b).eqls([3, 5]);
+      expect(arr[1][0].b).eqls([0, 3]);
 
       coord.isTransposed = true;
       arr = geom._groupData(Util.cloneDeep(newData));
       geom._adjust(arr);
-      expect(arr[0][0].b).eqls([ 0, 2 ]);
-      expect(arr[1][0].b).eqls([ 2, 5 ]);
+      expect(arr[0][0].b).eqls([0, 2]);
+      expect(arr[1][0].b).eqls([2, 5]);
     });
 
-    it('reset', function() {
+    it('reset', function () {
       geom.reset();
       expect(geom.get('attrs')).eqls({});
       // expect(geom.get('adjusts')).eqls(null);
     });
-    it('test total init', function() {
+    it('test total init', function () {
       geom.position('a*b').color('c').adjust('stack');
       geom.init();
-      expect(geom.get('adjusts')).eqls([{ type: 'stack' }]);
+      expect(geom.get('adjusts')).eqls([{
+        type: 'stack'
+      }]);
       const dataArray = geom.get('dataArray');
-      expect(dataArray[0][0].b).eqls([ 0, 2 ]);
-      expect(dataArray[1][0].b).eqls([ 2, 5 ]);
+      expect(dataArray[0][0].b).eqls([0, 2]);
+      expect(dataArray[1][0].b).eqls([2, 5]);
     });
 
-    it('destroy', function() {
+    it('destroy', function () {
       geom.destroy();
       expect(geom.destroyed).equal(true);
     });
   });
 
-  describe('test paint', function() {
+  describe('test paint', function () {
     const newData = data.slice(0);
     const group = canvas.addGroup();
     let geom;
@@ -242,40 +261,65 @@ describe('test geoms', function() {
       max: 5,
       nice: false
     });
-    it('test generate points and ', function() {
+    it('test generate points and ', function () {
       geom = new Geom({
         shapeType: 'point',
         coord,
         data: newData,
         container: group,
         generatePoints: true,
-        scales: { a: scaleA, b: scaleB, c: scaleC, red: ScaleRed }
+        scales: {
+          a: scaleA,
+          b: scaleB,
+          c: scaleC,
+          red: ScaleRed
+        }
       });
       geom.position('a*b').color('red');
       geom.init();
-      const data = [
-        { a: 1, b: [ 1, 2 ], c: '1' },
-        { a: 2, b: [ 2, 3 ], c: '2' }
+      const data = [{
+          a: 1,
+          b: [1, 2],
+          c: '1'
+        },
+        {
+          a: 2,
+          b: [2, 3],
+          c: '2'
+        }
       ];
-      geom._beforeMapping([ data ]);
-      expect(data[0].points).eqls([{ x: 0.1, y: 0.2 }, { x: 0.1, y: 0.4 }]);
+      geom._beforeMapping([data]);
+      expect(data[0].points).eqls([{
+        x: 0.1,
+        y: 0.2
+      }, {
+        x: 0.1,
+        y: 0.4
+      }]);
     });
 
-    it('test mapping', function() {
-      const data = [
-        { a: 1, b: [ 1, 2 ], c: '1' },
-        { a: 2, b: [ 2, 3 ], c: '2' }
+    it('test mapping', function () {
+      const data = [{
+          a: 1,
+          b: [1, 2],
+          c: '1'
+        },
+        {
+          a: 2,
+          b: [2, 3],
+          c: '2'
+        }
       ];
       coord.isTransposed = false;
-      geom._beforeMapping([ data ]);
+      geom._beforeMapping([data]);
       const mappedData = geom._mapping(data);
       const obj1 = mappedData[0];
       expect(obj1.x).equal(50);
-      expect(obj1.y).eqls([ 100, 200 ]);
+      expect(obj1.y).eqls([100, 200]);
       expect(obj1.color).equal('red');
     });
 
-    it('test paint', function() {
+    it('test paint', function () {
       geom.reset();
       geom.position('a*b').color('c');
       geom.init();
@@ -284,7 +328,7 @@ describe('test geoms', function() {
       canvas.draw();
     });
 
-    it('test style no fields', function() {
+    it('test style no fields', function () {
       geom.reset();
       geom.position('a*b').color('c').style({
         fill: 'blue',
@@ -297,7 +341,7 @@ describe('test geoms', function() {
       expect(shape.attr('cursor')).equal('pointer');
       canvas.draw();
     });
-    it('test style with fields', function() {
+    it('test style with fields', function () {
       geom.reset();
       geom.position('a*b').color('c').style('a', {
         fill: 'blue',
@@ -313,7 +357,7 @@ describe('test geoms', function() {
       expect(shape.attr('lineWidth')).equal(data[0].a * 2);
       canvas.draw();
     });
-    it('geom.tooltip(false)', function() {
+    it('geom.tooltip(false)', function () {
       geom.reset();
       geom.position('a*b').color('c').tooltip(false);
       geom.init();
@@ -321,7 +365,7 @@ describe('test geoms', function() {
       expect(geom.get('tooltipCfg')).eql({});
       canvas.draw();
     });
-    it('geom.tooltip("x*y", callback)', function() {
+    it('geom.tooltip("x*y", callback)', function () {
       geom.reset();
       geom.position('a*b').color('c').tooltip('b*c', (b, c) => {
         return {
@@ -332,30 +376,51 @@ describe('test geoms', function() {
       geom.init();
       geom.paint();
       expect(geom.get('tooltipCfg')).to.be.an.instanceof(Object);
-      expect(geom.get('tooltipCfg').fields).to.eql([ 'b', 'c' ]);
+      expect(geom.get('tooltipCfg').fields).to.eql(['b', 'c']);
       canvas.draw();
     });
   });
 });
 
-describe('test geom point', function() {
-  let data = [{ a: 4, b: 3, c: '1' }, { a: 5, b: 2, c: '2' }];
+describe('test geom point', function () {
+  let data = [{
+    a: 4,
+    b: 3,
+    c: '1'
+  }, {
+    a: 5,
+    b: 2,
+    c: '2'
+  }];
   const group = canvas.addGroup();
   const geom = new Geom.Point({
     data,
     coord,
     container: group,
-    scales: { a: scaleA, b: scaleB, c: scaleC, red: ScaleRed }
+    scales: {
+      a: scaleA,
+      b: scaleB,
+      c: scaleC,
+      red: ScaleRed
+    }
   });
   let shapeContainer = geom.get('shapeContainer');
-  it('draw points', function() {
+  it('draw points', function () {
     geom.position('a*b').color('c');
     geom.init();
     geom.paint();
     expect(shapeContainer.getCount()).equal(2);
   });
-  it('draw points y is array', function() {
-    data = [{ a: 4, b: [ 3, 5 ], c: '1' }, { a: 5, b: [ 2, 4 ], c: '2' }];
+  it('draw points y is array', function () {
+    data = [{
+      a: 4,
+      b: [3, 5],
+      c: '1'
+    }, {
+      a: 5,
+      b: [2, 4],
+      c: '2'
+    }];
     geom.reset();
     geom.set('data', data);
     geom.position('a*b').color('red');
@@ -367,17 +432,30 @@ describe('test geom point', function() {
   });
 });
 
-describe('test geom path', function() {
-  let data = [{ a: 4, b: 3, c: '1' }, { a: 5, b: 2, c: '2' }];
+describe('test geom path', function () {
+  let data = [{
+    a: 4,
+    b: 3,
+    c: '1'
+  }, {
+    a: 5,
+    b: 2,
+    c: '2'
+  }];
   const group = canvas.addGroup();
   const geom = new Geom.Path({
     data,
     coord,
     container: group,
-    scales: { a: scaleA, b: scaleB, c: scaleC, red: ScaleRed }
+    scales: {
+      a: scaleA,
+      b: scaleB,
+      c: scaleC,
+      red: ScaleRed
+    }
   });
   const shapeContainer = geom.get('shapeContainer');
-  it('draw path', function() {
+  it('draw path', function () {
     geom.position('a*b');
     geom.init();
     geom.paint();
@@ -387,8 +465,16 @@ describe('test geom path', function() {
     canvas.draw();
   });
 
-  it('draw multiple path', function() {
-    data = [{ a: 4, b: [ 3, 5 ], c: '1' }, { a: 5, b: [ 2, 4 ], c: '2' }];
+  it('draw multiple path', function () {
+    data = [{
+      a: 4,
+      b: [3, 5],
+      c: '1'
+    }, {
+      a: 5,
+      b: [2, 4],
+      c: '2'
+    }];
     geom.reset();
     geom.set('data', data);
     geom.position('a*b');
@@ -400,8 +486,24 @@ describe('test geom path', function() {
     canvas.draw();
   });
 
-  it('draw path with color', function() {
-    const data = [{ a: 1, b: 3, c: '1' }, { a: 2, b: 3.5, c: '1' }, { a: 1, b: 2, c: '2' }, { a: 2, b: 1.5, c: '2' }];
+  it('draw path with color', function () {
+    const data = [{
+      a: 1,
+      b: 3,
+      c: '1'
+    }, {
+      a: 2,
+      b: 3.5,
+      c: '1'
+    }, {
+      a: 1,
+      b: 2,
+      c: '2'
+    }, {
+      a: 2,
+      b: 1.5,
+      c: '2'
+    }];
     geom.reset();
     geom.set('data', data);
     geom.position('a*b').color('c');
@@ -415,8 +517,16 @@ describe('test geom path', function() {
 });
 
 
-describe('test geom line', function() {
-  let data = [{ a: 4, b: 3, c: '1' }, { a: 2, b: 2, c: '2' }];
+describe('test geom line', function () {
+  let data = [{
+    a: 4,
+    b: 3,
+    c: '1'
+  }, {
+    a: 2,
+    b: 2,
+    c: '2'
+  }];
   const scaleA = Scale.linear({
     field: 'a',
     min: 0,
@@ -433,11 +543,16 @@ describe('test geom line', function() {
     data,
     coord,
     container: group,
-    scales: { a: scaleA, b: scaleB, c: scaleC, red: ScaleRed }
+    scales: {
+      a: scaleA,
+      b: scaleB,
+      c: scaleC,
+      red: ScaleRed
+    }
   });
   const shapeContainer = geom.get('shapeContainer');
 
-  it('draw path', function() {
+  it('draw path', function () {
     expect(geom.get('type')).eql('line');
     geom.position('a*b');
     geom.init();
@@ -445,13 +560,21 @@ describe('test geom line', function() {
     expect(shapeContainer.getCount()).equal(1);
     const path = shapeContainer.getFirst();
     expect(path.attr('path').length).eql(2);
-    expect(path.attr('path')[0]).eqls([ 'M', 100, 200 ]);
-    expect(path.attr('path')[1]).eqls([ 'L', 200, 300 ]);
+    expect(path.attr('path')[0]).eqls(['M', 100, 200]);
+    expect(path.attr('path')[1]).eqls(['L', 200, 300]);
     canvas.draw();
   });
 
-  it('draw multiple path', function() {
-    data = [{ a: 4, b: [ 3, 5 ], c: '1' }, { a: 5, b: [ 2, 4 ], c: '2' }];
+  it('draw multiple path', function () {
+    data = [{
+      a: 4,
+      b: [3, 5],
+      c: '1'
+    }, {
+      a: 5,
+      b: [2, 4],
+      c: '2'
+    }];
     geom.reset();
     geom.set('data', data);
     geom.position('a*b');
@@ -463,8 +586,24 @@ describe('test geom line', function() {
     canvas.draw();
   });
 
-  it('draw path with color', function() {
-    const data = [{ a: 1, b: 3, c: '1' }, { a: 2, b: 3.5, c: '1' }, { a: 1, b: 2, c: '2' }, { a: 2, b: 1.5, c: '2' }];
+  it('draw path with color', function () {
+    const data = [{
+      a: 1,
+      b: 3,
+      c: '1'
+    }, {
+      a: 2,
+      b: 3.5,
+      c: '1'
+    }, {
+      a: 1,
+      b: 2,
+      c: '2'
+    }, {
+      a: 2,
+      b: 1.5,
+      c: '2'
+    }];
     geom.reset();
     geom.set('data', data);
     geom.position('a*b').color('c');
@@ -476,7 +615,7 @@ describe('test geom line', function() {
     canvas.draw();
   });
 
-  it('destroy & reset', function() {
+  it('destroy & reset', function () {
     geom.destroy();
     expect(geom.destroyed).equal(true);
     canvas.draw();
@@ -487,21 +626,44 @@ describe('test geom line', function() {
 function equal(v1, v2) {
   return Math.abs(v1 - v2) < 0.001;
 }
-describe('test geom interval', function() {
-  const data = [
-      { a: '1', b: 2, c: '1' },
-      { a: '2', b: 5, c: '1' },
-      { a: '3', b: 4, c: '1' },
+describe('test geom interval', function () {
+  const data = [{
+      a: '1',
+      b: 2,
+      c: '1'
+    },
+    {
+      a: '2',
+      b: 5,
+      c: '1'
+    },
+    {
+      a: '3',
+      b: 4,
+      c: '1'
+    },
 
-      { a: '1', b: 3, c: '2' },
-      { a: '2', b: 1, c: '2' },
-      { a: '3', b: 2, c: '2' }
+    {
+      a: '1',
+      b: 3,
+      c: '2'
+    },
+    {
+      a: '2',
+      b: 1,
+      c: '2'
+    },
+    {
+      a: '3',
+      b: 2,
+      c: '2'
+    }
   ];
 
   scaleA = Scale.cat({
     field: 'a',
-    values: [ '1', '2', '3' ],
-    range: [ 0.2, 0.8 ]
+    values: ['1', '2', '3'],
+    range: [0.2, 0.8]
   });
 
   const group = canvas.addGroup();
@@ -509,10 +671,16 @@ describe('test geom interval', function() {
     data,
     coord,
     container: group,
-    scales: { a: scaleA, b: scaleB, c: scaleC, red: ScaleRed, 10: ScaleTen }
+    scales: {
+      a: scaleA,
+      b: scaleB,
+      c: scaleC,
+      red: ScaleRed,
+      10: ScaleTen
+    }
   });
   const shapeContainer = geom.get('shapeContainer');
-  it('draw interval', function() {
+  it('draw interval', function () {
     expect(geom.get('type')).eql('interval');
     geom.position('a*b').color('c').adjust('dodge');
 
@@ -522,20 +690,31 @@ describe('test geom interval', function() {
 
   });
 
-  it('size test dodge', function() {
+  it('size test dodge', function () {
     const path = shapeContainer.getFirst();
     const arr = path.attr('path');
     expect(arr.length).eql(6);
     expect(arr[2][1] - arr[0][1]).equal((500) / 3 * 1 / 4);
   });
 
-  it('size test no dodge', function() {
+  it('size test no dodge', function () {
     geom.reset();
     geom.position('a*b').color('c').adjust(null);
-    geom.set('data', [
-      { a: '1', b: 2, c: '1' },
-      { a: '2', b: 5, c: '1' },
-      { a: '3', b: 4, c: '1' }
+    geom.set('data', [{
+        a: '1',
+        b: 2,
+        c: '1'
+      },
+      {
+        a: '2',
+        b: 5,
+        c: '1'
+      },
+      {
+        a: '3',
+        b: 4,
+        c: '1'
+      }
     ]);
     geom.init();
     geom.paint();
@@ -549,10 +728,13 @@ describe('test geom interval', function() {
 
   });
 
-  it('size test dodge by', function() {
+  it('size test dodge by', function () {
     geom.reset();
     geom.position('a*b').color('c')
-      .adjust([{ type: 'dodge', dodgeBy: 'a' }]);
+      .adjust([{
+        type: 'dodge',
+        dodgeBy: 'a'
+      }]);
     geom.set('data', data);
     geom.init();
     geom.paint();
@@ -563,16 +745,27 @@ describe('test geom interval', function() {
     expect(geom.getSize()).equal((500) / 3 / 6);
   });
 
-  it('custom size', function() {
+  it('custom size', function () {
 
     geom.reset();
     geom.position('a*b').color('c')
       .size(10)
       .adjust(null);
-    geom.set('data', [
-      { a: '1', b: 2, c: '1' },
-      { a: '2', b: 5, c: '1' },
-      { a: '3', b: 4, c: '1' }
+    geom.set('data', [{
+        a: '1',
+        b: 2,
+        c: '1'
+      },
+      {
+        a: '2',
+        b: 5,
+        c: '1'
+      },
+      {
+        a: '3',
+        b: 4,
+        c: '1'
+      }
     ]);
     geom.init();
     geom.paint();
@@ -584,7 +777,7 @@ describe('test geom interval', function() {
     expect(geom.getSize()).equal(10);
   });
 
-  it('polar coord, draw interval', function() {
+  it('polar coord, draw interval', function () {
     const coord1 = new Coord.Polar({
       start: {
         x: 0,
@@ -595,7 +788,7 @@ describe('test geom interval', function() {
         y: 500
       }
     });
-    scaleA.range = [ 1 / 6, 1 - 1 / 6 ];
+    scaleA.range = [1 / 6, 1 - 1 / 6];
     geom.set('coord', coord1);
     geom.reset();
     geom.position('a*b');
@@ -609,8 +802,8 @@ describe('test geom interval', function() {
     expect(Math.abs(points[2].x - points[0].x - 1 / 3) < 0.001).equal(true);
   });
 
-  it('polar coord dodge size', function() {
-    scaleA.range = [ 0, 1 - 1 / 3 ];
+  it('polar coord dodge size', function () {
+    scaleA.range = [0, 1 - 1 / 3];
     geom.reset();
     geom.set('data', data);
     geom.position('a*b').adjust('dodge').color('c');
@@ -620,8 +813,8 @@ describe('test geom interval', function() {
     canvas.draw();
   });
 
-  it('ploar transpose', function() {
-    scaleA.range = [ 0, 1 - 1 / 6 ];
+  it('ploar transpose', function () {
+    scaleA.range = [0, 1 - 1 / 6];
     geom.get('coord').isTransposed = true;
     geom.reset();
     geom.position('a*b').color('c').adjust('dodge');
@@ -638,37 +831,66 @@ describe('test geom interval', function() {
 
 });
 
-describe('test geom area', function() {
-  const data = [
-      { a: '1', b: 2, c: '1' },
-      { a: '2', b: 5, c: '1' },
-      { a: '3', b: 4, c: '1' },
+describe('test geom area', function () {
+  const data = [{
+      a: '1',
+      b: 2,
+      c: '1'
+    },
+    {
+      a: '2',
+      b: 5,
+      c: '1'
+    },
+    {
+      a: '3',
+      b: 4,
+      c: '1'
+    },
 
-      { a: '1', b: 3, c: '2' },
-      { a: '2', b: 1, c: '2' },
-      { a: '3', b: 2, c: '2' }
+    {
+      a: '1',
+      b: 3,
+      c: '2'
+    },
+    {
+      a: '2',
+      b: 1,
+      c: '2'
+    },
+    {
+      a: '3',
+      b: 2,
+      c: '2'
+    }
   ];
   const group = canvas.addGroup();
   let geom;
   let shapeContainer;
-  it('create area', function() {
+  it('create area', function () {
     scaleA = Scale.cat({
       field: 'a',
-      values: [ '1', '2', '3' ],
-      range: [ 0.2, 0.8 ]
+      values: ['1', '2', '3'],
+      range: [0.2, 0.8]
     });
     geom = new Geom.Area({
       data,
       coord,
       container: group,
-      scales: { a: scaleA, b: scaleB, c: scaleC, red: ScaleRed, 10: ScaleTen }
+      scales: {
+        a: scaleA,
+        b: scaleB,
+        c: scaleC,
+        red: ScaleRed,
+        10: ScaleTen
+      }
     });
     shapeContainer = geom.get('shapeContainer');
     expect(geom.get('type')).equal('area');
     expect(geom.get('shapeType')).equal('area');
   });
 
-  it('draw area', function() {
+  it('draw area', function () {
     geom.position('a*b').color('c');
     geom.init();
     geom.paint();
@@ -676,11 +898,22 @@ describe('test geom area', function() {
     canvas.draw();
   });
 
-  it('draw range area', function() {
-    const data = [
-      { a: '1', b: [ 2, 3 ], c: '1' },
-      { a: '2', b: [ 3, 5 ], c: '1' },
-      { a: '3', b: [ 0, 4 ], c: '1' }
+  it('draw range area', function () {
+    const data = [{
+        a: '1',
+        b: [2, 3],
+        c: '1'
+      },
+      {
+        a: '2',
+        b: [3, 5],
+        c: '1'
+      },
+      {
+        a: '3',
+        b: [0, 4],
+        c: '1'
+      }
     ];
     geom.reset();
     geom.set('data', data);
@@ -692,7 +925,7 @@ describe('test geom area', function() {
     canvas.draw();
   });
 
-  it('draw area in polar', function() {
+  it('draw area in polar', function () {
     const coord1 = new Coord.Polar({
       start: {
         x: 0,
@@ -713,18 +946,23 @@ describe('test geom area', function() {
     canvas.draw();
   });
 
-  it('geom destroy', function() {
+  it('geom destroy', function () {
     geom.destroy();
     expect(group.getCount()).equal(0);
     expect(geom.destroyed).equal(true);
   });
 });
 
-describe('test polygon', function() {
+describe('test polygon', function () {
 
-  const data = [
-      { x: [ 1, 2, 2, 1 ], y: [ 0, 0, 2, 1 ] },
-      { x: [ 4, 3, 4, 2 ], y: [ 0, 0, 2, 4 ] }
+  const data = [{
+      x: [1, 2, 2, 1],
+      y: [0, 0, 2, 1]
+    },
+    {
+      x: [4, 3, 4, 2],
+      y: [0, 0, 2, 4]
+    }
   ];
   const scaleX = Scale.linear({
     field: 'x',
@@ -742,7 +980,10 @@ describe('test polygon', function() {
     data,
     coord,
     container: group,
-    scales: { x: scaleX, y: scaleY }
+    scales: {
+      x: scaleX,
+      y: scaleY
+    }
   });
   const shapeContainer = geom.get('shapeContainer');
   it('test init', () => {
@@ -750,7 +991,7 @@ describe('test polygon', function() {
     expect(geom.get('generatePoints')).equal(true);
   });
 
-  it('draw', function() {
+  it('draw', function () {
     geom.position('x*y');
     geom.init();
     geom.paint();
@@ -758,17 +999,17 @@ describe('test polygon', function() {
     canvas.draw();
   });
 
-  it('destroy', function() {
+  it('destroy', function () {
     geom.destroy();
     expect(geom.destroyed).equal(true);
   });
 });
 
-describe('test schema', function() {
+describe('test schema', function () {
   const scaleX = Scale.linear({
     field: 'x',
     min: 0,
-    values: [ 0, 1, 2, 3, 4, 5 ],
+    values: [0, 1, 2, 3, 4, 5],
     max: 10
   });
   const scaleY = Scale.linear({
@@ -789,28 +1030,40 @@ describe('test schema', function() {
 
   const group = canvas.addGroup();
 
-  describe('test box', function() {
-    const data = [
-      { x: 1, y: [ 0, 1, 2, 3, 4 ] },
-      { x: 2, y: [ 1, 2, 3, 4 ] },
-      { x: 3, y: [ 0, 4 ] }
+  describe('test box', function () {
+    const data = [{
+        x: 1,
+        y: [0, 1, 2, 3, 4]
+      },
+      {
+        x: 2,
+        y: [1, 2, 3, 4]
+      },
+      {
+        x: 3,
+        y: [0, 4]
+      }
     ];
 
     const geom = new Geom.Schema({
       data,
       coord,
       container: group,
-      scales: { x: scaleX, y: scaleY, box: scaleBox }
+      scales: {
+        x: scaleX,
+        y: scaleY,
+        box: scaleBox
+      }
     });
 
     const shapeContainer = geom.get('shapeContainer');
 
-    it('init', function() {
+    it('init', function () {
       geom.position('x*y').shape('box');
       expect(geom.get('type')).equal('schema');
     });
 
-    it('draw', function() {
+    it('draw', function () {
       geom.init();
       expect(geom.getNormalizedSize()).equal(1 / 10 / 2);
       geom.paint();
@@ -819,34 +1072,46 @@ describe('test schema', function() {
       canvas.draw();
     });
 
-    it('destroy', function() {
+    it('destroy', function () {
       geom.destroy();
       expect(geom.destroyed).equal(true);
     });
 
   });
 
-  describe('test candle', function() {
-    const data = [
-      { x: 1, y: [ 0, 1, 2, 3 ] },
-      { x: 2, y: [ 1, 2, 3, 4 ] },
-      { x: 3, y: [ 0, 4 ] }
+  describe('test candle', function () {
+    const data = [{
+        x: 1,
+        y: [0, 1, 2, 3]
+      },
+      {
+        x: 2,
+        y: [1, 2, 3, 4]
+      },
+      {
+        x: 3,
+        y: [0, 4]
+      }
     ];
 
     const geom = new Geom.Schema({
       data,
       coord,
       container: group,
-      scales: { x: scaleX, y: scaleY, candle: scaleCandle }
+      scales: {
+        x: scaleX,
+        y: scaleY,
+        candle: scaleCandle
+      }
     });
 
     const shapeContainer = geom.get('shapeContainer');
-    it('init', function() {
+    it('init', function () {
       geom.position('x*y').shape('candle');
       expect(geom.get('type')).equal('schema');
     });
 
-    it('draw', function() {
+    it('draw', function () {
       geom.init();
       expect(geom.getNormalizedSize()).equal(1 / 10 / 2);
       geom.paint();
@@ -855,7 +1120,7 @@ describe('test schema', function() {
       canvas.draw();
     });
 
-    it('destroy', function() {
+    it('destroy', function () {
       geom.destroy();
       expect(geom.destroyed).equal(true);
     });
@@ -864,7 +1129,7 @@ describe('test schema', function() {
   });
 });
 
-describe('test edge', function() {
+describe('test edge', function () {
   const scaleX = Scale.linear({
     field: 'x',
     min: 0,
@@ -880,9 +1145,14 @@ describe('test edge', function() {
     value: 'vhv'
   });
 
-  const data = [
-    { x: [ 1, 2 ], y: [ 3, 4 ] },
-    { x: [ 2, 3 ], y: [ 1, 5 ] }
+  const data = [{
+      x: [1, 2],
+      y: [3, 4]
+    },
+    {
+      x: [2, 3],
+      y: [1, 5]
+    }
   ];
 
   const group = canvas.addGroup();
@@ -890,16 +1160,21 @@ describe('test edge', function() {
     data,
     coord,
     container: group,
-    scales: { x: scaleX, y: scaleY, vhv: scaleVh, red: ScaleRed }
+    scales: {
+      x: scaleX,
+      y: scaleY,
+      vhv: scaleVh,
+      red: ScaleRed
+    }
   });
 
   const shapeContainer = geom.get('shapeContainer');
 
-  it('init', function() {
+  it('init', function () {
     expect(geom.get('type')).equal('edge');
   });
 
-  it('draw  two point', function() {
+  it('draw  two point', function () {
     geom.position('x*y').color('red');
     geom.init();
     geom.paint();
@@ -908,7 +1183,7 @@ describe('test edge', function() {
     canvas.draw();
   });
 
-  it('draw vhv', function() {
+  it('draw vhv', function () {
     geom.reset();
     geom.position('x*y').shape('vhv');
     geom.init();
@@ -918,7 +1193,7 @@ describe('test edge', function() {
     canvas.draw();
   });
 
-  it('final destroy', function() {
+  it('final destroy', function () {
     canvas.destroy();
     document.body.removeChild(div);
   });

@@ -4,7 +4,10 @@
  */
 const Util = require('../../util');
 const Base = require('./base');
-const { MatrixUtil, PathUtil } = require('antv-g-node');
+const {
+  MatrixUtil,
+  PathUtil
+} = require('g-node');
 const vec2 = MatrixUtil.vec2;
 
 class Helix extends Base {
@@ -40,7 +43,7 @@ class Helix extends Base {
     const crp = self.get('crp');
     const axisStart = self.get('axisStart');
     const path = PathUtil.catmullRomToBezier(crp);
-    path.unshift([ 'M', axisStart.x, axisStart.y ]);
+    path.unshift(['M', axisStart.x, axisStart.y]);
     return path;
   }
 
@@ -66,7 +69,7 @@ class Helix extends Base {
   getSideVector(offset, point) {
     const self = this;
     const center = self.get('center');
-    const vector = [ point.x - center.x, point.y - center.y ];
+    const vector = [point.x - center.x, point.y - center.y];
     if (offset) {
       const vecLen = vec2.length(vector);
       vec2.scale(vector, vector, offset / vecLen);

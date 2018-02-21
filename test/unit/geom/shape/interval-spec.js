@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Interval = require('../../../../src/geom/shape/interval');
 const Coord = require('../../../../src/coord/');
 const Global = require('../../../../src/global');
@@ -36,19 +38,19 @@ const coord1 = new Coord.Rect({
   }
 });
 
-describe('interval shapes', function() {
+describe('interval shapes', function () {
   const cfg = {
     x: 1,
     y: 2,
     y0: 0,
     size: 1
   };
-  describe('default', function() {
-    it('default shape type', function() {
+  describe('default', function () {
+    it('default shape type', function () {
       expect(Interval.defaultShapeType).equal('rect');
     });
 
-    it('get points', function() {
+    it('get points', function () {
       const points = Interval.getShapePoints(null, cfg);
       expect(points.length).equal(4);
       expect(points[0].x).equal(0.5);
@@ -57,10 +59,10 @@ describe('interval shapes', function() {
       expect(points[1].y).equal(2);
     });
 
-    it('get points y array', function() {
+    it('get points y array', function () {
       const cfg = {
         x: 1,
-        y: [ 1, 2 ],
+        y: [1, 2],
         y0: 0,
         size: 1
       };
@@ -77,9 +79,9 @@ describe('interval shapes', function() {
       expect(points[2].y).equal(2);
     });
 
-    it('get points x array', function() {
+    it('get points x array', function () {
       const cfg = {
-        x: [ 1, 2 ],
+        x: [1, 2],
         y: 2,
         y0: 0,
         size: 1
@@ -97,13 +99,13 @@ describe('interval shapes', function() {
       expect(points[2].y).equal(2);
     });
 
-    it('get active config', function() {
+    it('get active config', function () {
       const shapeCfg = Interval.getActiveCfg('rect', {});
       expect(shapeCfg).not.equal(undefined);
     });
   });
-  describe('rect', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('rect', function () {
+    it('getShapePoints && drawShape', function () {
       const cfg = {
         x: 0.25,
         y: 0.5,
@@ -131,12 +133,12 @@ describe('interval shapes', function() {
       expect(shape.attr('path').length).eql(5);
       canvas.draw();
     });
-    it('get active config', function() {
+    it('get active config', function () {
       const shapeCfg = Interval.getActiveCfg('rect', {});
       expect(shapeCfg).not.equal(undefined);
     });
 
-    it('get marker config', function() {
+    it('get marker config', function () {
       const marker = Interval.getMarkerCfg('rect', {
         color: 'blue'
       });
@@ -150,7 +152,7 @@ describe('interval shapes', function() {
       expect(marker2.symbol).equal('circle');
     });
 
-    xit('get selected config', function() {
+    xit('get selected config', function () {
       const selectedCfg = Interval.getSelectedCfg('rect', {
         coord,
         point: {
@@ -167,8 +169,8 @@ describe('interval shapes', function() {
     });
   });
 
-  describe('hollowRect', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('hollowRect', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'hollowRect';
       const points = Interval.getShapePoints(type, cfg);
       expect(points[0].x).eql(0.5);
@@ -187,12 +189,12 @@ describe('interval shapes', function() {
       expect(shape.attr('stroke')).eql('red');
       expect(shape.attr('path').length).eql(6);
     });
-    xit('get active config', function() {
+    xit('get active config', function () {
       const shapeCfg = Interval.getActiveCfg('hollowRect', {});
       expect(shapeCfg.lineWidth).not.equal(Global.shape.hollowInterval.lineWidth);
     });
 
-    it('get marker config', function() {
+    it('get marker config', function () {
       const marker = Interval.getMarkerCfg('hollowRect', {
         color: 'blue'
       });
@@ -206,7 +208,7 @@ describe('interval shapes', function() {
       expect(marker2.symbol).equal('circle');
     });
 
-    xit('get selected config', function() {
+    xit('get selected config', function () {
       const selectedCfg = Interval.getSelectedCfg('hollowRect', {
         coord: new Coord.Rect({
           start: {
@@ -222,8 +224,8 @@ describe('interval shapes', function() {
       expect(selectedCfg).not.have.property('transform');
     });
   });
-  describe('line', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('line', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'line';
       const points = Interval.getShapePoints(type, cfg);
       expect(points[0].x).eql(1);
@@ -237,7 +239,7 @@ describe('interval shapes', function() {
       expect(shape.attr('stroke')).eql('red');
       expect(shape.attr('path').length).eql(4);
     });
-    it('get marker config', function() {
+    it('get marker config', function () {
       const marker = Interval.getMarkerCfg('line', {
         color: 'blue'
       });
@@ -247,12 +249,12 @@ describe('interval shapes', function() {
       expect(marker.fill).equal('#fff');
     });
   });
-  describe('line points = []', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('line points = []', function () {
+    it('getShapePoints && drawShape', function () {
       Interval.setCoord(coord1);
       const cfg = {
         x: 1,
-        y: [ 1, 2 ],
+        y: [1, 2],
         y0: 0,
         size: 1
       };
@@ -270,8 +272,8 @@ describe('interval shapes', function() {
       expect(shape.attr('path').length).eql(4);
     });
   });
-  describe('tick', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('tick', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'tick';
       const points = Interval.getShapePoints(type, cfg);
       expect(points[0].x).eql(0.5);
@@ -293,7 +295,7 @@ describe('interval shapes', function() {
       expect(shape.attr('stroke')).eql('red');
       expect(shape.attr('path').length).eql(6);
     });
-    it('get marker config', function() {
+    it('get marker config', function () {
       const marker = Interval.getMarkerCfg('tick', {
         color: 'blue'
       });
@@ -304,11 +306,11 @@ describe('interval shapes', function() {
     });
   });
 
-  describe('funnel', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('funnel', function () {
+    it('getShapePoints && drawShape', function () {
       const cfg = {
         x: 1,
-        y: [ 0.2, 0.1, 0.3, 0.5, 0.6 ],
+        y: [0.2, 0.1, 0.3, 0.5, 0.6],
         y0: 0,
         size: 1
       };
@@ -339,7 +341,7 @@ describe('interval shapes', function() {
       expect(shapeNull.attr('stroke')).eql('red');
       expect(shapeNull.attr('path').length).eql(5);
     });
-    it('get marker config', function() {
+    it('get marker config', function () {
       const marker = Interval.getMarkerCfg('funnel', {
         color: 'blue'
       });
@@ -349,8 +351,8 @@ describe('interval shapes', function() {
       expect(marker.fill).equal('blue');
     });
   });
-  describe('pyramid', function() {
-    it('getShapePoints && drawShape', function() {
+  describe('pyramid', function () {
+    it('getShapePoints && drawShape', function () {
       const type = 'pyramid';
       const points = Interval.getShapePoints(type, cfg);
       expect(points[0].x).eql(0);
@@ -376,7 +378,7 @@ describe('interval shapes', function() {
       expect(shapeNull.attr('stroke')).eql('red');
       expect(shapeNull.attr('path').length).eql(4);
     });
-    it('get marker config', function() {
+    it('get marker config', function () {
       const marker = Interval.getMarkerCfg('pyramid', {
         color: 'blue'
       });

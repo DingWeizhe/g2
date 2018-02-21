@@ -1,10 +1,10 @@
 // var $ = require('jquery');
 
-// var Util = require('antv-g-node-util');
+// var Util = require('g-node-util');
 // var expect = require('@ali/expect.js');
-// var Canvas = require('antv-g-node-canvas');
+// var Canvas = require('g-node-canvas');
 // var Components = require('../../index')
-// var Coord = require('antv-g-node-coord');
+// var Coord = require('g-node-coord');
 // var CartesianAxis = Components.Axis;
 // var CircleAxis = Components.Axis.Circle;
 

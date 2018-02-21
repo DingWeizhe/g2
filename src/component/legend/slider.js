@@ -3,7 +3,10 @@
  * @author sima.zhang
  */
 const Util = require('../../util');
-const { Group, DomUtil } = require('antv-g-node');
+const {
+  Group,
+  DomUtil
+} = require('g-node');
 
 class Slider extends Group {
   getDefaultCfg() {
@@ -81,7 +84,7 @@ class Slider extends Group {
     });
     const trigerCursor = (layout === 'vertical') ? 'ns-resize' : 'ew-resize';
 
-    this.add([ backgroundElement, minHandleElement, maxHandleElement ]);
+    this.add([backgroundElement, minHandleElement, maxHandleElement]);
     this.set('middleHandleElement', middleHandleElement);
     backgroundElement.set('zIndex', 0);
     middleHandleElement.set('zIndex', 1);
@@ -175,7 +178,7 @@ class Slider extends Group {
     const rangeStash = this.get('rangeStash');
     const layout = this.get('layout');
     const sign = layout === 'vertical' ? -1 : 1;
-    const currentPage = ev[ 'page' + dim ];
+    const currentPage = ev['page' + dim];
     const diffPage = currentPage - page;
     const diffRange = (diffPage / totalLength) * 100 * sign;
     let diffStashRange;
@@ -223,7 +226,7 @@ class Slider extends Group {
     this.set('pageX', originEvent.pageX);
     this.set('pageY', originEvent.pageY);
     this.set('currentTarget', currentTarget);
-    this.set('rangeStash', [ range[0], range[1] ]);
+    this.set('rangeStash', [range[0], range[1]]);
     this._bindCanvasEvents();
   }
 

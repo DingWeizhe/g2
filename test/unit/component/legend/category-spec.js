@@ -1,6 +1,9 @@
 const expect = require('chai').expect;
 // const Util = require('../../../../src/util');
-const { Canvas, Event } = require('antv-g-node');
+const {
+  Canvas,
+  Event
+} = require('g-node');
 const Legend = require('../../../../src/component/legend/category');
 
 const div = document.createElement('div');
@@ -14,11 +17,11 @@ const canvas = new Canvas({
   height: 500
 });
 
-const symbols = [ 'circle', 'diamond', 'square', 'triangle', 'triangle-down' ];
-const colors = [ '#ff6600', '#b01111', '#ac5724', '#572d8a', '#333333', '#7bab12', '#c25e5e', '#a6c96a', '#133960', '#2586e7' ];
+const symbols = ['circle', 'diamond', 'square', 'triangle', 'triangle-down'];
+const colors = ['#ff6600', '#b01111', '#ac5724', '#572d8a', '#333333', '#7bab12', '#c25e5e', '#a6c96a', '#133960', '#2586e7'];
 
-describe('分类图例', function() {
-  it('默认', function() {
+describe('分类图例', function () {
+  it('默认', function () {
     const items = [];
     for (let i = 0; i < 5; i++) {
       items.push({
@@ -29,7 +32,7 @@ describe('分类图例', function() {
           radius: 5,
           fill: colors[i]
         } : null,
-        checked: i === 2// 选中状态
+        checked: i === 2 // 选中状态
       });
     }
 
@@ -61,7 +64,7 @@ describe('分类图例', function() {
     }, true, true);
     event1.currentTarget = targetItem.get('children')[0];
     expect(targetItem.get('checked')).to.be.true;
-    legend.trigger('click', [ event1 ]);
+    legend.trigger('click', [event1]);
     expect(itemsGroup.get('children')[0].get('checked')).to.be.false;
     expect(itemsGroup.get('children')[1].get('checked')).to.be.false;
     expect(itemsGroup.get('children')[2].get('checked')).to.be.true;
@@ -75,7 +78,7 @@ describe('分类图例', function() {
     }, true, true);
     event2.currentTarget = itemsGroup.get('children')[0].get('children')[2];
     expect(targetItem.get('checked')).to.be.true;
-    legend.trigger('click', [ event2 ]);
+    legend.trigger('click', [event2]);
     expect(itemsGroup.get('children')[0].get('checked')).to.be.true;
     expect(itemsGroup.get('children')[1].get('checked')).to.be.false;
     expect(itemsGroup.get('children')[2].get('checked')).to.be.true;
@@ -83,7 +86,7 @@ describe('分类图例', function() {
     expect(itemsGroup.get('children')[4].get('checked')).to.be.false;
   });
 
-  it('默认，不可点击', function() {
+  it('默认，不可点击', function () {
     canvas.clear();
     const items = [];
     for (let i = 0; i < 5; i++) {
@@ -117,7 +120,7 @@ describe('分类图例', function() {
     expect(legend._wrap__onMousemove).to.be.an.instanceof(Function);
   });
 
-  it('默认，只可单次点击。', function() {
+  it('默认，只可单次点击。', function () {
     const items = [];
     for (let i = 0; i < 5; i++) {
       items.push({
@@ -163,7 +166,7 @@ describe('分类图例', function() {
       clientY: 316
     }, true, true);
     unusedEvent.currentTarget = legend.get('children')[0];
-    legend.trigger('click', [ unusedEvent ]);
+    legend.trigger('click', [unusedEvent]);
     expect(itemGroups[0].get('checked')).to.be.false;
     expect(itemGroups[1].get('checked')).to.be.false;
     expect(itemGroups[2].get('checked')).to.be.true;
@@ -176,7 +179,7 @@ describe('分类图例', function() {
       clientY: 316
     }, true, true);
     event.currentTarget = itemGroups[1].get('children')[0];
-    legend.trigger('click', [ event ]);
+    legend.trigger('click', [event]);
     expect(itemGroups[0].get('checked')).to.be.false;
     expect(itemGroups[1].get('checked')).to.be.true;
     expect(itemGroups[2].get('checked')).to.be.false;
@@ -184,7 +187,7 @@ describe('分类图例', function() {
     expect(itemGroups[4].get('checked')).to.be.false;
   });
 
-  it('垂直布局图例', function() {
+  it('垂直布局图例', function () {
     const items = [];
     for (let i = 0; i < 5; i++) {
       items.push({
@@ -241,12 +244,12 @@ describe('分类图例', function() {
       clientY: 316
     }, true, true);
     event.currentTarget = children[0].get('children')[0];
-    legend.trigger('click', [ event ]);
+    legend.trigger('click', [event]);
     expect(children[0].get('children')[0].attr('fill')).to.equal('#ccc');
     expect(children[0].get('checked')).to.be.false;
   });
 
-  xit('水平布局，但是总长度超出了容器宽度，自动换行', function() {
+  xit('水平布局，但是总长度超出了容器宽度，自动换行', function () {
     canvas.clear();
     const items = [];
     for (let i = 0; i < 25; i++) {
@@ -283,7 +286,7 @@ describe('分类图例', function() {
     expect(legendItems.getCount()).to.equal(25);
   });
 
-  it('水平布局，但是总长度超出了容器宽度，自动换行，且每行列对齐', function() {
+  it('水平布局，但是总长度超出了容器宽度，自动换行，且每行列对齐', function () {
     canvas.clear();
 
     const items = [];
@@ -327,7 +330,7 @@ describe('分类图例', function() {
     expect(legendItems.getCount()).to.equal(25);
   });
 
-  it('垂直布局图例，超出容器高度，自动生列', function() {
+  it('垂直布局图例，超出容器高度，自动生列', function () {
     canvas.clear();
 
     const items = [];
@@ -367,18 +370,18 @@ describe('分类图例', function() {
     expect(legendBBox.height).to.be.equal(177.5);
   });
 
-  it('垂直布局图例，设置了 itemWidth, 超出容器高度，自动生列', function() {
+  it('垂直布局图例，设置了 itemWidth, 超出容器高度，自动生列', function () {
     canvas.clear();
 
     const items = [];
     for (let i = 0; i < 15; i++) {
       items.push({
         value: i + '',
-        attrValue: colors[ i % 10 ],
+        attrValue: colors[i % 10],
         marker: {
-          symbol: symbols[ i % 5 ],
+          symbol: symbols[i % 5],
           radius: 5,
-          fill: colors[ i % 10 ]
+          fill: colors[i % 10]
         },
         checked: true
       });
@@ -406,7 +409,7 @@ describe('分类图例', function() {
     // expect(legendBBox.width).to.equal(192.34765625);
   });
 
-  it('html 渲染图例，使用默认的模板', function() {
+  it('html 渲染图例，使用默认的模板', function () {
     canvas.clear();
 
     const items = [];
@@ -451,7 +454,7 @@ describe('分类图例', function() {
     expect(legendItem.className).to.equal('g2-legend-list-item item-1 unChecked');
 
     let count = 0;
-    legend.on('itemhover', function() {
+    legend.on('itemhover', function () {
       count = 1;
     });
 
@@ -471,7 +474,7 @@ describe('分类图例', function() {
     div.removeChild(legendDom);
   });
 
-  it('html 渲染图例，使用回调函数自定义模板', function() {
+  it('html 渲染图例，使用回调函数自定义模板', function () {
     const items = [];
     for (let i = 0; i < 20; i++) {
       items.push({
@@ -491,8 +494,8 @@ describe('分类图例', function() {
       useHtml: true,
       itemTpl(value, color) {
         const tpl = '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}" style="cursor:pointer;display: inline-block;width: 85px">' +
-        '<i class="g2-legend-marker" style="width:16px;height:16px;border-radius:4px;display:inline-block;margin-right:10px;background-color: {color};"></i>' +
-        '<span class="g2-legend-text" style="color:' + color + '">' + value + '</span></li>';
+          '<i class="g2-legend-marker" style="width:16px;height:16px;border-radius:4px;display:inline-block;margin-right:10px;background-color: {color};"></i>' +
+          '<span class="g2-legend-text" style="color:' + color + '">' + value + '</span></li>';
         return tpl;
       },
       width: 500,
@@ -528,7 +531,7 @@ describe('分类图例', function() {
     div.removeChild(legendDom);
   });
 
-  it('html 渲染图例，使用字符串自定义模板', function() {
+  it('html 渲染图例，使用字符串自定义模板', function () {
 
     const items = [];
     for (let i = 0; i < 35; i++) {

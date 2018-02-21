@@ -3,7 +3,7 @@
  * @author sima.zhang
  */
 const Util = require('../util');
-const MatrixUtil = require('antv-g-node').MatrixUtil;
+const MatrixUtil = require('g-node').MatrixUtil;
 const mat3 = MatrixUtil.mat3;
 const vec3 = MatrixUtil.vec3;
 
@@ -24,7 +24,7 @@ class Coord {
        * The matrix of coordinate
        * @type {Array}
        */
-      matrix: [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ]
+      matrix: [1, 0, 0, 0, 1, 0, 0, 0, 1]
     };
   }
 
@@ -69,12 +69,18 @@ class Coord {
   }
 
   convertDim(percent, dim) {
-    const { start, end } = this[dim];
+    const {
+      start,
+      end
+    } = this[dim];
     return start + percent * (end - start);
   }
 
   invertDim(value, dim) {
-    const { start, end } = this[dim];
+    const {
+      start,
+      end
+    } = this[dim];
     return (value - start) / (end - start);
   }
 
@@ -107,7 +113,7 @@ class Coord {
    */
   applyMatrix(x, y, tag = 0) {
     const matrix = this.matrix;
-    const vector = [ x, y, tag ];
+    const vector = [x, y, tag];
     vec3.transformMat3(vector, vector, matrix);
     return vector;
   }
@@ -122,7 +128,7 @@ class Coord {
   invertMatrix(x, y, tag = 0) {
     const matrix = this.matrix;
     const inversedMatrix = mat3.invert([], matrix);
-    const vector = [ x, y, tag ];
+    const vector = [x, y, tag];
     vec3.transformMat3(vector, vector, inversedMatrix);
     return vector;
   }
@@ -133,7 +139,10 @@ class Coord {
    * @return {Object}       返回进行矩阵变换后的画布坐标
    */
   convert(point) {
-    const { x, y } = this.convertPoint(point);
+    const {
+      x,
+      y
+    } = this.convertPoint(point);
     const vector = this.applyMatrix(x, y, 1);
     return {
       x: vector[0],
@@ -162,9 +171,9 @@ class Coord {
   rotate(radian) {
     const matrix = this.matrix;
     const center = this.center;
-    mat3.translate(matrix, matrix, [ -center.x, -center.y ]);
+    mat3.translate(matrix, matrix, [-center.x, -center.y]);
     mat3.rotate(matrix, matrix, radian);
-    mat3.translate(matrix, matrix, [ center.x, center.y ]);
+    mat3.translate(matrix, matrix, [center.x, center.y]);
     return this;
   }
 
@@ -196,9 +205,9 @@ class Coord {
   scale(s1, s2) {
     const matrix = this.matrix;
     const center = this.center;
-    mat3.translate(matrix, matrix, [ -center.x, -center.y ]);
-    mat3.scale(matrix, matrix, [ s1, s2 ]);
-    mat3.translate(matrix, matrix, [ center.x, center.y ]);
+    mat3.translate(matrix, matrix, [-center.x, -center.y]);
+    mat3.scale(matrix, matrix, [s1, s2]);
+    mat3.translate(matrix, matrix, [center.x, center.y]);
     return this;
   }
 
@@ -210,7 +219,7 @@ class Coord {
    */
   translate(x, y) {
     const matrix = this.matrix;
-    mat3.translate(matrix, matrix, [ x, y ]);
+    mat3.translate(matrix, matrix, [x, y]);
     return this;
   }
 

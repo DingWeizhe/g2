@@ -4,8 +4,12 @@
  */
 const Util = require('../util');
 const Animate = require('./animate');
-const { MatrixUtil } = require('antv-g-node');
-const { mat3 } = MatrixUtil;
+const {
+  MatrixUtil
+} = require('g-node');
+const {
+  mat3
+} = MatrixUtil;
 
 // 获取图组内所有的shapes
 function getShapes(container, viewId) {
@@ -86,7 +90,14 @@ function addAnimate(cache, shapes, canvas, isUpdate) {
     });
 
     Util.each(cache, deletedShape => {
-      const { name, coord, _id, attrs, index, type } = deletedShape;
+      const {
+        name,
+        coord,
+        _id,
+        attrs,
+        index,
+        type
+      } = deletedShape;
       animateCfg = getAnimateCfg(name, 'leave', deletedShape.animateCfg);
       animate = getAnimate(name, coord, 'leave', animateCfg.animation);
       if (Util.isFunction(animate)) {
@@ -120,7 +131,7 @@ function addAnimate(cache, shapes, canvas, isUpdate) {
           const endState = Util.cloneDeep(updateShape.__attrs);
           // updateShape.__attrs = cacheAttrs;
           updateShape.attr(cacheAttrs);
-          updateShape.animate(endState, animateCfg.duration, animateCfg.easing, function() {
+          updateShape.animate(endState, animateCfg.duration, animateCfg.easing, function () {
             updateShape.setSilent('cacheShape', null);
           });
         }

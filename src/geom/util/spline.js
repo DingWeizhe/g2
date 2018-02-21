@@ -1,4 +1,4 @@
-const MatrixUtil = require('antv-g-node').MatrixUtil;
+const MatrixUtil = require('g-node').MatrixUtil;
 const Vector2 = MatrixUtil.vec2;
 
 function smoothBezier(points, smooth, isLoop, constraint) {
@@ -10,8 +10,8 @@ function smoothBezier(points, smooth, isLoop, constraint) {
   let min,
     max;
   if (hasConstraint) {
-    min = [ Infinity, Infinity ];
-    max = [ -Infinity, -Infinity ];
+    min = [Infinity, Infinity];
+    max = [-Infinity, -Infinity];
 
     for (let i = 0, l = points.length; i < l; i++) {
       const point = points[i];
@@ -79,7 +79,7 @@ function catmullRom2bezier(crp, z, constraint) {
   const pointList = [];
 
   for (let i = 0, l = crp.length; i < l; i += 2) {
-    pointList.push([ crp[i], crp[i + 1] ]);
+    pointList.push([crp[i], crp[i + 1]]);
   }
 
   const controlPointList = smoothBezier(pointList, 0.4, isLoop, constraint);
@@ -95,7 +95,7 @@ function catmullRom2bezier(crp, z, constraint) {
     cp2 = controlPointList[i * 2 + 1];
     p = pointList[i + 1];
 
-    d1.push([ 'C',
+    d1.push(['C',
       cp1[0],
       cp1[1],
       cp2[0],
@@ -110,7 +110,7 @@ function catmullRom2bezier(crp, z, constraint) {
     cp2 = controlPointList[len + 1];
     p = pointList[0];
 
-    d1.push([ 'C',
+    d1.push(['C',
       cp1[0],
       cp1[1],
       cp2[0],

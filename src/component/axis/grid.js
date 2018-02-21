@@ -2,7 +2,9 @@
  * @fileOverview the grid of axis
  * @author sima.zhang
  */
-const { Group } = require('antv-g-node');
+const {
+  Group
+} = require('g-node');
 const Util = require('../../util');
 
 class Grid extends Group {
@@ -63,7 +65,7 @@ class Grid extends Group {
   _precessItems(items) {
     const self = this;
     let preItem;
-    Util.each(items, function(item, index) {
+    Util.each(items, function (item, index) {
       if (preItem && self.get('alternateColor')) {
         self._drawAlternativeBg(item, preItem, index);
       }
@@ -93,14 +95,14 @@ class Grid extends Group {
         points = item.points;
         path = [];
         if (type === 'line') {
-          path.push([ 'M', points[0].x, points[0].y ]);
-          path.push([ 'L', points[ points.length - 1 ].x, points[ points.length - 1 ].y ]);
+          path.push(['M', points[0].x, points[0].y]);
+          path.push(['L', points[points.length - 1].x, points[points.length - 1].y]);
         } else {
-          Util.each(points, function(point, index) {
+          Util.each(points, function (point, index) {
             if (index === 0) {
-              path.push([ 'M', point.x, point.y ]);
+              path.push(['M', point.x, point.y]);
             } else {
-              path.push([ 'L', point.x, point.y ]);
+              path.push(['L', point.x, point.y]);
             }
           });
         }
@@ -127,12 +129,12 @@ class Grid extends Group {
 
         points = item.points;
         path = [];
-        Util.each(points, function(point, index) {
+        Util.each(points, function (point, index) {
           const radius = point.radius;
           if (index === 0) {
-            path.push([ 'M', point.x, point.y ]);
+            path.push(['M', point.x, point.y]);
           } else {
-            path.push([ 'A', radius, radius, 0, 0, point.flag, point.x, point.y ]);
+            path.push(['A', radius, radius, 0, 0, point.flag, point.x, point.y]);
           }
         });
         cfg = Util.mix({}, lineStyle, {
@@ -185,40 +187,40 @@ class Grid extends Group {
     const type = this.get('type');
 
     if (type === 'line') {
-      path.push([ 'M', start[0].x, start[0].y ]);
-      path.push([ 'L', start[start.length - 1].x, start[start.length - 1].y ]);
-      path.push([ 'L', end[end.length - 1].x, end[end.length - 1].y ]);
-      path.push([ 'L', end[0].x, end[0].y ]);
-      path.push([ 'Z' ]);
+      path.push(['M', start[0].x, start[0].y]);
+      path.push(['L', start[start.length - 1].x, start[start.length - 1].y]);
+      path.push(['L', end[end.length - 1].x, end[end.length - 1].y]);
+      path.push(['L', end[0].x, end[0].y]);
+      path.push(['Z']);
     } else if (type === 'polygon') {
       Util.each(start, (subItem, index) => {
         if (index === 0) {
-          path.push([ 'M', subItem.x, subItem.y ]);
+          path.push(['M', subItem.x, subItem.y]);
         } else {
-          path.push([ 'L', subItem.x, subItem.y ]);
+          path.push(['L', subItem.x, subItem.y]);
         }
       });
       for (let i = end.length - 1; i >= 0; i--) {
-        path.push([ 'L', end[i].x, end[i].y ]);
+        path.push(['L', end[i].x, end[i].y]);
       }
-      path.push([ 'Z' ]);
+      path.push(['Z']);
     } else {
       const flag = start[0].flag;
-      Util.each(start, function(subItem, index) {
+      Util.each(start, function (subItem, index) {
         const radius = subItem.radius;
         if (index === 0) {
-          path.push([ 'M', subItem.x, subItem.y ]);
+          path.push(['M', subItem.x, subItem.y]);
         } else {
-          path.push([ 'A', radius, radius, 0, 0, subItem.flag, subItem.x, subItem.y ]);
+          path.push(['A', radius, radius, 0, 0, subItem.flag, subItem.x, subItem.y]);
         }
       });
       for (let j = end.length - 1; j >= 0; j--) {
         const endSubItem = end[j];
         const endRadius = endSubItem.radius;
         if (j === end.length - 1) {
-          path.push([ 'M', endSubItem.x, endSubItem.y ]);
+          path.push(['M', endSubItem.x, endSubItem.y]);
         } else {
-          path.push([ 'A', endRadius, endRadius, 0, 0, flag === 1 ? 0 : 1, endSubItem.x, endSubItem.y ]);
+          path.push(['A', endRadius, endRadius, 0, 0, flag === 1 ? 0 : 1, endSubItem.x, endSubItem.y]);
         }
       }
     }

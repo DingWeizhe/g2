@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const HelixAxis = require('../../../../src/component/axis/helix');
 const Coord = require('../../../../src/coord/index');
 
@@ -25,7 +27,7 @@ const canvas = new Canvas({
   pixelRatio: 2
 });
 
-describe('Helix 螺旋坐标轴', function() {
+describe('Helix 螺旋坐标轴', function () {
   const xAxis = canvas.addGroup(HelixAxis, {
     center: {
       x: 260,
@@ -35,7 +37,7 @@ describe('Helix 螺旋坐标轴', function() {
       lineWidth: 1,
       stroke: '#C0D0E0'
     },
-    ticks: [ 0, 60, 120, 180, 240 ],
+    ticks: [0, 60, 120, 180, 240],
     tickLine: {
       lineWidth: 1,
       length: 10,
@@ -52,15 +54,50 @@ describe('Helix 螺旋坐标轴', function() {
         lineWidth: 1,
         stroke: '#C0D0E0'
       },
-      items: [
-        { _id: 'test1', points: [{ x: 260, y: 260 }, { x: 260, y: 60 }] },
-        { _id: 'test2', points: [{ x: 260, y: 260 }, { x: 460, y: 260 }] },
-        { _id: 'test3', points: [{ x: 260, y: 260 }, { x: 260, y: 460 }] },
-        { _id: 'test4', points: [{ x: 260, y: 260 }, { x: 60, y: 260 }] }
+      items: [{
+          _id: 'test1',
+          points: [{
+            x: 260,
+            y: 260
+          }, {
+            x: 260,
+            y: 60
+          }]
+        },
+        {
+          _id: 'test2',
+          points: [{
+            x: 260,
+            y: 260
+          }, {
+            x: 460,
+            y: 260
+          }]
+        },
+        {
+          _id: 'test3',
+          points: [{
+            x: 260,
+            y: 260
+          }, {
+            x: 260,
+            y: 460
+          }]
+        },
+        {
+          _id: 'test4',
+          points: [{
+            x: 260,
+            y: 260
+          }, {
+            x: 60,
+            y: 260
+          }]
+        }
       ]
     },
     a: coord.a,
-    crp: (function() {
+    crp: (function () {
       const index = 100;
       const crp = [];
       for (let i = 0; i <= index; i++) {
@@ -73,34 +110,37 @@ describe('Helix 螺旋坐标轴', function() {
       }
       return crp;
     })(),
-    axisStart: coord.convertPoint({ x: 0, y: 0 })
+    axisStart: coord.convertPoint({
+      x: 0,
+      y: 0
+    })
   });
 
   canvas.draw();
 
-  it('测试坐标轴生成', function() {
+  it('测试坐标轴生成', function () {
     expect(xAxis).not.to.be.undefined;
     expect(xAxis.get('type')).to.equal('helix');
   });
 
-  it('测试线', function() {
+  it('测试线', function () {
     const lineShape = xAxis.get('lineShape');
     expect(lineShape).not.to.be.undefined;
     expect(lineShape.attr('path').length).not.to.equal(0);
   });
 
-  it('测试 ticks', function() {
+  it('测试 ticks', function () {
     const ticks = xAxis.get('ticks');
     expect(ticks.length).to.equal(5);
   });
 
-  it('测试 labels', function() {
+  it('测试 labels', function () {
     const labelsGroup = xAxis.get('labelsGroup');
     expect(labelsGroup).not.to.null;
     expect(labelsGroup.getCount()).to.equal(5);
   });
 
-  it('测试栅格', function() {
+  it('测试栅格', function () {
     const gridGroup = xAxis.get('gridGroup');
     expect(gridGroup).not.to.be.undefined;
     expect(gridGroup.getCount()).to.equal(4);

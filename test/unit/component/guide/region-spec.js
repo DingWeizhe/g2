@@ -1,5 +1,7 @@
 const expect = require('chai').expect;
-const { Canvas } = require('antv-g-node');
+const {
+  Canvas
+} = require('g-node');
 const Coord = require('../../../../src/coord/index');
 const Region = require('../../../../src/component/guide/region');
 const Scale = require('../../../../src/scale/index');
@@ -8,10 +10,16 @@ const div = document.createElement('div');
 div.id = 'c1';
 document.body.appendChild(div);
 
-describe('Guide: 辅助背景框', function() {
+describe('Guide: 辅助背景框', function () {
   const coord = new Coord.Rect({
-    start: { x: 60, y: 460 },
-    end: { x: 460, y: 60 }
+    start: {
+      x: 60,
+      y: 460
+    },
+    end: {
+      x: 460,
+      y: 60
+    }
   });
 
   const canvas = new Canvas({
@@ -24,7 +32,7 @@ describe('Guide: 辅助背景框', function() {
   const group = canvas.addGroup();
 
   const xScale = Scale.cat({
-    values: [ '一月', '二月', '三月', '四月', '五月' ]
+    values: ['一月', '二月', '三月', '四月', '五月']
   });
 
   const yScale = Scale.linear({
@@ -32,7 +40,7 @@ describe('Guide: 辅助背景框', function() {
     max: 1200
   });
 
-  it('guide region', function() {
+  it('guide region', function () {
     const region = new Region({
       xScales: {
         month: xScale

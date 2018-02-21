@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const G = require('antv-g-node');
+const G = require('g-node');
 const Canvas = G.Canvas;
 const Labels = require('../../../../src/component/label/index');
 
@@ -7,16 +7,43 @@ const div = document.createElement('div');
 div.id = 'c1';
 document.body.appendChild(div);
 
-describe('Labels', function() {
+describe('Labels', function () {
 
-  const newItems = [
-    { x: 10, y: 20, text: '一' },
-    { x: 10, y: 40, text: '二' },
-    { x: 10, y: 60, text: '三' },
-    { x: 10, y: 80, text: '四' },
-    { x: 10, y: 100, text: '五' },
-    { x: 10, y: 120, text: '六' },
-    { x: 10, y: 140, text: '七' }
+  const newItems = [{
+      x: 10,
+      y: 20,
+      text: '一'
+    },
+    {
+      x: 10,
+      y: 40,
+      text: '二'
+    },
+    {
+      x: 10,
+      y: 60,
+      text: '三'
+    },
+    {
+      x: 10,
+      y: 80,
+      text: '四'
+    },
+    {
+      x: 10,
+      y: 100,
+      text: '五'
+    },
+    {
+      x: 10,
+      y: 120,
+      text: '六'
+    },
+    {
+      x: 10,
+      y: 140,
+      text: '七'
+    }
   ];
   const canvas = new Canvas({
     containerId: 'c1',
@@ -25,12 +52,34 @@ describe('Labels', function() {
     pixelRatio: 2
   });
   const labels = canvas.addGroup(Labels, {
-    items: [
-      { x: 10, y: 20, text: '1' },
-      { x: 10, y: 40, text: '2' },
-      { x: 10, y: 60, text: '3' },
-      { x: 10, y: 80, text: '4' },
-      { x: 10, y: 100, text: '5', fontFamily: 'Arial', fontSize: 30, fill: 'red' }
+    items: [{
+        x: 10,
+        y: 20,
+        text: '1'
+      },
+      {
+        x: 10,
+        y: 40,
+        text: '2'
+      },
+      {
+        x: 10,
+        y: 60,
+        text: '3'
+      },
+      {
+        x: 10,
+        y: 80,
+        text: '4'
+      },
+      {
+        x: 10,
+        y: 100,
+        text: '5',
+        fontFamily: 'Arial',
+        fontSize: 30,
+        fill: 'red'
+      }
     ],
     textStyle(value) {
       console.log(value);
@@ -49,32 +98,32 @@ describe('Labels', function() {
 
   canvas.draw();
 
-  it('labels create', function() {
+  it('labels create', function () {
     expect(labels.getCount()).to.equal(labels.get('items').length);
     expect(labels).to.have.property('__cfg');
     expect(labels.__cfg.textStyle).to.be.a('function');
   });
 
-  it('labels x,y', function() {
+  it('labels x,y', function () {
     const item = labels.getFirst();
     expect(item.attr('x')).to.equal(10);
     expect(item.attr('y')).to.equal(20);
     expect(item.attr('rotate')).to.equal(45);
   });
 
-  it('labels rotate', function() {
+  it('labels rotate', function () {
     const item = labels.getLast();
     console.log();
     expect(item.attr('rotate')).to.be.undefined;
   });
 
-  it('labels add Labels By String', function() {
+  it('labels add Labels By String', function () {
     labels.addLabel('21331');
     const item = labels.getLast();
     expect(item.attr('text')).to.equal('21331');
   });
 
-  it('labels add Labels By Object', function() {
+  it('labels add Labels By Object', function () {
     labels.addLabel({
       text: 2122121,
       x: 22,
@@ -84,12 +133,12 @@ describe('Labels', function() {
     expect(item.attr('text')).to.equal('2122121');
   });
 
-  it('labels getLabels', function() {
+  it('labels getLabels', function () {
     const labelsGroup = labels.getLabels();
     expect(labelsGroup.length).to.equal(7);
   });
 
-  it('labels add Labels is Null', function() {
+  it('labels add Labels is Null', function () {
     labels.addLabel({
       text: null,
       x: 22,
@@ -99,12 +148,12 @@ describe('Labels', function() {
     expect(item.attr('text')).to.equal('');
   });
 
-  it('labels.setItems', function() {
+  it('labels.setItems', function () {
     labels.setItems(newItems);
     expect(labels.getCount()).to.equal(7);
   });
 
-  it('labels.changeLabel(null, newLabel)', function() {
+  it('labels.changeLabel(null, newLabel)', function () {
     const label = null;
     labels.changeLabel(label, {
       x: 100,
@@ -114,7 +163,7 @@ describe('Labels', function() {
     expect(labels.get('items')).to.deep.equal(newItems);
   });
 
-  it('change label', function() {
+  it('change label', function () {
     const label = labels.getFirst();
     labels.changeLabel(label, {
       x: 100,
@@ -126,7 +175,7 @@ describe('Labels', function() {
     expect(label.attr('rotate')).to.equal(45);
   });
 
-  it('change label without rotate.', function() {
+  it('change label without rotate.', function () {
     const label = labels.get('children')[4];
     labels.changeLabel(label, {
       x: 100,
@@ -139,7 +188,7 @@ describe('Labels', function() {
   });
 });
 
-describe('格式化文本信息', function() {
+describe('格式化文本信息', function () {
   const canvas = new Canvas({
     containerId: 'c1',
     width: 500,
@@ -147,11 +196,18 @@ describe('格式化文本信息', function() {
     pixelRatio: 2
   });
 
-  it('格式化文本信息', function() {
+  it('格式化文本信息', function () {
     const labels = canvas.addGroup(Labels, {
-      items: [
-        { x: 10, y: 20, text: '1' },
-        { x: 10, y: 40, text: '2' }
+      items: [{
+          x: 10,
+          y: 20,
+          text: '1'
+        },
+        {
+          x: 10,
+          y: 40,
+          text: '2'
+        }
       ],
       formatter(value) {
         return 'text--' + value;
@@ -170,11 +226,18 @@ describe('格式化文本信息', function() {
     canvas.clear();
   });
 
-  it('textStyle is a function', function() {
+  it('textStyle is a function', function () {
     const labels = canvas.addGroup(Labels, {
-      items: [
-        { x: 10, y: 20, text: 'CAT' },
-        { x: 10, y: 40, text: 'DOG' }
+      items: [{
+          x: 10,
+          y: 20,
+          text: 'CAT'
+        },
+        {
+          x: 10,
+          y: 40,
+          text: 'DOG'
+        }
       ],
       textStyle(text) {
         if (text === 'CAT') {
@@ -202,9 +265,9 @@ describe('格式化文本信息', function() {
   });
 });
 
-describe('HTML 自定义 Labels', function() {
+describe('HTML 自定义 Labels', function () {
 
-  it('html 渲染，htmlTemplate 是个字符串', function() {
+  it('html 渲染，htmlTemplate 是个字符串', function () {
     const canvas = new Canvas({
       containerId: 'c1',
       width: 500,
@@ -212,9 +275,16 @@ describe('HTML 自定义 Labels', function() {
       pixelRatio: 2
     });
     const labels = canvas.addGroup(Labels, {
-      items: [
-        { x: 80, y: 20, text: '1' },
-        { x: 80, y: 40, text: '2' }
+      items: [{
+          x: 80,
+          y: 20,
+          text: '1'
+        },
+        {
+          x: 80,
+          y: 40,
+          text: '2'
+        }
       ],
       textStyle: {
         fill: '#f80',
@@ -236,7 +306,7 @@ describe('HTML 自定义 Labels', function() {
     expect(lastNode.style.left).to.equal('30px');
     canvas.destroy();
   });
-  describe('自定义 Labels，回调', function() {
+  describe('自定义 Labels，回调', function () {
 
     const canvas = new Canvas({
       containerId: 'c1',
@@ -246,15 +316,46 @@ describe('HTML 自定义 Labels', function() {
     });
 
     const labels = canvas.addGroup(Labels, {
-      items: [
-        { x: 10, y: 20, text: '1' },
-        { x: 10, y: 40, text: '2' },
-        { x: 10, y: 60, text: '3' },
-        { x: 10, y: 80, text: '4' },
-        { x: 10, y: 100, text: '5' },
-        { x: 10, y: 120, text: '6' },
-        { x: 10, y: 140, text: '7' },
-        { x: 10, y: 160, text: '8' }
+      items: [{
+          x: 10,
+          y: 20,
+          text: '1'
+        },
+        {
+          x: 10,
+          y: 40,
+          text: '2'
+        },
+        {
+          x: 10,
+          y: 60,
+          text: '3'
+        },
+        {
+          x: 10,
+          y: 80,
+          text: '4'
+        },
+        {
+          x: 10,
+          y: 100,
+          text: '5'
+        },
+        {
+          x: 10,
+          y: 120,
+          text: '6'
+        },
+        {
+          x: 10,
+          y: 140,
+          text: '7'
+        },
+        {
+          x: 10,
+          y: 160,
+          text: '8'
+        }
       ],
       htmlTemplate(value, item, index) {
         return item.x + '<span style="font-size: 30px;color: yellow;">' + value + '</span>' + index;
@@ -263,24 +364,24 @@ describe('HTML 自定义 Labels', function() {
     canvas.draw();
     const customDiv = labels.get('customDiv');
 
-    it('labels create', function() {
+    it('labels create', function () {
       expect(customDiv).not.to.be.undefined;
       expect(customDiv.childNodes.length).to.equal(labels.get('items').length);
     });
 
-    it('labels x,y', function() {
+    it('labels x,y', function () {
       const item = customDiv.childNodes[0];
       expect(parseFloat(item.style.left)).to.equal(10);
       const second = customDiv.childNodes[1];
       expect(parseFloat(second.style.left)).not.to.equal(40);
     });
 
-    it('labels getLabels', function() {
+    it('labels getLabels', function () {
       const labelsGroup = labels.getLabels();
       expect(labelsGroup.length).to.equal(8);
     });
 
-    it('labels add Labels By Object', function() {
+    it('labels add Labels By Object', function () {
       labels.addLabel({
         text: 2122121,
         x: 22,
@@ -298,26 +399,53 @@ describe('HTML 自定义 Labels', function() {
       expect(lastNode.innerHTML).to.equal('22<span style="font-size: 30px;color: yellow;">2122121</span>9');
     });
 
-    it('custom renderer', function() {
+    it('custom renderer', function () {
       const item = customDiv.childNodes[0];
       expect(item.innerHTML).to.equal('10<span style="font-size: 30px;color: yellow;">1</span>0');
     });
 
-    it('labels.setItems', function() {
-      const items = [
-        { x: 10, y: 20, text: '一' },
-        { x: 10, y: 40, text: '二' },
-        { x: 10, y: 60, text: '三' },
-        { x: 10, y: 80, text: '四' },
-        { x: 10, y: 100, text: '五' },
-        { x: 10, y: 120, text: '六' },
-        { x: 10, y: 140, text: '七' }
+    it('labels.setItems', function () {
+      const items = [{
+          x: 10,
+          y: 20,
+          text: '一'
+        },
+        {
+          x: 10,
+          y: 40,
+          text: '二'
+        },
+        {
+          x: 10,
+          y: 60,
+          text: '三'
+        },
+        {
+          x: 10,
+          y: 80,
+          text: '四'
+        },
+        {
+          x: 10,
+          y: 100,
+          text: '五'
+        },
+        {
+          x: 10,
+          y: 120,
+          text: '六'
+        },
+        {
+          x: 10,
+          y: 140,
+          text: '七'
+        }
       ];
       labels.setItems(items);
       expect(customDiv.childNodes.length).to.equal(7);
     });
 
-    it('change label', function() {
+    it('change label', function () {
       const label = customDiv.childNodes[0];
       labels.changeLabel(label, {
         x: 100,
@@ -327,7 +455,7 @@ describe('HTML 自定义 Labels', function() {
       expect(label.innerHTML).to.equal('100<span style="font-size: 30px;color: yellow;">变化</span>0');
     });
 
-    it('remove', function() {
+    it('remove', function () {
       labels.remove();
       expect(customDiv.childNodes.length).to.equal(0);
     });

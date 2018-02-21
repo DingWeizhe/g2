@@ -4,7 +4,7 @@ const resolve = require('path').resolve;
 module.exports = {
   devtool: 'cheap-source-map',
   entry: {
-    g2: './index.js'
+    g2: './src/index.js'
   },
   output: {
     filename: '[name].js',
@@ -13,30 +13,28 @@ module.exports = {
     path: resolve(__dirname, 'build/')
   },
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        // exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            babelrc: false,
-            plugins: [
-              'transform-remove-strict-mode'
+    rules: [{
+      test: /\.js$/,
+      // exclude: /(node_modules|bower_components)/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          babelrc: false,
+          plugins: [
+            'transform-remove-strict-mode'
+          ],
+          presets: [
+            [
+              'es2015', {
+                loose: true,
+                modules: false
+              }
             ],
-            presets: [
-              [
-                'es2015', {
-                  loose: true,
-                  modules: false
-                }
-              ],
-              'stage-0'
-            ]
-          }
+            'stage-0'
+          ]
         }
       }
-    ]
+    }]
   },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),

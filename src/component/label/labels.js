@@ -3,7 +3,10 @@
  * @author sima.zhang
  */
 const Util = require('../../util');
-const { DomUtil, Group } = require('antv-g-node');
+const {
+  DomUtil,
+  Group
+} = require('g-node');
 
 class Labels extends Group {
   getDefaultCfg() {
@@ -27,7 +30,7 @@ class Labels extends Group {
       /**
        * 使用 html 渲染文本
        * @type {(String|Function)}
-      */
+       */
       htmlTemplate: null,
       /**
        * html 渲染时用的容器的模板，必须存在 class = "g-labels"
@@ -49,7 +52,7 @@ class Labels extends Group {
   _drawLabels() {
     const self = this;
     const items = self.get('items');
-    Util.each(items, function(item, index) {
+    Util.each(items, function (item, index) {
       self._addLabel(item, index);
     });
   }
@@ -150,10 +153,14 @@ class Labels extends Group {
     const htmlTemplate = this.get('htmlTemplate');
 
     if (Util.isString(htmlTemplate)) {
-      cfg.text = Util.substitute(htmlTemplate, { text: cfg.text });
+      cfg.text = Util.substitute(htmlTemplate, {
+        text: cfg.text
+      });
     }
 
-    const str = Util.substitute(itemTpl, { text: cfg.text });
+    const str = Util.substitute(itemTpl, {
+      text: cfg.text
+    });
 
     return DomUtil.createDom(str);
   }
