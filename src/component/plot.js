@@ -2,10 +2,8 @@
  * @fileOverview The class of canvas plot
  * @author sima.zhang
  */
-const Util = require('../util');
-const {
-  Group
-} = require('g-node');
+const Util = require("../util");
+const { Group } = require("@ay/g-node");
 
 class PlotBack extends Group {
   getDefaultCfg() {
@@ -14,7 +12,7 @@ class PlotBack extends Group {
        * 类型
        * @type {String}
        */
-      type: 'plotBack',
+      type: "plotBack",
       /**
        * 画布边距
        * @type {Number | Array | Object | "auto"}
@@ -49,11 +47,11 @@ class PlotBack extends Group {
 
   _renderBackground() {
     const self = this;
-    const background = self.get('background');
+    const background = self.get("background");
     if (background) {
-      const canvas = this.get('canvas');
-      const width = self.get('width') || canvas.get('width');
-      const height = self.get('height') || canvas.get('height');
+      const canvas = this.get("canvas");
+      const width = self.get("width") || canvas.get("width");
+      const height = self.get("height") || canvas.get("height");
       const cfg = {
         x: 0,
         y: 0,
@@ -61,12 +59,12 @@ class PlotBack extends Group {
         height
       };
 
-      let rect = self.get('backgroundShape');
+      let rect = self.get("backgroundShape");
       if (!rect) {
-        rect = this.addShape('rect', {
+        rect = this.addShape("rect", {
           attrs: Util.mix(cfg, background)
         });
-        this.set('backgroundShape', rect);
+        this.set("backgroundShape", rect);
       } else {
         rect.attr(cfg);
       }
@@ -77,9 +75,9 @@ class PlotBack extends Group {
 
   _renderPlotBackground() {
     const self = this;
-    const plotBackground = self.get('plotBackground');
+    const plotBackground = self.get("plotBackground");
     if (plotBackground) {
-      const plotRange = self.get('plotRange');
+      const plotRange = self.get("plotRange");
       const width = plotRange.br.x - plotRange.bl.x;
       const height = plotRange.br.y - plotRange.tr.y;
       const tl = plotRange.tl;
@@ -89,20 +87,21 @@ class PlotBack extends Group {
         width,
         height
       };
-      let plotBackShape = self.get('plotBackShape');
+      let plotBackShape = self.get("plotBackShape");
       if (!plotBackShape) {
         if (plotBackground.image) {
           cfg.img = plotBackground.image;
-          plotBackShape = self.addShape('image', {
+          plotBackShape = self.addShape("image", {
             attrs: cfg
           });
-        } else { // 矩形
+        } else {
+          // 矩形
           Util.mix(cfg, plotBackground);
-          plotBackShape = self.addShape('rect', {
+          plotBackShape = self.addShape("rect", {
             attrs: cfg
           });
         }
-        self.set('plotBackShape', plotBackShape);
+        self.set("plotBackShape", plotBackShape);
       } else {
         plotBackShape.attr(cfg);
       }
@@ -112,10 +111,10 @@ class PlotBack extends Group {
   }
 
   _convert(val, isHorizontal) {
-    if (Util.isString(val) && val.indexOf('%') !== -1) {
-      const canvas = this.get('canvas');
-      const width = this.get('width') || canvas.get('width');
-      const height = this.get('height') || canvas.get('height');
+    if (Util.isString(val) && val.indexOf("%") !== -1) {
+      const canvas = this.get("canvas");
+      const width = this.get("width") || canvas.get("width");
+      const height = this.get("height") || canvas.get("height");
       val = parseInt(val, 10) / 100;
       val = isHorizontal ? val * width : val * height;
     }
@@ -125,15 +124,15 @@ class PlotBack extends Group {
 
   _calculateRange() {
     const self = this;
-    let plotRange = self.get('plotRange');
+    let plotRange = self.get("plotRange");
     if (Util.isNil(plotRange)) {
       plotRange = {};
     }
 
-    const padding = self.get('padding');
-    const canvas = this.get('canvas');
-    const width = self.get('width') || canvas.get('width');
-    const height = self.get('height') || canvas.get('height');
+    const padding = self.get("padding");
+    const canvas = this.get("canvas");
+    const width = self.get("width") || canvas.get("width");
+    const height = self.get("height") || canvas.get("height");
 
     const allPadding = Util.toAllPadding(padding);
 
@@ -172,7 +171,7 @@ class PlotBack extends Group {
       y: (maxY + minY) / 2
     };
 
-    this.set('plotRange', plotRange);
+    this.set("plotRange", plotRange);
   }
 
   repaint() {

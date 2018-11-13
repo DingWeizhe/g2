@@ -2,12 +2,9 @@
  * @fileOverview the axis of map coodinate
  * @author sima.zhang
  */
-const Util = require('../../util');
-const Base = require('./base');
-const {
-  MatrixUtil,
-  PathUtil
-} = require('g-node');
+const Util = require("../../util");
+const Base = require("./base");
+const { MatrixUtil, PathUtil } = require("@ay/g-node");
 const vec2 = MatrixUtil.vec2;
 
 class Polyline extends Base {
@@ -15,19 +12,19 @@ class Polyline extends Base {
     const cfg = super.getDefaultCfg();
 
     return Util.mix({}, cfg, {
-      type: 'polyline'
+      type: "polyline"
     });
   }
 
   getLinePath() {
     const self = this;
-    const tickPoints = self.get('tickPoints');
-    const start = self.get('start');
-    const end = self.get('end');
+    const tickPoints = self.get("tickPoints");
+    const start = self.get("start");
+    const end = self.get("end");
     const points = [];
     points.push(start.x);
     points.push(start.y);
-    Util.each(tickPoints, function (tick) {
+    Util.each(tickPoints, function(tick) {
       points.push(tick.x);
       points.push(tick.y);
     });
@@ -35,18 +32,18 @@ class Polyline extends Base {
     points.push(end.y);
 
     const path = PathUtil.catmullRomToBezier(points);
-    path.unshift(['M', start.x, start.y]);
+    path.unshift(["M", start.x, start.y]);
     return path;
   }
 
   getTickPoint(value, index) {
-    const tickPoints = this.get('tickPoints');
+    const tickPoints = this.get("tickPoints");
     return tickPoints[index];
   }
 
   getTickEnd(start, value, index) {
     const self = this;
-    const lineAttrs = self.get('tickLine');
+    const lineAttrs = self.get("tickLine");
     const tickLength = value ? value : lineAttrs.length;
     const offsetVector = self.getSideVector(tickLength, start, index);
     return {
@@ -59,9 +56,9 @@ class Polyline extends Base {
     const self = this;
     let preTickPoint;
     if (index === 0) {
-      preTickPoint = self.get('start');
+      preTickPoint = self.get("start");
     } else {
-      const tickPoints = self.get('tickPoints');
+      const tickPoints = self.get("tickPoints");
       preTickPoint = tickPoints[index - 1];
     }
 

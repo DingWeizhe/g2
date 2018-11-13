@@ -2,11 +2,9 @@
  * @fileOverview the radius axis of polar coordinate and axis of cartesian coordinate
  * @author sima.zhang
  */
-const Base = require('./base');
-const Util = require('../../util');
-const {
-  MatrixUtil
-} = require('g-node');
+const Base = require("./base");
+const Util = require("../../util");
+const { MatrixUtil } = require("@ay/g-node");
 const vec2 = MatrixUtil.vec2;
 
 class Line extends Base {
@@ -15,13 +13,15 @@ class Line extends Base {
     return Util.mix({}, cfg, {
       x: null, // @type {Number} 距离初始位置的x轴偏移量,仅对于左侧、右侧的纵向坐标有效
       y: null, // @type {Number} 距离初始位置的y轴偏移量，仅对顶部、底部的横向坐标轴有效
-      line: { // @type {Attrs} 坐标轴线的图形属性,如果设置成null，则不显示轴线
+      line: {
+        // @type {Attrs} 坐标轴线的图形属性,如果设置成null，则不显示轴线
         lineWidth: 1,
-        stroke: '#C0D0E0'
+        stroke: "#C0D0E0"
       },
-      tickLine: { // @type {Attrs} 标注坐标线的图形属性
+      tickLine: {
+        // @type {Attrs} 标注坐标线的图形属性
         lineWidth: 1,
-        stroke: '#C0D0E0',
+        stroke: "#C0D0E0",
         length: 5
       },
       isVertical: false,
@@ -31,8 +31,8 @@ class Line extends Base {
   }
 
   _getAvgLabelLength(labelsGroup) {
-    const labels = labelsGroup.get('children');
-    return labels[1].attr('x') - labels[0].attr('x');
+    const labels = labelsGroup.get("children");
+    return labels[1].attr("x") - labels[0].attr("x");
   }
 
   /**
@@ -43,14 +43,14 @@ class Line extends Base {
    */
   getSideVector(offset) {
     const self = this;
-    const factor = self.get('factor');
-    const isVertical = self.get('isVertical');
-    const start = self.get('start');
-    const end = self.get('end');
+    const factor = self.get("factor");
+    const isVertical = self.get("isVertical");
+    const start = self.get("start");
+    const end = self.get("end");
     const axisVector = self.getAxisVector();
     const normal = vec2.normalize([], axisVector);
     let direction = false;
-    if ((isVertical && (start.y < end.y)) || (!isVertical && (start.x > end.x))) {
+    if ((isVertical && start.y < end.y) || (!isVertical && start.x > end.x)) {
       direction = true;
     }
     const verticalVector = vec2.vertical([], normal, direction);
@@ -58,18 +58,18 @@ class Line extends Base {
   }
 
   getAxisVector() {
-    const start = this.get('start');
-    const end = this.get('end');
+    const start = this.get("start");
+    const end = this.get("end");
     return [end.x - start.x, end.y - start.y];
   }
 
   getLinePath() {
     const self = this;
-    const start = self.get('start');
-    const end = self.get('end');
+    const start = self.get("start");
+    const end = self.get("end");
     const path = [];
-    path.push(['M', start.x, start.y]);
-    path.push(['L', end.x, end.y]);
+    path.push(["M", start.x, start.y]);
+    path.push(["L", end.x, end.y]);
     return path;
   }
 
@@ -84,8 +84,8 @@ class Line extends Base {
 
   getTickPoint(tickValue) {
     const self = this;
-    const start = self.get('start');
-    const end = self.get('end');
+    const start = self.get("start");
+    const end = self.get("end");
     const rangeX = end.x - start.x;
     const rangeY = end.y - start.y;
     return {
@@ -96,15 +96,17 @@ class Line extends Base {
 
   renderTitle() {
     const self = this;
-    const title = self.get('title');
+    const title = self.get("title");
     const offsetPoint = self.getTickPoint(0.5);
     let titleOffset = title.offset;
-    if (!titleOffset) { // 没有指定 offset 则自动计算
+    if (!titleOffset) {
+      // 没有指定 offset 则自动计算
       titleOffset = 20;
-      const labelsGroup = self.get('labelsGroup');
+      const labelsGroup = self.get("labelsGroup");
       if (labelsGroup) {
         const labelLength = self.getMaxLabelWidth(labelsGroup);
-        const labelOffset = self.get('label').offset || self.get('_labelOffset');
+        const labelOffset =
+          self.get("label").offset || self.get("_labelOffset");
         titleOffset += labelLength + labelOffset;
       }
     }
@@ -114,31 +116,34 @@ class Line extends Base {
     if (title.text) {
       const vector = self.getAxisVector(); // 坐标轴方向的向量
 
-      if (title.autoRotate && !textStyle.rotate) { // 自动旋转并且用户没有指定标题的旋转角度
+      if (title.autoRotate && !textStyle.rotate) {
+        // 自动旋转并且用户没有指定标题的旋转角度
         let angle = 0;
-        if (!Util.snapEqual(vector[1], 0)) { // 所有水平坐标轴，文本不转置
+        if (!Util.snapEqual(vector[1], 0)) {
+          // 所有水平坐标轴，文本不转置
           const v1 = [1, 0];
           const v2 = [vector[0], vector[1]];
           angle = vec2.angleTo(v2, v1, true);
         }
 
         cfg.rotate = angle * (180 / Math.PI);
-      } else if (textStyle.rotate) { // 用户设置了旋转角度就以用户设置的为准
-        cfg.rotate = (textStyle.rotate / 180) * Math.PI; // 将角度转换为弧度
+      } else if (textStyle.rotate) {
+        // 用户设置了旋转角度就以用户设置的为准
+        cfg.rotate = textStyle.rotate / 180 * Math.PI; // 将角度转换为弧度
       }
 
       const sideVector = self.getSideVector(titleOffset);
       let point;
       const position = title.position;
-      if (position === 'start') {
+      if (position === "start") {
         point = {
-          x: this.get('start').x + sideVector[0],
-          y: this.get('start').y + sideVector[1]
+          x: this.get("start").x + sideVector[0],
+          y: this.get("start").y + sideVector[1]
         };
-      } else if (position === 'end') {
+      } else if (position === "end") {
         point = {
-          x: this.get('end').x + sideVector[0],
-          y: this.get('end').y + sideVector[1]
+          x: this.get("end").x + sideVector[0],
+          y: this.get("end").y + sideVector[1]
         };
       } else {
         point = {
@@ -151,51 +156,55 @@ class Line extends Base {
       cfg.y = point.y;
       cfg.text = title.text;
 
-      const titleShape = self.addShape('Text', {
+      const titleShape = self.addShape("Text", {
         zIndex: 2,
         attrs: cfg
       });
-      titleShape.name = 'axis-title';
-      self.get('appendInfo') && titleShape.setSilent('appendInfo', self.get('appendInfo'));
+      titleShape.name = "axis-title";
+      self.get("appendInfo") &&
+        titleShape.setSilent("appendInfo", self.get("appendInfo"));
     }
   }
 
   autoRotateLabels() {
     const self = this;
-    const labelsGroup = self.get('labelsGroup');
-    const title = self.get('title');
+    const labelsGroup = self.get("labelsGroup");
+    const title = self.get("title");
     if (labelsGroup) {
-      const offset = self.get('label').offset;
+      const offset = self.get("label").offset;
       const append = 12;
       const titleOffset = title ? title.offset : 48;
-      if (titleOffset < 0) { // 如果是负的的话就不旋转
+      if (titleOffset < 0) {
+        // 如果是负的的话就不旋转
         return;
       }
       const vector = self.getAxisVector(); // 坐标轴的向量，仅处理水平或者垂直的场景
       let angle;
       let maxWidth;
-      if (Util.snapEqual(vector[0], 0) && title && title.text) { // 坐标轴垂直，由于不知道边距，只能防止跟title重合，如果title不存在，则不自动旋转
+      if (Util.snapEqual(vector[0], 0) && title && title.text) {
+        // 坐标轴垂直，由于不知道边距，只能防止跟title重合，如果title不存在，则不自动旋转
         maxWidth = self.getMaxLabelWidth(labelsGroup);
-        if ((maxWidth) > (titleOffset - offset - append)) {
-          angle = Math.acos((titleOffset - offset - append) / (maxWidth)) * -1;
+        if (maxWidth > titleOffset - offset - append) {
+          angle = Math.acos((titleOffset - offset - append) / maxWidth) * -1;
         }
-      } else if (Util.snapEqual(vector[1], 0) && labelsGroup.getCount() > 1) { // 坐标轴水平，不考虑边距，根据最长的和平均值进行翻转
+      } else if (Util.snapEqual(vector[1], 0) && labelsGroup.getCount() > 1) {
+        // 坐标轴水平，不考虑边距，根据最长的和平均值进行翻转
         const avgWidth = Math.abs(self._getAvgLabelLength(labelsGroup));
         maxWidth = self.getMaxLabelWidth(labelsGroup);
         if (maxWidth > avgWidth) {
-          angle = Math.asin((titleOffset - offset - append) * 1.25 / (maxWidth));
+          angle = Math.asin((titleOffset - offset - append) * 1.25 / maxWidth);
         }
       }
 
       if (angle) {
-        const factor = self.get('factor');
-        Util.each(labelsGroup.get('children'), function (label) {
+        const factor = self.get("factor");
+        Util.each(labelsGroup.get("children"), function(label) {
           label.rotateAtStart(angle);
           if (Util.snapEqual(vector[1], 0)) {
             if (factor > 0) {
-              label.attr('textAlign', 'left');
+              label.attr("textAlign", "left");
             } else {
-              label.attr('textAlign', 'right');
+              label.attr("textAlign", "right");
             }
           }
         });

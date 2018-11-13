@@ -2,11 +2,9 @@
  * @fileOverview the html guide
  * @author sima.zhang
  */
-const Util = require('../../util');
-const {
-  DomUtil
-} = require('g-node');
-const Base = require('./base');
+const Util = require("../../util");
+const { DomUtil } = require("@ay/g-node");
+const Base = require("./base");
 
 class Html extends Base {
   getDefaultCfg() {
@@ -16,7 +14,7 @@ class Html extends Base {
        * 辅助元素类型
        * @type {String}
        */
-      type: 'html',
+      type: "html",
       zIndex: 15,
       /**
        * dom 显示位置点
@@ -27,12 +25,12 @@ class Html extends Base {
        * 水平方向对齐方式，可取值 'left'、'middle'、'right'
        * @type {String}
        */
-      alignX: 'middle',
+      alignX: "middle",
       /**
        * 垂直方向对齐方式，可取值 'top'、'middle'、'bottom'
        * @type {String}
        */
-      alignY: 'middle',
+      alignY: "middle",
       /**
        * x 方向的偏移量
        * @type {Number}
@@ -55,7 +53,7 @@ class Html extends Base {
     const self = this;
     const position = self.parsePoint(coord, self.position);
 
-    const parentNode = group.get('canvas').get('el').parentNode;
+    const parentNode = group.get("canvas").get("el").parentNode;
     const wrapperNode = DomUtil.createDom('<div class="g-guide"></div>');
     parentNode.appendChild(wrapperNode);
 
@@ -81,27 +79,28 @@ class Html extends Base {
       y: point.y
     };
 
-    if (alignX === 'middle' && alignY === 'top') {
+    if (alignX === "middle" && alignY === "top") {
       position.x -= Util.round(domWidth / 2);
-    } else if (alignX === 'middle' && alignY === 'bottom') {
+    } else if (alignX === "middle" && alignY === "bottom") {
       position.x -= Util.round(domWidth / 2);
       position.y -= Util.round(domHeight);
-    } else if (alignX === 'left' && alignY === 'bottom') {
+    } else if (alignX === "left" && alignY === "bottom") {
       position.y -= Util.round(domHeight);
-    } else if (alignX === 'left' && alignY === 'middle') {
+    } else if (alignX === "left" && alignY === "middle") {
       position.y -= Util.round(domHeight / 2);
-    } else if (alignX === 'left' && alignY === 'top') {
+    } else if (alignX === "left" && alignY === "top") {
       position.x = point.x;
       position.y = point.y;
-    } else if (alignX === 'right' && alignY === 'bottom') {
+    } else if (alignX === "right" && alignY === "bottom") {
       position.x -= Util.round(domWidth);
       position.y -= Util.round(domHeight);
-    } else if (alignX === 'right' && alignY === 'middle') {
+    } else if (alignX === "right" && alignY === "middle") {
       position.x -= Util.round(domWidth);
       position.y -= Util.round(domHeight / 2);
-    } else if (alignX === 'right' && alignY === 'top') {
+    } else if (alignX === "right" && alignY === "top") {
       position.x -= Util.round(domWidth);
-    } else { // 默认位于中心点
+    } else {
+      // 默认位于中心点
       position.x -= Util.round(domWidth / 2);
       position.y -= Util.round(domHeight / 2);
     }
@@ -115,10 +114,10 @@ class Html extends Base {
     }
 
     DomUtil.modifyCSS(parentDom, {
-      position: 'absolute',
-      top: Math.round(position.y) + 'px',
-      left: Math.round(position.x) + 'px',
-      visibility: 'visible',
+      position: "absolute",
+      top: Math.round(position.y) + "px",
+      left: Math.round(position.x) + "px",
+      visibility: "visible",
       zIndex: self.zIndex
     });
   }
@@ -130,7 +129,6 @@ class Html extends Base {
       el.parentNode.removeChild(el);
     }
   }
-
 }
 
 module.exports = Html;

@@ -2,22 +2,21 @@
  * @fileOverview the class of Polar Coordinate
  * @author sima.zhang
  */
-const Util = require('../util');
-const Base = require('./base');
-const MatrixUtil = require('g-node').MatrixUtil;
+const Util = require("../util");
+const Base = require("./base");
+const MatrixUtil = require("@ay/g-node").MatrixUtil;
 const mat3 = MatrixUtil.mat3;
 const vec2 = MatrixUtil.vec2;
 const vec3 = MatrixUtil.vec3;
 
 class Polar extends Base {
-
   getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     return Util.mix({}, cfg, {
       startAngle: -Math.PI / 2,
       endAngle: Math.PI * 3 / 2,
       innerRadius: 0,
-      type: 'polar',
+      type: "polar",
       isPolar: true
     });
   }
@@ -43,13 +42,15 @@ class Polar extends Base {
     const height = this.height;
     let maxRadius;
     let circleCentre;
-    if ((height / oneHeight) > (width / oneWidth)) { // width为主
+    if (height / oneHeight > width / oneWidth) {
+      // width为主
       maxRadius = width / oneWidth;
       circleCentre = {
         x: center.x - (0.5 - left) * width,
         y: center.y - (0.5 - top) * maxRadius * oneHeight
       };
-    } else { // height为主
+    } else {
+      // height为主
       maxRadius = height / oneHeight;
       circleCentre = {
         x: center.x - (0.5 - left) * maxRadius * oneWidth,
@@ -124,8 +125,8 @@ class Polar extends Base {
     let x = this.isTransposed ? point.y : point.x;
     let y = this.isTransposed ? point.x : point.y;
 
-    x = this.convertDim(x, 'x');
-    y = this.convertDim(y, 'y');
+    x = this.convertDim(x, "x");
+    y = this.convertDim(y, "y");
 
     return {
       x: center.x + Math.cos(x) * y,
@@ -152,7 +153,7 @@ class Polar extends Base {
     let xPercent = angle / (x.end - x.start);
     xPercent = x.end - x.start > 0 ? xPercent : -xPercent;
 
-    const yPercent = this.invertDim(radius, 'y');
+    const yPercent = this.invertDim(radius, "y");
     const rst = {};
     rst.x = this.isTransposed ? yPercent : xPercent;
     rst.y = this.isTransposed ? xPercent : yPercent;

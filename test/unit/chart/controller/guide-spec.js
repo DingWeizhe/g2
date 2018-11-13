@@ -1,18 +1,16 @@
-const expect = require('chai').expect;
-const {
-  Canvas
-} = require('g-node');
-const Scale = require('../../../../src/scale/index');
-const Coord = require('../../../../src/coord/index');
-const GuideController = require('../../../../src/chart/controller/guide');
+const expect = require("chai").expect;
+const { Canvas } = require("@ay/g-node");
+const Scale = require("../../../../src/scale/index");
+const Coord = require("../../../../src/coord/index");
+const GuideController = require("../../../../src/chart/controller/guide");
 
-const div = document.createElement('div');
-div.id = 'guideTest';
+const div = document.createElement("div");
+div.id = "guideTest";
 document.body.appendChild(div);
 
-describe('GuideController', function () {
+describe("GuideController", function() {
   const canvas = new Canvas({
-    containerId: 'guideTest',
+    containerId: "guideTest",
     width: 200,
     height: 200
   });
@@ -21,8 +19,8 @@ describe('GuideController', function () {
 
   const xScale = Scale.cat({
     range: [0.1, 0.9],
-    values: ['a', 'b', 'c', 'd', 'e'],
-    ticks: ['a', 'b', 'c', 'd', 'e']
+    values: ["a", "b", "c", "d", "e"],
+    ticks: ["a", "b", "c", "d", "e"]
   });
   const yScale1 = Scale.linear({
     min: 100,
@@ -36,7 +34,6 @@ describe('GuideController', function () {
     values: [0, 20, 40, 60, 80, 100],
     ticks: [0, 20, 40, 60, 80, 100]
   });
-
 
   const xScales = {
     x: xScale
@@ -59,7 +56,7 @@ describe('GuideController', function () {
 
   let guideController;
 
-  it('Initialization.', function () {
+  it("Initialization.", function() {
     guideController = new GuideController({
       backContainer,
       frontContainer,
@@ -70,83 +67,86 @@ describe('GuideController', function () {
     expect(guideController.guides).to.be.empty;
   });
 
-  it('添加辅助线, line', function () {
+  it("添加辅助线, line", function() {
     const lineCfg = {
       start: {
-        x: 'a',
+        x: "a",
         y1: 250
       },
       end: {
-        x: 'd',
+        x: "d",
         y2: 50
       },
       text: {
-        content: '辅助线的辅助文本'
+        content: "辅助线的辅助文本"
       }
     };
     guideController.line(lineCfg);
 
     const guidesOptions = guideController.options;
     expect(guidesOptions.length).to.equal(1);
-    expect(guidesOptions[0].type).to.equal('line');
+    expect(guidesOptions[0].type).to.equal("line");
     expect(lineCfg).to.eql({
       start: {
-        x: 'a',
+        x: "a",
         y1: 250
       },
       end: {
-        x: 'd',
+        x: "d",
         y2: 50
       },
       text: {
-        content: '辅助线的辅助文本'
+        content: "辅助线的辅助文本"
       }
     });
   });
 
-  it('添加图片, image', function () {
+  it("添加图片, image", function() {
     guideController.image({
       start: {
-        x: 'a',
+        x: "a",
         y1: 250
       },
-      src: 'http://gtms02.alicdn.com/tps/i2/TB1LEzAIVXXXXaZXFXXKC07OVXX-160-230.png',
+      src:
+        "http://gtms02.alicdn.com/tps/i2/TB1LEzAIVXXXXaZXFXXKC07OVXX-160-230.png",
       width: 50,
       height: 50
     });
 
     guideController.image({
       start: {
-        x: 'c',
+        x: "c",
         y1: 150
       },
       end: {
-        x: 'e',
+        x: "e",
         y1: 550
       },
-      src: 'http://gtms02.alicdn.com/tps/i2/TB1LEzAIVXXXXaZXFXXKC07OVXX-160-230.png'
+      src:
+        "http://gtms02.alicdn.com/tps/i2/TB1LEzAIVXXXXaZXFXXKC07OVXX-160-230.png"
     });
 
     guideController.image({
       start: {
-        x: 'c',
+        x: "c",
         y1: 150
       },
-      src: 'http://gtms02.alicdn.com/tps/i2/TB1LEzAIVXXXXaZXFXXKC07OVXX-160-230.png'
+      src:
+        "http://gtms02.alicdn.com/tps/i2/TB1LEzAIVXXXXaZXFXXKC07OVXX-160-230.png"
     });
 
     const guidesOptions = guideController.options;
     expect(guidesOptions.length).to.equal(4);
   });
 
-  it('添加框, region', function () {
+  it("添加框, region", function() {
     guideController.region({
       start: {
-        x: 'a',
+        x: "a",
         y1: 250
       },
       end: {
-        x: 'e',
+        x: "e",
         y1: 550
       }
     });
@@ -155,46 +155,46 @@ describe('GuideController', function () {
     expect(guidesOptions.length).to.equal(5);
   });
 
-  it('添加文本, text', function () {
+  it("添加文本, text", function() {
     guideController.text({
       start: {
-        x: 'b',
+        x: "b",
         y1: 350
       },
-      content: '我是一条美丽的文本。'
+      content: "我是一条美丽的文本。"
     });
 
     const guidesOptions = guideController.options;
     expect(guidesOptions.length).to.equal(6);
   });
 
-  it('添加垂直于 x 轴的辅助线', function () {
+  it("添加垂直于 x 轴的辅助线", function() {
     guideController.line({
       start: {
-        x: 'd',
-        y1: 'min'
+        x: "d",
+        y1: "min"
       },
       end: {
-        x: 'd',
-        y1: 'max'
+        x: "d",
+        y1: "max"
       }
     });
     const guidesOptions = guideController.options;
     expect(guidesOptions.length).to.equal(7);
   });
 
-  it('添加中间段水平辅助线', function () {
+  it("添加中间段水平辅助线", function() {
     guideController.line({
       start: {
-        x: 'a',
-        y1: 'median'
+        x: "a",
+        y1: "median"
       },
       end: {
-        x: 'd',
-        y1: 'median'
+        x: "d",
+        y1: "median"
       },
       lineStyle: {
-        stroke: 'red',
+        stroke: "red",
         lineWidth: 3
       }
     });
@@ -202,12 +202,12 @@ describe('GuideController', function () {
     expect(guidesOptions.length).to.equal(8);
   });
 
-  it('动态文本', function () {
+  it("动态文本", function() {
     guideController.text({
-      content: '我是一条动态的文本。',
+      content: "我是一条动态的文本。",
       style: {
-        fill: 'red',
-        textAlign: 'center',
+        fill: "red",
+        textAlign: "center",
         fontSize: 20
       },
       start: (xScales, yScales) => {
@@ -223,45 +223,44 @@ describe('GuideController', function () {
     expect(guidesOptions.length).to.equal(9);
   });
 
-
-  it('添加html.', function () {
+  it("添加html.", function() {
     guideController.html({
       position: {
-        x: 'e',
+        x: "e",
         y1: 550
       },
-      alignX: 'left',
-      alignY: 'top',
-      html: '<div>哈哈你妹呀</div>'
+      alignX: "left",
+      alignY: "top",
+      html: "<div>哈哈你妹呀</div>"
     });
 
     const guidesOptions = guideController.options;
     expect(guidesOptions.length).to.equal(10);
   });
 
-  it('绘制.', function () {
+  it("绘制.", function() {
     guideController.render(coord);
     canvas.draw();
 
-    const dom = div.getElementsByClassName('g-guide');
+    const dom = div.getElementsByClassName("g-guide");
     expect(dom).not.to.be.empty;
     expect(dom.length).to.equal(1);
-    expect(frontContainer.get('children').length).to.equal(1);
-    expect(backContainer.get('children').length).to.equal(8);
+    expect(frontContainer.get("children").length).to.equal(1);
+    expect(backContainer.get("children").length).to.equal(8);
   });
 
-  it('clear', function () {
+  it("clear", function() {
     guideController.clear();
-    const dom = div.getElementsByClassName('g-guide');
+    const dom = div.getElementsByClassName("g-guide");
 
     expect(guideController.options.length).to.equal(0);
     expect(dom).to.be.empty;
-    expect(canvas.get('children').length).to.equal(2);
-    expect(frontContainer.get('children').length).to.equal(0);
-    expect(backContainer.get('children').length).to.equal(0);
+    expect(canvas.get("children").length).to.equal(2);
+    expect(frontContainer.get("children").length).to.equal(0);
+    expect(backContainer.get("children").length).to.equal(0);
   });
 
-  it('destroy', function () {
+  it("destroy", function() {
     canvas.destroy();
   });
 });

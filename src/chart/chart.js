@@ -3,22 +3,26 @@
  * @author dxq613@gmail.com
  */
 
-const Util = require('../util');
-const View = require('./view');
-const G = require('g-node');
+const Util = require("../util");
+const View = require("./view");
+const G = require("@ay/g-node");
 const Canvas = G.Canvas;
 const DomUtil = G.DomUtil;
-const Component = require('../component/index');
-const Controller = require('./controller/index');
-const Facets = require('../facet/index');
-const Global = require('../global');
+const Component = require("../component/index");
+const Controller = require("./controller/index");
+const Facets = require("../facet/index");
+const Global = require("../global");
 
 function _isScaleExist(scales, compareScale) {
   let flag = false;
   Util.each(scales, scale => {
     const scaleValues = [].concat(scale.values);
     const compareScaleValues = [].concat(compareScale.values);
-    if (scale.type === compareScale.type && scale.field === compareScale.field && scaleValues.sort().toString() === compareScaleValues.sort().toString()) {
+    if (
+      scale.type === compareScale.type &&
+      scale.field === compareScale.field &&
+      scaleValues.sort().toString() === compareScaleValues.sort().toString()
+    ) {
       flag = true;
       return;
     }
@@ -72,25 +76,25 @@ class Chart extends View {
     const legendController = new Controller.Legend({
       chart: this
     });
-    this.set('legendController', legendController);
-    this.set('_id', 'chart'); // 防止同用户设定的 id 同名
-    this.emit('afterinit'); // 初始化完毕
+    this.set("legendController", legendController);
+    this.set("_id", "chart"); // 防止同用户设定的 id 同名
+    this.emit("afterinit"); // 初始化完毕
   }
   // 初始化画布
   _initCanvas() {
-    let container = this.get('container');
-    const id = this.get('id');
+    let container = this.get("container");
+    const id = this.get("id");
     // 如果未设置 container 使用 ID, 兼容 2.x 版本
     if (!container && id) {
       container = id;
-      this.set('container', id);
+      this.set("container", id);
     }
     if (Util.isString(container)) {
       container = document.getElementById(container);
       if (!container) {
-        throw new Error('Please specify the container for the chart!');
+        throw new Error("Please specify the container for the chart!");
       }
-      this.set('container', container);
+      this.set("container", container);
     }
     // const wrapperEl = DomUtil.createDom('<div style="position:relative;"></div>');
     // container.appendChild(wrapperEl);
@@ -99,24 +103,24 @@ class Chart extends View {
     //   width = DomUtil.getWidth(container);
     //   this.set('width', width);
     // }
-    const el = this.get('el');
-    this.set('width', el.height);
-    this.set('height', el.width);
+    const el = this.get("el");
+    this.set("width", el.height);
+    this.set("height", el.width);
 
     const canvas = new Canvas({
       el,
       width: el.width,
       height: el.height,
-      pixelRatio: this.get('pixelRatio')
+      pixelRatio: this.get("pixelRatio")
     });
 
-    this.set('canvas', canvas);
+    this.set("canvas", canvas);
   }
 
   // 初始化绘图区间
   _initPlot() {
     this._initPlotBack(); // 最底层的是背景相关的 group
-    const canvas = this.get('canvas');
+    const canvas = this.get("canvas");
     const backPlot = canvas.addGroup({
       zIndex: 1
     }); // 图表最后面的容器
@@ -127,21 +131,25 @@ class Chart extends View {
       zIndex: 3
     }); // 图表前面的容器
 
-    this.set('backPlot', backPlot);
-    this.set('middlePlot', plotContainer);
-    this.set('frontPlot', frontPlot);
+    this.set("backPlot", backPlot);
+    this.set("middlePlot", plotContainer);
+    this.set("frontPlot", frontPlot);
   }
 
   // 初始化背景
   _initPlotBack() {
-    const canvas = this.get('canvas');
+    const canvas = this.get("canvas");
     const plot = canvas.addGroup(Component.Plot, {
-      padding: this.get('padding'),
-      plotBackground: Util.mix({}, Global.plotBackground, this.get('plotBackground')),
-      background: Util.mix({}, Global.background, this.get('background'))
+      padding: this.get("padding"),
+      plotBackground: Util.mix(
+        {},
+        Global.plotBackground,
+        this.get("plotBackground")
+      ),
+      background: Util.mix({}, Global.background, this.get("background"))
     });
-    this.set('plot', plot);
-    this.set('plotRange', plot.get('plotRange'));
+    this.set("plot", plot);
+    this.set("plotRange", plot.get("plotRange"));
   }
 
   _initEvents() {
@@ -151,32 +159,34 @@ class Chart extends View {
   }
 
   _initForceFitEvent() {
-    const timer = setTimeout(Util.wrapBehavior(this, 'forceFit'), 200);
-    clearTimeout(this.get('resizeTimer'));
-    this.set('resizeTimer', timer);
+    const timer = setTimeout(Util.wrapBehavior(this, "forceFit"), 200);
+    clearTimeout(this.get("resizeTimer"));
+    this.set("resizeTimer", timer);
   }
 
   // 绘制图例
   _renderLegends() {
-    const options = this.get('options');
+    const options = this.get("options");
     const legendOptions = options.legends;
-    if (Util.isNil(legendOptions) || (legendOptions !== false)) { // 没有关闭图例
-      const legendController = this.get('legendController');
+    if (Util.isNil(legendOptions) || legendOptions !== false) {
+      // 没有关闭图例
+      const legendController = this.get("legendController");
       legendController.options = legendOptions || {};
-      legendController.plotRange = this.get('plotRange');
+      legendController.plotRange = this.get("plotRange");
 
-      if (legendOptions && legendOptions.custom) { // 用户自定义图例
+      if (legendOptions && legendOptions.custom) {
+        // 用户自定义图例
         legendController.addCustomLegend();
       } else {
         const geoms = this.getAllGeoms();
         const scales = [];
         Util.each(geoms, geom => {
-          const view = geom.get('view');
+          const view = geom.get("view");
           const attrs = geom.getAttrsForLegend();
           Util.each(attrs, attr => {
             const type = attr.type;
             const scale = attr.getScale(type);
-            if (scale.type !== 'identity' && !_isScaleExist(scales, scale)) {
+            if (scale.type !== "identity" && !_isScaleExist(scales, scale)) {
               scales.push(scale);
               const filteredValues = view.getFilteredValues(scale.field);
               legendController.addLegend(scale, attr, geom, filteredValues);
@@ -205,11 +215,11 @@ class Chart extends View {
    */
   getAllGeoms() {
     let geoms = [];
-    geoms = geoms.concat(this.get('geoms'));
+    geoms = geoms.concat(this.get("geoms"));
 
-    const views = this.get('views');
+    const views = this.get("views");
     Util.each(views, view => {
-      geoms = geoms.concat(view.get('geoms'));
+      geoms = geoms.concat(view.get("geoms"));
     });
 
     return geoms;
@@ -222,10 +232,10 @@ class Chart extends View {
    */
   forceFit() {
     const self = this;
-    const container = self.get('container');
+    const container = self.get("container");
     const width = DomUtil.getWidth(container);
-    if (width !== this.get('width')) {
-      const height = this.get('height');
+    if (width !== this.get("width")) {
+      const height = this.get("height");
       this.changeSize(width, height);
     }
     return self;
@@ -239,16 +249,16 @@ class Chart extends View {
    */
   changeSize(width, height) {
     const self = this;
-    const canvas = self.get('canvas');
+    const canvas = self.get("canvas");
     canvas.changeSize(width, height);
 
-    self.set('width', width);
-    self.set('height', height);
-    const plot = self.get('plot');
+    self.set("width", width);
+    self.set("height", height);
+    const plot = self.get("plot");
     plot.repaint();
 
     self.repaint();
-    this.emit('afterchangesize');
+    this.emit("afterchangesize");
     return self;
   }
   /**
@@ -257,7 +267,7 @@ class Chart extends View {
    * @return {Chart} 图表对象
    */
   changeWidth(width) {
-    return this.changeSize(width, this.get('height'));
+    return this.changeSize(width, this.get("height"));
   }
   /**
    * 改变宽度
@@ -265,21 +275,21 @@ class Chart extends View {
    * @return {Chart} 图表对象
    */
   changeHeight(height) {
-    return this.changeSize(this.get('width'), height);
+    return this.changeSize(this.get("width"), height);
   }
 
   facet(type, cfg) {
     const cls = Facets[Util.upperFirst(type)];
     if (!cls) {
-      throw new Error('Not support such type of facets as: ' + type);
+      throw new Error("Not support such type of facets as: " + type);
     }
-    const preFacets = this.get('facets');
+    const preFacets = this.get("facets");
     if (preFacets) {
       preFacets.destroy();
     }
     cfg.chart = this;
     const facets = new cls(cfg);
-    this.set('facets', facets);
+    this.set("facets", facets);
   }
 
   /**
@@ -290,33 +300,33 @@ class Chart extends View {
   view(cfg) {
     cfg = cfg || {};
     cfg.parent = this;
-    cfg.backPlot = this.get('backPlot');
-    cfg.middlePlot = this.get('middlePlot');
-    cfg.frontPlot = this.get('frontPlot');
-    cfg.canvas = this.get('canvas');
+    cfg.backPlot = this.get("backPlot");
+    cfg.middlePlot = this.get("middlePlot");
+    cfg.frontPlot = this.get("frontPlot");
+    cfg.canvas = this.get("canvas");
     // if (Util.isNil(cfg.animate)) {
     //   cfg.animate = this.get('animate');
     // }
     cfg.options = Util.mix({}, this._getSharedOptions(), cfg.options);
     const view = new View(cfg);
-    view.set('_id', 'view' + this.get('views').length); // 标识 ID，防止同用户设定的 id 重名
-    this.get('views').push(view);
-    this.emit('addview', {
+    view.set("_id", "view" + this.get("views").length); // 标识 ID，防止同用户设定的 id 重名
+    this.get("views").push(view);
+    this.emit("addview", {
       view
     });
     return view;
   }
 
   removeView(view) {
-    const views = this.get('views');
+    const views = this.get("views");
     Util.Array.remove(views, view);
     view.destroy();
   }
 
   _getSharedOptions() {
-    const options = this.get('options');
+    const options = this.get("options");
     const sharedOptions = {};
-    Util.each(['scales', 'coord', 'axes'], function (name) {
+    Util.each(["scales", "coord", "axes"], function(name) {
       sharedOptions[name] = Util.cloneDeep(options[name]);
     });
     return sharedOptions;
@@ -327,7 +337,7 @@ class Chart extends View {
    * 当前chart 的范围
    */
   getViewRegion() {
-    const plotRange = this.get('plotRange');
+    const plotRange = this.get("plotRange");
     return {
       start: plotRange.bl,
       end: plotRange.tr
@@ -341,7 +351,7 @@ class Chart extends View {
    * @return {Chart} 当前的图表对象
    */
   legend(field, cfg) {
-    const options = this.get('options');
+    const options = this.get("options");
     if (!options.legends) {
       options.legends = {};
     }
@@ -368,7 +378,7 @@ class Chart extends View {
    * @return {Chart} 当前的图表对象
    */
   tooltip(visible, cfg) {
-    const options = this.get('options');
+    const options = this.get("options");
     if (!options.tooltip) {
       options.tooltip = {};
     }
@@ -389,30 +399,30 @@ class Chart extends View {
    * @return {Chart} 当前的图表对象
    */
   clear() {
-    this.emit('beforeclear');
-    const views = this.get('views');
+    this.emit("beforeclear");
+    const views = this.get("views");
     while (views.length > 0) {
       const view = views.shift();
       view.destroy();
     }
     super.clear();
-    const canvas = this.get('canvas');
+    const canvas = this.get("canvas");
     canvas.draw();
-    this.emit('afterclear');
+    this.emit("afterclear");
     return this;
   }
 
   clearInner() {
-    const views = this.get('views');
-    Util.each(views, function (view) {
+    const views = this.get("views");
+    Util.each(views, function(view) {
       view.clearInner();
     });
 
-    const tooltipController = this.get('tooltipController');
+    const tooltipController = this.get("tooltipController");
     tooltipController && tooltipController.clear();
 
-    if (!this.get('keepLegend')) {
-      const legendController = this.get('legendController');
+    if (!this.get("keepLegend")) {
+      const legendController = this.get("legendController");
       legendController && legendController.clear();
     }
 
@@ -425,9 +435,9 @@ class Chart extends View {
    */
   paint() {
     super.paint();
-    !this.get('keepLegend') && this._renderLegends(); // 渲染图例
+    !this.get("keepLegend") && this._renderLegends(); // 渲染图例
     this._renderTooltips(); // 渲染 tooltip
-    this.set('keepLegend', false);
+    this.set("keepLegend", false);
   }
 
   /**
@@ -435,8 +445,8 @@ class Chart extends View {
    * 显示或者隐藏
    */
   changeVisible(visible) {
-    const wrapperEl = this.get('wrapperEl');
-    const visibleStr = visible ? '' : 'none';
+    const wrapperEl = this.get("wrapperEl");
+    const visibleStr = visible ? "" : "none";
     wrapperEl.style.display = visibleStr;
   }
 
@@ -445,9 +455,9 @@ class Chart extends View {
    * @return {String} dataUrl 路径
    */
   toDataURL() {
-    const canvas = this.get('canvas');
-    const canvasDom = canvas.get('el');
-    const dataURL = canvasDom.toDataURL('image/png');
+    const canvas = this.get("canvas");
+    const canvasDom = canvas.get("el");
+    const dataURL = canvasDom.toDataURL("image/png");
     return dataURL;
   }
 
@@ -458,9 +468,9 @@ class Chart extends View {
    */
   downloadImage(name) {
     const dataURL = this.toDataURL();
-    const link = document.createElement('a');
-    link.download = (name || 'chart') + '.png';
-    link.href = dataURL.replace('image/png', 'image/octet-stream');
+    const link = document.createElement("a");
+    link.download = (name || "chart") + ".png";
+    link.href = dataURL.replace("image/png", "image/octet-stream");
     link.click();
     return dataURL;
   }
@@ -473,7 +483,7 @@ class Chart extends View {
   showTooltip(point) {
     const views = this.getViewsByPoint(point);
     if (views.length) {
-      const tooltipController = this.get('tooltipController');
+      const tooltipController = this.get("tooltipController");
       tooltipController.showTooltip(point, views);
     }
     return this;
@@ -484,7 +494,7 @@ class Chart extends View {
    * @return {Chart}       返回 chart 实例
    */
   hideTooltip() {
-    const tooltipController = this.get('tooltipController');
+    const tooltipController = this.get("tooltipController");
     tooltipController.hideTooltip();
     return this;
   }
@@ -499,9 +509,9 @@ class Chart extends View {
     const views = self.getViewsByPoint(point);
     let rst = [];
     Util.each(views, view => {
-      const geoms = view.get('geoms');
+      const geoms = view.get("geoms");
       Util.each(geoms, geom => {
-        const dataArray = geom.get('dataArray');
+        const dataArray = geom.get("dataArray");
         let items = [];
         Util.each(dataArray, data => {
           const tmpPoint = geom.findPoint(point, data);
@@ -521,14 +531,17 @@ class Chart extends View {
    * 销毁图表
    */
   destroy() {
-    this.emit('beforedestroy');
-    const canvas = this.get('canvas');
-    const wrapperEl = this.get('wrapperEl');
+    this.emit("beforedestroy");
+    const canvas = this.get("canvas");
+    const wrapperEl = this.get("wrapperEl");
     wrapperEl.parentNode.removeChild(wrapperEl);
     super.destroy();
     canvas.destroy();
-    window.removeEventListener('resize', Util.getWrapBehavior(this, '_initForceFitEvent'));
-    this.emit('afterdestroy');
+    window.removeEventListener(
+      "resize",
+      Util.getWrapBehavior(this, "_initForceFitEvent")
+    );
+    this.emit("afterdestroy");
   }
 }
 

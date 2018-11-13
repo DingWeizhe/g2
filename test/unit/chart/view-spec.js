@@ -1,17 +1,15 @@
-const expect = require('chai').expect;
-const {
-  Canvas
-} = require('g-node');
-const View = require('../../../src/chart/view');
-const Chart = require('../../../src/chart/chart');
-const Coord = require('../../../src/coord/index');
+const expect = require("chai").expect;
+const { Canvas } = require("@ay/g-node");
+const View = require("../../../src/chart/view");
+const Chart = require("../../../src/chart/chart");
+const Coord = require("../../../src/coord/index");
 
-const div = document.createElement('div');
-div.id = 'cview';
+const div = document.createElement("div");
+div.id = "cview";
 document.body.appendChild(div);
 
 const canvas = new Canvas({
-  containerId: 'cview',
+  containerId: "cview",
   width: 500,
   height: 500
 });
@@ -27,7 +25,7 @@ const coord = new Coord.Rect({
   }
 });
 
-describe('test view', function () {
+describe("test view", function() {
   const backPlot = canvas.addGroup();
   const group = canvas.addGroup();
   const view = new View({
@@ -38,8 +36,8 @@ describe('test view', function () {
     options: {
       scales: {
         e: {
-          type: 'cat',
-          values: ['a', 'b', 'c']
+          type: "cat",
+          values: ["a", "b", "c"]
         }
       },
       axes: {
@@ -51,16 +49,16 @@ describe('test view', function () {
             autoRotate: false
           },
           grid: {
-            align: 'center'
+            align: "center"
           },
           title: {
             offset: -1,
-            position: 'end',
+            position: "end",
             autoRotate: false,
             textStyle: {
               fontSize: 16,
-              fill: 'red',
-              textBaseline: 'bottom'
+              fill: "red",
+              textBaseline: "bottom"
             }
           }
         }
@@ -69,47 +67,47 @@ describe('test view', function () {
     }
   });
 
-  it('init', function () {
-    expect(view.get('scaleController')).not.equal(null);
-    expect(view.get('axisController')).not.equal(null);
-    expect(view.get('guideController')).not.equal(null);
+  it("init", function() {
+    expect(view.get("scaleController")).not.equal(null);
+    expect(view.get("axisController")).not.equal(null);
+    expect(view.get("guideController")).not.equal(null);
   });
 
-  it('options', function () {
-    expect(view.get('options').scales).not.equal(undefined);
-    expect(view.get('options').axes).not.equal(undefined);
+  it("options", function() {
+    expect(view.get("options").scales).not.equal(undefined);
+    expect(view.get("options").axes).not.equal(undefined);
   });
 
-  it('geom method', function () {
-    expect(view.line).to.be.a('function');
-    expect(view.point).to.be.a('function');
+  it("geom method", function() {
+    expect(view.line).to.be.a("function");
+    expect(view.point).to.be.a("function");
   });
 
-  it('scale', function () {
-    view.scale('a', {
-      type: 'linear',
+  it("scale", function() {
+    view.scale("a", {
+      type: "linear",
       min: 0
     });
-    expect(view.get('options').scales.a.min).equal(0);
+    expect(view.get("options").scales.a.min).equal(0);
   });
 
-  it('axis', function () {
+  it("axis", function() {
     view.axis(false);
-    expect(view.get('options').axes).to.be.false;
+    expect(view.get("options").axes).to.be.false;
     view.axis(true);
-    expect(view.get('options').axes).not.to.be.false;
+    expect(view.get("options").axes).not.to.be.false;
 
-    view.axis('a', {
+    view.axis("a", {
       title: {
         textStyle: {
-          fill: 'red'
+          fill: "red"
         }
       }
     });
-    expect(view.get('options').axes.a.title).not.to.be.null;
+    expect(view.get("options").axes.a.title).not.to.be.null;
   });
 
-  it('guide', function () {
+  it("guide", function() {
     view.guide().line({
       start: {
         a: 1,
@@ -120,17 +118,18 @@ describe('test view', function () {
         b: 4
       },
       text: {
-        content: '辅助线的辅助文本',
+        content: "辅助线的辅助文本",
         position: 0.3
       }
     });
-    const guideController = view.get('guideController');
+    const guideController = view.get("guideController");
     expect(guideController.options).not.to.be.empty;
     expect(guideController.options.line).not.to.be.null;
   });
 
-  it('source', function () {
-    const data = [{
+  it("source", function() {
+    const data = [
+      {
         a: 1,
         b: 2
       },
@@ -144,28 +143,29 @@ describe('test view', function () {
       }
     ];
     view.source(data);
-    expect(view.get('data')).equal(data);
+    expect(view.get("data")).equal(data);
   });
 
-  it('add geom', function () {
-    const line = view.line().position('a*b');
-    expect(view.get('geoms').length).equal(1);
-    expect(view.get('geoms')[0]).equal(line);
+  it("add geom", function() {
+    const line = view.line().position("a*b");
+    expect(view.get("geoms").length).equal(1);
+    expect(view.get("geoms")[0]).equal(line);
   });
 
-  it('render', function () {
+  it("render", function() {
     view.render();
     expect(group.getCount()).equal(1);
-    const ascale = view.get('scales').a;
+    const ascale = view.get("scales").a;
     expect(ascale.max).equal(3);
     const path = group.getFirst().getFirst();
-    expect(path.get('type')).equal('path');
-    expect(path.attr('path').length).eqls(3);
+    expect(path.get("type")).equal("path");
+    expect(path.attr("path").length).eqls(3);
     canvas.draw();
   });
 
-  it('change data', function () {
-    const data = [{
+  it("change data", function() {
+    const data = [
+      {
         a: 1,
         b: 2
       },
@@ -184,22 +184,22 @@ describe('test view', function () {
     ];
 
     view.changeData(data);
-    const ascale = view.get('scales').a;
+    const ascale = view.get("scales").a;
     expect(ascale.max).equal(4);
     expect(group.getCount()).equal(1);
     const path = group.getFirst().getFirst();
-    expect(path.get('type')).equal('path');
-    expect(path.attr('path').length).eqls(4);
+    expect(path.get("type")).equal("path");
+    expect(path.attr("path").length).eqls(4);
     canvas.draw();
   });
 
-  it('clear', function () {
+  it("clear", function() {
     view.clear();
-    expect(view.get('geoms').length).equal(0);
+    expect(view.get("geoms").length).equal(0);
     expect(group.getCount()).equal(0);
   });
 
-  it('destroy', function () {
+  it("destroy", function() {
     view.destroy();
     expect(view.destroyed).equal(true);
     group.remove();
@@ -207,40 +207,41 @@ describe('test view', function () {
   });
 });
 
-describe('test view all options', function () {
+describe("test view all options", function() {
   const backPlot = canvas.addGroup();
   const group = canvas.addGroup();
 
-  const data = [{
+  const data = [
+    {
       a: 1,
       b: 2,
-      c: '1'
+      c: "1"
     },
     {
       a: 2,
       b: 5,
-      c: '1'
+      c: "1"
     },
     {
       a: 3,
       b: 4,
-      c: '1'
+      c: "1"
     },
 
     {
       a: 1,
       b: 3,
-      c: '2'
+      c: "2"
     },
     {
       a: 2,
       b: 1,
-      c: '2'
+      c: "2"
     },
     {
       a: 3,
       b: 2,
-      c: '2'
+      c: "2"
     }
   ];
   const view = new View({
@@ -259,38 +260,37 @@ describe('test view all options', function () {
     animate: false,
     options: {
       coord: {
-        type: 'rect',
-        actions: [
-          ['transpose']
-        ]
+        type: "rect",
+        actions: [["transpose"]]
       },
-      geoms: [{
-          type: 'line',
-          position: 'a*b',
-          color: 'c'
+      geoms: [
+        {
+          type: "line",
+          position: "a*b",
+          color: "c"
         },
         {
-          type: 'point',
-          position: 'c*b',
-          color: 'a'
+          type: "point",
+          position: "c*b",
+          color: "a"
         }
       ]
     }
   });
-  it('init', function () {
-    expect(view.get('coordController').actions.length).equal(1);
+  it("init", function() {
+    expect(view.get("coordController").actions.length).equal(1);
   });
-  it('render', function () {
+  it("render", function() {
     view.render();
-    expect(view.get('geoms').length).equal(2);
-    const line = view.get('geoms')[0];
-    expect(line.get('attrOptions').position.field).eqls('a*b');
+    expect(view.get("geoms").length).equal(2);
+    const line = view.get("geoms")[0];
+    expect(line.get("attrOptions").position.field).eqls("a*b");
     canvas.draw();
   });
-  it('getXY', function () {
+  it("getXY", function() {
     let data = {
       a: 1.5,
-      c: '1'
+      c: "1"
     };
     let coord = view.getXY(data);
     expect(coord).to.be.null;
@@ -305,7 +305,7 @@ describe('test view all options', function () {
     });
 
     data = {
-      c: '1',
+      c: "1",
       b: 2
     };
     coord = view.getXY(data);
@@ -314,30 +314,33 @@ describe('test view all options', function () {
       y: 420
     });
   });
-  it('clear', function () {
+  it("clear", function() {
     view.clear();
-    expect(view.get('geoms').length).equal(0);
+    expect(view.get("geoms").length).equal(0);
   });
-  it('change', function () {
+  it("change", function() {
     view.changeOptions({
       coord: {
-        type: 'rect'
+        type: "rect"
       },
-      geoms: [{
-        type: 'line',
-        position: 'a*b',
-        color: 'c'
-      }]
+      geoms: [
+        {
+          type: "line",
+          position: "a*b",
+          color: "c"
+        }
+      ]
     });
-    expect(view.get('geoms').length).equal(1);
+    expect(view.get("geoms").length).equal(1);
     view.render();
     canvas.draw();
   });
 });
 
-describe('view get shape and records', function () {
+describe("view get shape and records", function() {
   // canvas.destroy();
-  const data = [{
+  const data = [
+    {
       month: 0,
       tokyo: 7,
       newYork: -0.2,
@@ -411,17 +414,17 @@ describe('view get shape and records', function () {
     }
   ];
   const chart = new Chart({
-    id: 'cview',
+    id: "cview",
     width: 500,
     height: 500,
     animate: false
   });
 
   chart.source(data);
-  chart.point().position('month*tokyo');
+  chart.point().position("month*tokyo");
   chart.render();
 
-  it('getSnapRecords point', function () {
+  it("getSnapRecords point", function() {
     let point = {
       x: 173,
       y: 253
@@ -439,193 +442,197 @@ describe('view get shape and records', function () {
     expect(records[0]._origin.month).equal(6);
   });
 
-  it('getSnapRecords line，已排序', function () {
+  it("getSnapRecords line，已排序", function() {
     chart.clear();
-    chart.source([{
+    chart.source([
+      {
         month: 0,
         tem: 7,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 1,
         tem: 6.9,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 3,
         tem: 14.5,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 4,
         tem: 18.2,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 2,
         tem: 9.5,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 5,
         tem: 21.5,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 6,
         tem: 25.2,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 7,
         tem: 26.5,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 8,
         tem: 23.3,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 9,
         tem: 18.3,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 11,
         tem: 9.6,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 10,
         tem: 13.9,
-        city: 'tokyo'
+        city: "tokyo"
       },
       {
         month: 3,
         tem: 11.3,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 4,
         tem: 17,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 0,
         tem: -0.2,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 1,
         tem: 0.8,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 2,
         tem: 5.7,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 5,
         tem: 22,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 9,
         tem: 14.1,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 10,
         tem: 8.6,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 6,
         tem: 24.8,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 7,
         tem: 24.1,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 8,
         tem: 20.1,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 11,
         tem: 2.5,
-        city: 'newYork'
+        city: "newYork"
       },
       {
         month: 0,
         tem: -0.9,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 2,
         tem: 3.5,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 3,
         tem: 8.4,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 4,
         tem: 13.5,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 5,
         tem: 17,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 8,
         tem: 14.3,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 9,
         tem: 9,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 10,
         tem: 3.9,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 6,
         tem: 18.6,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 7,
         tem: 17.9,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 1,
         tem: 0.6,
-        city: 'berlin'
+        city: "berlin"
       },
       {
         month: 11,
         tem: 1,
-        city: 'berlin'
+        city: "berlin"
       }
     ]);
-    chart.line().position('month*tem').color('city');
+    chart
+      .line()
+      .position("month*tem")
+      .color("city");
     chart.render();
 
-    expect(chart.get('geoms')[0].get('sortable')).to.be.true;
+    expect(chart.get("geoms")[0].get("sortable")).to.be.true;
     let point = {
       x: 333,
       y: 192

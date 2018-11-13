@@ -1,16 +1,14 @@
 // const expect = require('chai').expect;
-const {
-  Canvas
-} = require('g-node');
-const Tooltip = require('../../../../src/component/tooltip/index');
+const { Canvas } = require("@ay/g-node");
+const Tooltip = require("../../../../src/component/tooltip/index");
 
-const div = document.createElement('div');
-div.id = 'tooltip';
-div.style.margin = '20px';
+const div = document.createElement("div");
+div.id = "tooltip";
+div.style.margin = "20px";
 document.body.appendChild(div);
 
 const canvas = new Canvas({
-  containerId: 'tooltip',
+  containerId: "tooltip",
   width: 500,
   height: 500
 });
@@ -38,36 +36,37 @@ const plotRange = {
   }
 };
 
-describe('Tooltip', function () {
-  it('默认', function () {
+describe("Tooltip", function() {
+  it("默认", function() {
     const tooltip = new Tooltip({
       x: 10,
       y: 10,
       plotRange,
-      titleContent: '这是测试title',
+      titleContent: "这是测试title",
       showTitle: true,
       visible: true,
       crosshairs: {
-        type: 'cross',
+        type: "cross",
         lineStyle: {
-          stroke: '#f80',
+          stroke: "#f80",
           lineStash: [2, 2]
         }
       },
-      items: [{
-          color: 'red',
-          name: 'name1',
-          value: '1222333'
+      items: [
+        {
+          color: "red",
+          name: "name1",
+          value: "1222333"
         },
         {
-          color: 'blue',
-          name: 'n2',
-          value: '1233'
+          color: "blue",
+          name: "n2",
+          value: "1233"
         },
         {
-          color: 'yellow',
-          name: 'name3',
-          value: 'swww - afas'
+          color: "yellow",
+          name: "name3",
+          value: "swww - afas"
         }
       ],
       offset: 50,

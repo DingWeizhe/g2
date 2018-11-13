@@ -2,14 +2,11 @@
  * @fileOverview The base class of continuous legend
  * @author sima.zhang
  */
-const Util = require('../../util');
-const Global = require('../../global');
-const Base = require('./base');
-const {
-  Event,
-  Group
-} = require('g-node');
-const Slider = require('./slider');
+const Util = require("../../util");
+const Global = require("../../global");
+const Base = require("./base");
+const { Event, Group } = require("@ay/g-node");
+const Slider = require("./slider");
 const TRIGGER_WIDTH = 12;
 
 class Continuous extends Base {
@@ -20,7 +17,7 @@ class Continuous extends Base {
        * 类型
        * @type {String}
        */
-      type: 'continuous-legend',
+      type: "continuous-legend",
       /**
        * 子项
        * @type {Array}
@@ -32,7 +29,7 @@ class Continuous extends Base {
        * vertical 垂直
        * @type {String}
        */
-      layout: 'vertical',
+      layout: "vertical",
       /**
        * 宽度
        * @type {Number}
@@ -53,9 +50,9 @@ class Continuous extends Base {
        * @type {ATTRS}
        */
       textStyle: {
-        fill: '#333',
-        textAlign: 'center',
-        textBaseline: 'middle',
+        fill: "#333",
+        textAlign: "center",
+        textBaseline: "middle",
         fontFamily: Global.fontFamily
       },
       /**
@@ -68,7 +65,7 @@ class Continuous extends Base {
        * @type {ATTRS}
        */
       inRange: {
-        fill: '#4E7CCC'
+        fill: "#4E7CCC"
       },
       _range: [0, 100],
       /**
@@ -76,11 +73,11 @@ class Continuous extends Base {
        * @type {ATTRS}
        */
       middleAttr: {
-        fill: '#fff',
+        fill: "#fff",
         fillOpacity: 0
       },
       outRangeStyle: {
-        fill: '#D9D9D9'
+        fill: "#D9D9D9"
       },
       labelOffset: 10 // ToDO: 文本同渐变背景的距离
     });
@@ -89,9 +86,9 @@ class Continuous extends Base {
   _calStartPoint() {
     const start = {
       x: 0,
-      y: this.get('titleGap') - TRIGGER_WIDTH
+      y: this.get("titleGap") - TRIGGER_WIDTH
     };
-    const titleShape = this.get('titleShape');
+    const titleShape = this.get("titleShape");
     if (titleShape) {
       const titleBox = titleShape.getBBox();
       start.y += titleBox.height;
@@ -101,18 +98,18 @@ class Continuous extends Base {
   }
 
   _beforeRenderUI() {
-    const items = this.get('items');
+    const items = this.get("items");
     if (!Util.isArray(items) || Util.isEmpty(items)) {
       return;
     }
 
     super._beforeRenderUI();
-    this.set('firstItem', items[0]);
-    this.set('lastItem', items[items.length - 1]);
+    this.set("firstItem", items[0]);
+    this.set("lastItem", items[items.length - 1]);
   }
 
   _formatItemValue(value) {
-    const formatter = this.get('itemFormatter');
+    const formatter = this.get("itemFormatter");
     if (formatter) {
       value = formatter.call(this, value);
     }
@@ -122,7 +119,7 @@ class Continuous extends Base {
   _renderUI() {
     super._renderUI();
 
-    if (this.get('slidable')) {
+    if (this.get("slidable")) {
       this._renderSlider();
     } else {
       this._renderBackground();
@@ -138,23 +135,23 @@ class Continuous extends Base {
       minHandleElement,
       maxHandleElement,
       backgroundElement,
-      middleAttr: this.get('middleAttr'),
-      layout: this.get('layout'),
-      range: this.get('_range'),
-      width: this.get('width'),
-      height: this.get('height')
+      middleAttr: this.get("middleAttr"),
+      layout: this.get("layout"),
+      range: this.get("_range"),
+      width: this.get("width"),
+      height: this.get("height")
     });
     slider.translate(start.x, start.y);
-    this.set('slider', slider);
+    this.set("slider", slider);
 
     const shape = this._renderSliderShape();
-    shape.attr('clip', slider.get('middleHandleElement'));
+    shape.attr("clip", slider.get("middleHandleElement"));
     this._renderTrigger();
   }
 
   _addBackground(parent, name, attrs) {
     parent.addShape(name, {
-      attrs: Util.mix({}, attrs, this.get('outRangeStyle'))
+      attrs: Util.mix({}, attrs, this.get("outRangeStyle"))
     });
     return parent.addShape(name, {
       attrs
@@ -162,16 +159,16 @@ class Continuous extends Base {
   }
 
   _renderTrigger() {
-    const min = this.get('firstItem');
-    const max = this.get('lastItem');
-    const layout = this.get('layout');
-    const textStyle = this.get('textStyle');
-    const inRange = this.get('inRange');
-    const attrType = this.get('type');
+    const min = this.get("firstItem");
+    const max = this.get("lastItem");
+    const layout = this.get("layout");
+    const textStyle = this.get("textStyle");
+    const inRange = this.get("inRange");
+    const attrType = this.get("type");
     let minBlockAttr;
     let maxBlockAttr;
 
-    if (attrType === 'color-legend') {
+    if (attrType === "color-legend") {
       minBlockAttr = {
         fill: min.attrValue
       };
@@ -182,113 +179,131 @@ class Continuous extends Base {
       minBlockAttr = Util.mix({}, inRange);
       maxBlockAttr = Util.mix({}, inRange);
     }
-    const minTextAttr = Util.mix({
-      text: this._formatItemValue(min.value) + ''
-    }, textStyle);
-    const maxTextAttr = Util.mix({
-      text: this._formatItemValue(max.value) + ''
-    }, textStyle);
-    if (layout === 'vertical') {
-      this._addVerticalTrigger('min', minBlockAttr, minTextAttr);
-      this._addVerticalTrigger('max', maxBlockAttr, maxTextAttr);
+    const minTextAttr = Util.mix(
+      {
+        text: this._formatItemValue(min.value) + ""
+      },
+      textStyle
+    );
+    const maxTextAttr = Util.mix(
+      {
+        text: this._formatItemValue(max.value) + ""
+      },
+      textStyle
+    );
+    if (layout === "vertical") {
+      this._addVerticalTrigger("min", minBlockAttr, minTextAttr);
+      this._addVerticalTrigger("max", maxBlockAttr, maxTextAttr);
     } else {
-      this._addHorizontalTrigger('min', minBlockAttr, minTextAttr);
-      this._addHorizontalTrigger('max', maxBlockAttr, maxTextAttr);
+      this._addHorizontalTrigger("min", minBlockAttr, minTextAttr);
+      this._addHorizontalTrigger("max", maxBlockAttr, maxTextAttr);
     }
   }
 
   _addVerticalTrigger(type, blockAttr, textAttr) {
-    const slider = this.get('slider');
-    const trigger = slider.get(type + 'HandleElement');
-    const width = this.get('width');
-    const button = trigger.addShape('polygon', {
-      attrs: Util.mix({
-        points: [
-          [(width / 2 + TRIGGER_WIDTH), 0],
-          [(width / 2 + 1), 0],
-          [(width / 2 + TRIGGER_WIDTH), type === 'min' ? TRIGGER_WIDTH : -TRIGGER_WIDTH]
-        ]
-      }, blockAttr)
+    const slider = this.get("slider");
+    const trigger = slider.get(type + "HandleElement");
+    const width = this.get("width");
+    const button = trigger.addShape("polygon", {
+      attrs: Util.mix(
+        {
+          points: [
+            [width / 2 + TRIGGER_WIDTH, 0],
+            [width / 2 + 1, 0],
+            [
+              width / 2 + TRIGGER_WIDTH,
+              type === "min" ? TRIGGER_WIDTH : -TRIGGER_WIDTH
+            ]
+          ]
+        },
+        blockAttr
+      )
     });
-    const text = trigger.addShape('text', {
+    const text = trigger.addShape("text", {
       attrs: Util.mix(textAttr, {
         x: width + 8,
-        y: type === 'max' ? -4 : 4,
-        textAlign: 'start',
+        y: type === "max" ? -4 : 4,
+        textAlign: "start",
         lineHeight: 1,
-        textBaseline: 'middle'
+        textBaseline: "middle"
       })
     });
-    const layout = this.get('layout');
-    const trigerCursor = layout === 'vertical' ? 'ns-resize' : 'ew-resize';
-    button.attr('cursor', trigerCursor);
-    text.attr('cursor', trigerCursor);
-    this.set(type + 'ButtonElement', button);
-    this.set(type + 'TextElement', text);
+    const layout = this.get("layout");
+    const trigerCursor = layout === "vertical" ? "ns-resize" : "ew-resize";
+    button.attr("cursor", trigerCursor);
+    text.attr("cursor", trigerCursor);
+    this.set(type + "ButtonElement", button);
+    this.set(type + "TextElement", text);
   }
 
   _addHorizontalTrigger(type, blockAttr, textAttr) {
-    const slider = this.get('slider');
-    const trigger = slider.get(type + 'HandleElement');
-    const button = trigger.addShape('polygon', {
-      attrs: Util.mix({
-        points: [
-          [0, 0],
-          [0, TRIGGER_WIDTH],
-          [type === 'min' ? -TRIGGER_WIDTH : TRIGGER_WIDTH, TRIGGER_WIDTH]
-        ]
-      }, blockAttr)
+    const slider = this.get("slider");
+    const trigger = slider.get(type + "HandleElement");
+    const button = trigger.addShape("polygon", {
+      attrs: Util.mix(
+        {
+          points: [
+            [0, 0],
+            [0, TRIGGER_WIDTH],
+            [type === "min" ? -TRIGGER_WIDTH : TRIGGER_WIDTH, TRIGGER_WIDTH]
+          ]
+        },
+        blockAttr
+      )
     });
-    const text = trigger.addShape('text', {
+    const text = trigger.addShape("text", {
       attrs: Util.mix(textAttr, {
-        x: type === 'min' ? -TRIGGER_WIDTH - 4 : TRIGGER_WIDTH + 4,
+        x: type === "min" ? -TRIGGER_WIDTH - 4 : TRIGGER_WIDTH + 4,
         y: TRIGGER_WIDTH / 2,
-        textAlign: type === 'min' ? 'end' : 'start',
-        textBaseline: 'middle'
+        textAlign: type === "min" ? "end" : "start",
+        textBaseline: "middle"
       })
     });
-    const layout = this.get('layout');
-    const trigerCursor = layout === 'vertical' ? 'ns-resize' : 'ew-resize';
-    button.attr('cursor', trigerCursor);
-    text.attr('cursor', trigerCursor);
-    this.set(type + 'ButtonElement', button);
-    this.set(type + 'TextElement', text);
+    const layout = this.get("layout");
+    const trigerCursor = layout === "vertical" ? "ns-resize" : "ew-resize";
+    button.attr("cursor", trigerCursor);
+    text.attr("cursor", trigerCursor);
+    this.set(type + "ButtonElement", button);
+    this.set(type + "TextElement", text);
   }
 
   _bindUI() {
     const self = this;
-    if (self.get('slidable')) {
+    if (self.get("slidable")) {
       // const canvas = self.get('canvas');
-      const slider = self.get('slider');
-      slider.on('sliderchange', ev => {
+      const slider = self.get("slider");
+      slider.on("sliderchange", ev => {
         const range = ev.range;
-        const firstItemValue = self.get('firstItem').value * 1;
-        const lastItemValue = self.get('lastItem').value * 1;
-        const minValue = firstItemValue + (range[0] / 100) * (lastItemValue - firstItemValue);
-        const maxValue = firstItemValue + (range[1] / 100) * (lastItemValue - firstItemValue);
+        const firstItemValue = self.get("firstItem").value * 1;
+        const lastItemValue = self.get("lastItem").value * 1;
+        const minValue =
+          firstItemValue + range[0] / 100 * (lastItemValue - firstItemValue);
+        const maxValue =
+          firstItemValue + range[1] / 100 * (lastItemValue - firstItemValue);
         self._updateElement(minValue, maxValue);
-        const itemFiltered = new Event('itemfilter', ev, true, true);
+        const itemFiltered = new Event("itemfilter", ev, true, true);
         itemFiltered.range = [minValue, maxValue];
-        self.emit('itemfilter', itemFiltered);
+        self.emit("itemfilter", itemFiltered);
       });
     }
   }
 
   _updateElement(min, max) {
-    const minTextElement = this.get('minTextElement');
-    const maxTextElement = this.get('maxTextElement');
-    if (max > 1) { // 对于大于 1 的值，默认显示为整数
+    const minTextElement = this.get("minTextElement");
+    const maxTextElement = this.get("maxTextElement");
+    if (max > 1) {
+      // 对于大于 1 的值，默认显示为整数
       min = parseInt(min, 10);
       max = parseInt(max, 10);
     }
-    minTextElement.attr('text', this._formatItemValue(min) + '');
-    maxTextElement.attr('text', this._formatItemValue(max) + '');
-    if (this.get('type') === 'color-legend' && this.get('attr')) {
-      const attr = this.get('attr'); // 图形属性，为了更新滑块颜色
-      const minButtonElement = this.get('minButtonElement');
-      const maxButtonElement = this.get('maxButtonElement');
-      minButtonElement.attr('fill', attr.mapping(min).join(''));
-      maxButtonElement.attr('fill', attr.mapping(max).join(''));
+    minTextElement.attr("text", this._formatItemValue(min) + "");
+    maxTextElement.attr("text", this._formatItemValue(max) + "");
+    if (this.get("type") === "color-legend" && this.get("attr")) {
+      const attr = this.get("attr"); // 图形属性，为了更新滑块颜色
+      const minButtonElement = this.get("minButtonElement");
+      const maxButtonElement = this.get("maxButtonElement");
+      minButtonElement.attr("fill", attr.mapping(min).join(""));
+      maxButtonElement.attr("fill", attr.mapping(max).join(""));
     }
   }
 }

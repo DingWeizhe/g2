@@ -1,16 +1,14 @@
-const expect = require('chai').expect;
-const {
-  Canvas
-} = require('g-node');
-const Schema = require('../../../../src/geom/shape/schema');
-const Coord = require('../../../../src/coord/');
+const expect = require("chai").expect;
+const { Canvas } = require("@ay/g-node");
+const Schema = require("../../../../src/geom/shape/schema");
+const Coord = require("../../../../src/coord/");
 
-const div = document.createElement('div');
-div.id = 'csschema';
+const div = document.createElement("div");
+div.id = "csschema";
 document.body.appendChild(div);
 
 const canvas = new Canvas({
-  containerId: 'csschema',
+  containerId: "csschema",
   width: 500,
   height: 500
 });
@@ -26,53 +24,60 @@ const coord = new Coord.Rect({
   }
 });
 
-
-describe('schema shapes', function () {
+describe("schema shapes", function() {
   Schema._coord = coord;
-  describe('default', function () {
-    it('default shape type', function () {
-      expect(Schema.defaultShapeType).equal('');
+  describe("default", function() {
+    it("default shape type", function() {
+      expect(Schema.defaultShapeType).equal("");
     });
   });
-  describe('box only x', function () {
-    it('getShapePoints && drawShape', function () {
-      const type = 'box';
+  describe("box only x", function() {
+    it("getShapePoints && drawShape", function() {
+      const type = "box";
       const points = Schema.getShapePoints(type, {
         x: 0.88,
         y0: 0,
         size: 0.5
       });
       expect(points.length).eql(14);
-      const shape = Schema.drawShape(type, {
-        points,
-        color: 'red'
-      }, canvas);
-      expect(shape.attr('stroke')).eql('red');
-      expect(shape.attr('path').length).eql(16);
+      const shape = Schema.drawShape(
+        type,
+        {
+          points,
+          color: "red"
+        },
+        canvas
+      );
+      expect(shape.attr("stroke")).eql("red");
+      expect(shape.attr("path").length).eql(16);
     });
   });
 
-  describe('box only x && x = []', function () {
-    it('getShapePoints && drawShape', function () {
-      const type = 'box';
+  describe("box only x && x = []", function() {
+    it("getShapePoints && drawShape", function() {
+      const type = "box";
       const points = Schema.getShapePoints(type, {
         x: [0.2, 0.5, 0.12, 0.88],
         y0: 0,
         size: 0.5
       });
       expect(points.length).eql(14);
-      const shape = Schema.drawShape(type, {
-        points,
-        color: 'red'
-      }, canvas);
-      expect(shape.attr('stroke')).eql('red');
-      expect(shape.attr('path').length).eql(16);
+      const shape = Schema.drawShape(
+        type,
+        {
+          points,
+          color: "red"
+        },
+        canvas
+      );
+      expect(shape.attr("stroke")).eql("red");
+      expect(shape.attr("path").length).eql(16);
     });
   });
 
-  describe('box xy', function () {
-    it('getShapePoints && drawShape', function () {
-      const type = 'box';
+  describe("box xy", function() {
+    it("getShapePoints && drawShape", function() {
+      const type = "box";
       const points = Schema.getShapePoints(type, {
         x: 0.1,
         y: [0.2, 0.5, 0.12, 0.88],
@@ -81,22 +86,26 @@ describe('schema shapes', function () {
       });
       expect(points.length).eql(14);
 
-      const shape = Schema.drawShape(type, {
-        points,
-        color: 'red'
-      }, canvas);
-      expect(shape.attr('stroke')).eql('red');
-      expect(shape.attr('path').length).eql(16);
+      const shape = Schema.drawShape(
+        type,
+        {
+          points,
+          color: "red"
+        },
+        canvas
+      );
+      expect(shape.attr("stroke")).eql("red");
+      expect(shape.attr("path").length).eql(16);
     });
-    it('get marker', function () {
-      const marker = Schema.getMarkerCfg('box', {
-        color: 'red'
+    it("get marker", function() {
+      const marker = Schema.getMarkerCfg("box", {
+        color: "red"
       });
       expect(marker.symbol).to.be.an.instanceof(Function);
-      expect(marker.stroke).equal('red');
+      expect(marker.stroke).equal("red");
     });
 
-    xit('getActiveCfg', function () {
+    xit("getActiveCfg", function() {
       const activeCfg = Schema.getActiveCfg();
 
       expect(activeCfg).eql({
@@ -104,9 +113,9 @@ describe('schema shapes', function () {
       });
     });
   });
-  describe('candle', function () {
-    it('getShapePoints && drawShape', function () {
-      const type = 'candle';
+  describe("candle", function() {
+    it("getShapePoints && drawShape", function() {
+      const type = "candle";
       const points = Schema.getShapePoints(type, {
         x: 0.1,
         y: 0.88,
@@ -115,24 +124,28 @@ describe('schema shapes', function () {
       });
       expect(points.length).eql(8);
 
-      const shape = Schema.drawShape(type, {
-        points,
-        color: 'red'
-      }, canvas);
-      expect(shape.attr('stroke')).eql('red');
-      expect(shape.attr('path').length).eql(9);
+      const shape = Schema.drawShape(
+        type,
+        {
+          points,
+          color: "red"
+        },
+        canvas
+      );
+      expect(shape.attr("stroke")).eql("red");
+      expect(shape.attr("path").length).eql(9);
     });
-    it('get marker', function () {
-      const marker = Schema.getMarkerCfg('candle', {
-        color: 'red'
+    it("get marker", function() {
+      const marker = Schema.getMarkerCfg("candle", {
+        color: "red"
       });
       expect(marker.symbol).to.be.an.instanceof(Function);
-      expect(marker.stroke).equal('red');
+      expect(marker.stroke).equal("red");
     });
   });
-  describe('candle value = []', function () {
-    it('getShapePoints && drawShape', function () {
-      const type = 'candle';
+  describe("candle value = []", function() {
+    it("getShapePoints && drawShape", function() {
+      const type = "candle";
       const points = Schema.getShapePoints(type, {
         x: 0.1,
         y: [0.2, 0.5, 0.12, 0.88],
@@ -141,17 +154,21 @@ describe('schema shapes', function () {
       });
       expect(points.length).eql(8);
 
-      const shape = Schema.drawShape(type, {
-        points,
-        color: 'red'
-      }, canvas);
-      expect(shape.attr('stroke')).eql('red');
-      expect(shape.attr('path').length).eql(9);
+      const shape = Schema.drawShape(
+        type,
+        {
+          points,
+          color: "red"
+        },
+        canvas
+      );
+      expect(shape.attr("stroke")).eql("red");
+      expect(shape.attr("path").length).eql(9);
     });
   });
-  describe('candle value.length < 4', function () {
-    it('getShapePoints && drawShape', function () {
-      const type = 'candle';
+  describe("candle value.length < 4", function() {
+    it("getShapePoints && drawShape", function() {
+      const type = "candle";
       const points = Schema.getShapePoints(type, {
         x: 0.1,
         y: [0.2, 0.5, 0.12],
@@ -160,15 +177,19 @@ describe('schema shapes', function () {
       });
       expect(points.length).eql(8);
 
-      const shape = Schema.drawShape(type, {
-        points,
-        color: 'red'
-      }, canvas);
-      expect(shape.attr('stroke')).eql('red');
-      expect(shape.attr('path').length).eql(9);
+      const shape = Schema.drawShape(
+        type,
+        {
+          points,
+          color: "red"
+        },
+        canvas
+      );
+      expect(shape.attr("stroke")).eql("red");
+      expect(shape.attr("path").length).eql(9);
     });
 
-    it('clear', function () {
+    it("clear", function() {
       canvas.destroy();
       document.body.removeChild(div);
     });

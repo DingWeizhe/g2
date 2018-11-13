@@ -1,22 +1,20 @@
-const expect = require('chai').expect;
-const {
-  Canvas
-} = require('g-node');
-const PolyLineAxis = require('../../../../src/component/axis/polyline');
+const expect = require("chai").expect;
+const { Canvas } = require("@ay/g-node");
+const PolyLineAxis = require("../../../../src/component/axis/polyline");
 
-const div = document.createElement('div');
-div.id = 'c1';
+const div = document.createElement("div");
+div.id = "c1";
 document.body.appendChild(div);
 
 function findByName(group, name) {
-  return group.findBy(function (node) {
+  return group.findBy(function(node) {
     return node.name === name;
   });
 }
 
-describe('Polyline 多段线坐标系', function () {
+describe("Polyline 多段线坐标系", function() {
   const canvas = new Canvas({
-    containerId: 'c1',
+    containerId: "c1",
     width: 500,
     height: 500,
     pixelRatio: 2
@@ -31,7 +29,8 @@ describe('Polyline 多段线坐标系', function () {
       x: 460,
       y: 460
     },
-    tickPoints: [{
+    tickPoints: [
+      {
         x: 60,
         y: 460
       },
@@ -58,38 +57,40 @@ describe('Polyline 多段线坐标系', function () {
     ],
     line: {
       lineWidth: 1,
-      stroke: 'red'
+      stroke: "red"
     },
     tickLine: {
       lineWidth: 1,
       length: 15,
-      stroke: 'red'
+      stroke: "red"
     },
     ticks: [0, 60, 180, 240, 300, 360],
     label: {
       textStyle: {
-        fill: '#444'
+        fill: "#444"
       }
     }
   });
   canvas.draw();
 
-  it('测试坐标轴生成', function () {
+  it("测试坐标轴生成", function() {
     expect(axis).not.to.be.undefined;
-    expect(axis.get('type')).to.equal('polyline');
+    expect(axis.get("type")).to.equal("polyline");
   });
 
-  it('测试线生成', function () {
-    expect(findByName(axis, 'axis-line')).not.to.be.null;
+  it("测试线生成", function() {
+    expect(findByName(axis, "axis-line")).not.to.be.null;
   });
 
-  it('测试点生成', function () {
-    expect(findByName(axis, 'axis-ticks')).not.to.be.null;
+  it("测试点生成", function() {
+    expect(findByName(axis, "axis-ticks")).not.to.be.null;
   });
 
-  it('测试label生成', function () {
-    const labelsGroup = axis.get('labelsGroup');
+  it("测试label生成", function() {
+    const labelsGroup = axis.get("labelsGroup");
     expect(labelsGroup).not.to.be.undefined;
-    expect(labelsGroup.get('children').length).to.equal(axis.get('ticks').length);
+    expect(labelsGroup.get("children").length).to.equal(
+      axis.get("ticks").length
+    );
   });
 });

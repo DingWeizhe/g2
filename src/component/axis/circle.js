@@ -2,11 +2,9 @@
  * @fileOverview the circle axis of polar coordinate
  * @author sima.zhang
  */
-const Util = require('../../util');
-const Base = require('./base');
-const {
-  vec2
-} = require('g-node').MatrixUtil;
+const Util = require("../../util");
+const Base = require("./base");
+const { vec2 } = require("@ay/g-node").MatrixUtil;
 
 class Circle extends Base {
   getDefaultCfg() {
@@ -17,7 +15,7 @@ class Circle extends Base {
        * 坐标轴的类型
        * @type {String}
        */
-      type: 'circle',
+      type: "circle",
       /**
        * 指定刻度之间的间距
        * @type {Number}
@@ -33,13 +31,15 @@ class Circle extends Base {
        * @type {Number}
        */
       endAngle: Math.PI * 3 / 2,
-      line: { // @type {Attrs} 坐标轴线的图形属性,如果设置成null，则不显示轴线
+      line: {
+        // @type {Attrs} 坐标轴线的图形属性,如果设置成null，则不显示轴线
         lineWidth: 1,
-        stroke: '#C0D0E0'
+        stroke: "#C0D0E0"
       },
-      tickLine: { // @type {Attrs} 标注坐标线的图形属性
+      tickLine: {
+        // @type {Attrs} 标注坐标线的图形属性
         lineWidth: 1,
-        stroke: '#C0D0E0',
+        stroke: "#C0D0E0",
         length: 5
       },
       /**
@@ -59,8 +59,8 @@ class Circle extends Base {
 
   _getCirclePoint(angle, radius) {
     const self = this;
-    const center = self.get('center');
-    radius = radius || self.get('radius');
+    const center = self.get("center");
+    radius = radius || self.get("radius");
     return {
       x: center.x + Math.cos(angle) * radius,
       y: center.y + Math.sin(angle) * radius
@@ -69,15 +69,15 @@ class Circle extends Base {
 
   getTickPoint(value) {
     const self = this;
-    const startAngle = self.get('startAngle');
-    const endAngle = self.get('endAngle');
+    const startAngle = self.get("startAngle");
+    const endAngle = self.get("endAngle");
     const angle = startAngle + (endAngle - startAngle) * value;
     return self._getCirclePoint(angle);
   }
 
   getSideVector(offset, point) {
     const self = this;
-    const center = self.get('center');
+    const center = self.get("center");
     const vector = [point.x - center.x, point.y - center.y];
     if (!Util.isNil(offset)) {
       const vecLen = vec2.length(vector);
@@ -98,7 +98,7 @@ class Circle extends Base {
 
   getTickEnd(start, length) {
     const self = this;
-    const tickLine = self.get('tickLine');
+    const tickLine = self.get("tickLine");
     length = length ? length : tickLine.length;
     return self.getSidePoint(start, length);
   }
@@ -106,34 +106,34 @@ class Circle extends Base {
   getTextAnchor(vector) {
     let align;
     if (Util.snapEqual(vector[0], 0)) {
-      align = 'center';
+      align = "center";
     } else if (vector[0] > 0) {
-      align = 'left';
+      align = "left";
     } else if (vector[0] < 0) {
-      align = 'right';
+      align = "right";
     }
     return align;
   }
 
   getLinePath() {
     const self = this;
-    const center = self.get('center');
+    const center = self.get("center");
     const x = center.x;
     const y = center.y;
-    const rx = self.get('radius');
+    const rx = self.get("radius");
     const ry = rx;
-    const startAngle = self.get('startAngle');
-    const endAngle = self.get('endAngle');
-    const inner = self.get('inner');
+    const startAngle = self.get("startAngle");
+    const endAngle = self.get("endAngle");
+    const inner = self.get("inner");
 
     let path = [];
     if (Math.abs(endAngle - startAngle) === Math.PI * 2) {
       path = [
-        ['M', x, y],
-        ['m', 0, -ry],
-        ['a', rx, ry, 0, 1, 1, 0, 2 * ry],
-        ['a', rx, ry, 0, 1, 1, 0, -2 * ry],
-        ['z']
+        ["M", x, y],
+        ["m", 0, -ry],
+        ["a", rx, ry, 0, 1, 1, 0, 2 * ry],
+        ["a", rx, ry, 0, 1, 1, 0, -2 * ry],
+        ["z"]
       ];
     } else {
       const startPoint = self._getCirclePoint(startAngle);
@@ -142,10 +142,10 @@ class Circle extends Base {
       const sweep = startAngle > endAngle ? 0 : 1;
       if (!inner) {
         path = [
-          ['M', x, y],
-          ['L', startPoint.x, startPoint.y],
-          ['A', rx, ry, 0, large, sweep, endPoint.x, endPoint.y],
-          ['L', x, y]
+          ["M", x, y],
+          ["L", startPoint.x, startPoint.y],
+          ["A", rx, ry, 0, large, sweep, endPoint.x, endPoint.y],
+          ["L", x, y]
         ];
       } else {
         const innerStartVector = self.getSideVector(inner * rx, startPoint);
@@ -160,11 +160,20 @@ class Circle extends Base {
         };
 
         path = [
-          ['M', innerStartPoint.x, innerStartPoint.y],
-          ['L', startPoint.x, startPoint.y],
-          ['A', rx, ry, 0, large, sweep, endPoint.x, endPoint.y],
-          ['L', innerEndPoint.x, innerEndPoint.y],
-          ['A', rx * inner, ry * inner, 0, large, Math.abs(sweep - 1), innerStartPoint.x, innerStartPoint.y]
+          ["M", innerStartPoint.x, innerStartPoint.y],
+          ["L", startPoint.x, startPoint.y],
+          ["A", rx, ry, 0, large, sweep, endPoint.x, endPoint.y],
+          ["L", innerEndPoint.x, innerEndPoint.y],
+          [
+            "A",
+            rx * inner,
+            ry * inner,
+            0,
+            large,
+            Math.abs(sweep - 1),
+            innerStartPoint.x,
+            innerStartPoint.y
+          ]
         ];
       }
     }
@@ -173,28 +182,31 @@ class Circle extends Base {
 
   addLabel(tick, point, index) {
     const self = this;
-    const offset = self.get('label').offset || self.get('_labelOffset') || 0.001;
+    const offset =
+      self.get("label").offset || self.get("_labelOffset") || 0.001;
     point = self.getSidePoint(point, offset);
     super.addLabel(tick, point, index);
   }
 
   autoRotateLabels() {
     const self = this;
-    const ticks = self.get('ticks');
-    const labelsGroup = self.get('labelsGroup');
-    if (labelsGroup && ticks.length > 12) { // 小于12个文本时文本不旋转
-      const radius = self.get('radius');
-      const startAngle = self.get('startAngle');
-      const endAngle = self.get('endAngle');
-      const totalAngle = (endAngle - startAngle);
+    const ticks = self.get("ticks");
+    const labelsGroup = self.get("labelsGroup");
+    if (labelsGroup && ticks.length > 12) {
+      // 小于12个文本时文本不旋转
+      const radius = self.get("radius");
+      const startAngle = self.get("startAngle");
+      const endAngle = self.get("endAngle");
+      const totalAngle = endAngle - startAngle;
       const avgAngle = totalAngle / (ticks.length - 1);
       const avgWidth = Math.sin(avgAngle / 2) * radius * 2;
       const maxLength = self.getMaxLabelWidth(labelsGroup);
-      Util.each(labelsGroup.get('children'), function (label, index) {
+      Util.each(labelsGroup.get("children"), function(label, index) {
         const tick = ticks[index];
         let angle = tick.value * totalAngle + startAngle;
         const mode = angle % (Math.PI * 2);
-        if (maxLength < avgWidth) { // 文本的最大宽度大于
+        if (maxLength < avgWidth) {
+          // 文本的最大宽度大于
           if (mode <= 0) {
             angle = angle + Math.PI;
           }
@@ -202,7 +214,7 @@ class Circle extends Base {
             angle = angle - Math.PI;
           }
           angle = angle - Math.PI / 2;
-          label.attr('textAlign', 'center');
+          label.attr("textAlign", "center");
         } else {
           if (mode > Math.PI / 2) {
             angle = angle - Math.PI;

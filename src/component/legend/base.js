@@ -2,11 +2,9 @@
  * @fileOverview The base class of legend
  * @author sima.zhang
  */
-const Util = require('../../util');
-const Global = require('../../global');
-const {
-  Group
-} = require('g-node');
+const Util = require("../../util");
+const Global = require("../../global");
+const { Group } = require("@ay/g-node");
 
 class Base extends Group {
   getDefaultCfg() {
@@ -16,8 +14,8 @@ class Base extends Group {
        * @type {Object}
        */
       title: {
-        fill: '#333',
-        textBaseline: 'middle'
+        fill: "#333",
+        textBaseline: "middle"
       },
       /**
        * 图例项文本格式化
@@ -43,7 +41,7 @@ class Base extends Group {
   }
 
   _beforeRenderUI() {
-    this.set('itemsGroup', this.addGroup());
+    this.set("itemsGroup", this.addGroup());
   }
 
   _renderUI() {
@@ -51,47 +49,51 @@ class Base extends Group {
   }
 
   _renderTitle() {
-    const title = this.get('title');
+    const title = this.get("title");
     if (title && title.text) {
-      const titleShape = this.addShape('text', {
-        attrs: Util.mix({
-          x: 0,
-          y: 0,
-          fill: '#333', // 默认样式
-          textBaseline: 'middle',
-          fontFamily: Global.fontFamily
-        }, title)
+      const titleShape = this.addShape("text", {
+        attrs: Util.mix(
+          {
+            x: 0,
+            y: 0,
+            fill: "#333", // 默认样式
+            textBaseline: "middle",
+            fontFamily: Global.fontFamily
+          },
+          title
+        )
       });
-      titleShape.name = 'legend-title';
-      this.get('appendInfo') && titleShape.setSilent('appendInfo', this.get('appendInfo'));
-      this.set('titleShape', titleShape);
+      titleShape.name = "legend-title";
+      this.get("appendInfo") &&
+        titleShape.setSilent("appendInfo", this.get("appendInfo"));
+      this.set("titleShape", titleShape);
     }
   }
 
   getCheckedCount() {
-    const itemsGroup = this.get('itemsGroup');
-    const items = itemsGroup.get('children');
-    const checkedArr = Util.filter(items, function (item) {
-      return item.get('checked');
+    const itemsGroup = this.get("itemsGroup");
+    const items = itemsGroup.get("children");
+    const checkedArr = Util.filter(items, function(item) {
+      return item.get("checked");
     });
     return checkedArr.length;
   }
 
   setItems(items) {
-    this.set('items', items);
+    this.set("items", items);
     this.clearItems();
     this._renderUI();
   }
 
   addItem(item) {
-    const items = this.get('items');
+    const items = this.get("items");
     items.push(item);
     this.clearItems();
     this._renderUI();
   }
 
   clearItems() {
-    const itemsGroup = this.get('itemsGroup');
+    const itemsGroup = this.get("itemsGroup");
     itemsGroup.clear();
   }
 

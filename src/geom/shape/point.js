@@ -5,19 +5,35 @@
  * @author huangtonger@aliyun.com
  */
 
-const Util = require('../../util');
-const ShapeUtil = require('../util/shape');
-const Marker = require('g-node').Marker;
-const Global = require('../../global');
-const Shape = require('./shape');
-const SHAPES = ['circle', 'square', 'bowtie', 'diamond', 'hexagon', 'triangle', 'triangle-down'];
-const HOLLOW_SHAPES = ['cross', 'tick', 'plus', 'hyphen', 'line', 'pointerLine', 'pointerArrow'];
+const Util = require("../../util");
+const ShapeUtil = require("../util/shape");
+const Marker = require("@ay/g-node").Marker;
+const Global = require("../../global");
+const Shape = require("./shape");
+const SHAPES = [
+  "circle",
+  "square",
+  "bowtie",
+  "diamond",
+  "hexagon",
+  "triangle",
+  "triangle-down"
+];
+const HOLLOW_SHAPES = [
+  "cross",
+  "tick",
+  "plus",
+  "hyphen",
+  "line",
+  "pointerLine",
+  "pointerArrow"
+];
 const SQRT_3 = Math.sqrt(3);
 
 // 增加marker
 Util.mix(Marker.Symbols, {
   hexagon(x, y, r, ctx) {
-    const diffX = (r / 2) * SQRT_3;
+    const diffX = r / 2 * SQRT_3;
     ctx.moveTo(x, y - r);
     ctx.lineTo(x + diffX, y - r / 2);
     ctx.lineTo(x + diffX, y + r / 2);
@@ -66,30 +82,46 @@ Util.mix(Marker.Symbols, {
 
 function getFillAttrs(cfg) {
   const defaultAttrs = Global.shape.point;
-  const pointAttrs = Util.mix({}, defaultAttrs, {
-    fill: cfg.color,
-    fillOpacity: cfg.opacity,
-    radius: cfg.size
-  }, cfg.style);
+  const pointAttrs = Util.mix(
+    {},
+    defaultAttrs,
+    {
+      fill: cfg.color,
+      fillOpacity: cfg.opacity,
+      radius: cfg.size
+    },
+    cfg.style
+  );
   return pointAttrs;
 }
 
 function getLineAttrs(cfg) {
   const defaultAttrs = Global.shape.hollowPoint;
-  const pointAttrs = Util.mix({}, defaultAttrs, {
-    stroke: cfg.color,
-    strokeOpacity: cfg.opacity,
-    radius: cfg.size
-  }, cfg.style);
+  const pointAttrs = Util.mix(
+    {},
+    defaultAttrs,
+    {
+      stroke: cfg.color,
+      strokeOpacity: cfg.opacity,
+      radius: cfg.size
+    },
+    cfg.style
+  );
   return pointAttrs;
 }
 
-const Point = Shape.registerFactory('point', {
-  defaultShapeType: 'hollowCircle',
-  getActiveCfg(type, cfg) { // 点放大 + 颜色加亮
+const Point = Shape.registerFactory("point", {
+  defaultShapeType: "hollowCircle",
+  getActiveCfg(type, cfg) {
+    // 点放大 + 颜色加亮
     const radius = cfg.radius;
     let color;
-    if (type && (type.indexOf('hollow') === 0 || Util.indexOf(HOLLOW_SHAPES, type) !== -1) || !type) {
+    if (
+      (type &&
+        (type.indexOf("hollow") === 0 ||
+          Util.indexOf(HOLLOW_SHAPES, type) !== -1)) ||
+      !type
+    ) {
       color = cfg.stroke || cfg.strokeStyle;
     } else {
       color = cfg.fill || cfg.fillStyle;
@@ -116,22 +148,22 @@ function getRectPath(cfg) {
   const w = cfg.size[0];
   const h = cfg.size[1];
   const path = [
-    ['M', x - 0.5 * w, y - 0.5 * h],
-    ['L', x + 0.5 * w, y - 0.5 * h],
-    ['L', x + 0.5 * w, y + 0.5 * h],
-    ['L', x - 0.5 * w, y + 0.5 * h],
-    ['z']
+    ["M", x - 0.5 * w, y - 0.5 * h],
+    ["L", x + 0.5 * w, y - 0.5 * h],
+    ["L", x + 0.5 * w, y + 0.5 * h],
+    ["L", x - 0.5 * w, y + 0.5 * h],
+    ["z"]
   ];
   return path;
 }
 
 // 用于桑基图的节点
-Shape.registerShape('point', 'rect', {
+Shape.registerShape("point", "rect", {
   draw(cfg, container) {
     const rectAttrs = getFillAttrs(cfg);
     let path = getRectPath(cfg);
     path = this.parsePath(path);
-    const gShape = container.addShape('path', {
+    const gShape = container.addShape("path", {
       attrs: Util.mix(rectAttrs, {
         path
       })
@@ -140,19 +172,19 @@ Shape.registerShape('point', 'rect', {
   },
   getMarkerCfg(cfg) {
     const attrs = getFillAttrs(cfg);
-    attrs.symbol = 'rect';
+    attrs.symbol = "rect";
     attrs.radius = 4.5;
     return attrs;
   }
 });
 
 // 添加shapes
-Util.each(SHAPES, function (shape) {
-  Shape.registerShape('point', shape, {
+Util.each(SHAPES, function(shape) {
+  Shape.registerShape("point", shape, {
     draw(cfg, container) {
       // cfg.points = this.parsePoints(cfg.points);
       const attrs = getFillAttrs(cfg);
-      return container.addShape('Marker', {
+      return container.addShape("Marker", {
         attrs: Util.mix(attrs, {
           symbol: shape,
           x: cfg.x,
@@ -168,11 +200,11 @@ Util.each(SHAPES, function (shape) {
     }
   });
   // 添加该 shape 对应的 hollowShape
-  Shape.registerShape('point', 'hollow' + Util.upperFirst(shape), {
+  Shape.registerShape("point", "hollow" + Util.upperFirst(shape), {
     draw(cfg, container) {
       // cfg.points = this.parsePoints(cfg.points);
       const attrs = getLineAttrs(cfg);
-      return container.addShape('Marker', {
+      return container.addShape("Marker", {
         attrs: Util.mix(attrs, {
           symbol: shape,
           x: cfg.x,
@@ -190,11 +222,11 @@ Util.each(SHAPES, function (shape) {
 });
 
 // 添加 hollowShapes
-Util.each(HOLLOW_SHAPES, function (shape) {
-  Shape.registerShape('point', shape, {
+Util.each(HOLLOW_SHAPES, function(shape) {
+  Shape.registerShape("point", shape, {
     draw(cfg, container) {
       const attrs = getLineAttrs(cfg);
-      return container.addShape('Marker', {
+      return container.addShape("Marker", {
         attrs: Util.mix(attrs, {
           symbol: shape,
           x: cfg.x,

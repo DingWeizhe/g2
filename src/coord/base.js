@@ -2,8 +2,8 @@
  * @fileOverview the base class of Coordinate
  * @author sima.zhang
  */
-const Util = require('../util');
-const MatrixUtil = require('g-node').MatrixUtil;
+const Util = require("../util");
+const MatrixUtil = require("@ay/g-node").MatrixUtil;
 const mat3 = MatrixUtil.mat3;
 const vec3 = MatrixUtil.vec3;
 
@@ -69,18 +69,12 @@ class Coord {
   }
 
   convertDim(percent, dim) {
-    const {
-      start,
-      end
-    } = this[dim];
+    const { start, end } = this[dim];
     return start + percent * (end - start);
   }
 
   invertDim(value, dim) {
-    const {
-      start,
-      end
-    } = this[dim];
+    const { start, end } = this[dim];
     return (value - start) / (end - start);
   }
 
@@ -139,10 +133,7 @@ class Coord {
    * @return {Object}       返回进行矩阵变换后的画布坐标
    */
   convert(point) {
-    const {
-      x,
-      y
-    } = this.convertPoint(point);
+    const { x, y } = this.convertPoint(point);
     const vector = this.applyMatrix(x, y, 1);
     return {
       x: vector[0],
@@ -184,14 +175,14 @@ class Coord {
    */
   reflect(dim) {
     switch (dim) {
-      case 'x':
-        this._swapDim('x');
+      case "x":
+        this._swapDim("x");
         break;
-      case 'y':
-        this._swapDim('y');
+      case "y":
+        this._swapDim("y");
         break;
       default:
-        this._swapDim('y');
+        this._swapDim("y");
     }
     return this;
   }

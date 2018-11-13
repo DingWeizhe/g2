@@ -2,11 +2,8 @@
  * @fileOverview The class of slider
  * @author sima.zhang
  */
-const Util = require('../../util');
-const {
-  Group,
-  DomUtil
-} = require('g-node');
+const Util = require("../../util");
+const { Group, DomUtil } = require("@ay/g-node");
 
 class Slider extends Group {
   getDefaultCfg() {
@@ -50,7 +47,7 @@ class Slider extends Group {
        * 布局方式： horizontal，vertical
        * @type {String}
        */
-      layout: 'vertical',
+      layout: "vertical",
       /**
        * 宽
        * @type {Number}
@@ -75,29 +72,29 @@ class Slider extends Group {
   }
 
   _beforeRenderUI() {
-    const layout = this.get('layout');
-    const backgroundElement = this.get('backgroundElement');
-    const minHandleElement = this.get('minHandleElement');
-    const maxHandleElement = this.get('maxHandleElement');
-    const middleHandleElement = this.addShape('rect', {
-      attrs: this.get('middleAttr')
+    const layout = this.get("layout");
+    const backgroundElement = this.get("backgroundElement");
+    const minHandleElement = this.get("minHandleElement");
+    const maxHandleElement = this.get("maxHandleElement");
+    const middleHandleElement = this.addShape("rect", {
+      attrs: this.get("middleAttr")
     });
-    const trigerCursor = (layout === 'vertical') ? 'ns-resize' : 'ew-resize';
+    const trigerCursor = layout === "vertical" ? "ns-resize" : "ew-resize";
 
     this.add([backgroundElement, minHandleElement, maxHandleElement]);
-    this.set('middleHandleElement', middleHandleElement);
-    backgroundElement.set('zIndex', 0);
-    middleHandleElement.set('zIndex', 1);
-    minHandleElement.set('zIndex', 2);
-    maxHandleElement.set('zIndex', 2);
-    middleHandleElement.attr('cursor', 'move');
-    minHandleElement.attr('cursor', trigerCursor);
-    maxHandleElement.attr('cursor', trigerCursor);
+    this.set("middleHandleElement", middleHandleElement);
+    backgroundElement.set("zIndex", 0);
+    middleHandleElement.set("zIndex", 1);
+    minHandleElement.set("zIndex", 2);
+    maxHandleElement.set("zIndex", 2);
+    middleHandleElement.attr("cursor", "move");
+    minHandleElement.attr("cursor", trigerCursor);
+    maxHandleElement.attr("cursor", trigerCursor);
     this.sort();
   }
 
   _renderUI() {
-    if (this.get('layout') === 'horizontal') {
+    if (this.get("layout") === "horizontal") {
       this._renderHorizontal();
     } else {
       this._renderVertical();
@@ -105,19 +102,19 @@ class Slider extends Group {
   }
 
   _transform(layout) {
-    const range = this.get('range');
+    const range = this.get("range");
     const minRatio = range[0] / 100;
     const maxRatio = range[1] / 100;
-    const width = this.get('width');
-    const height = this.get('height');
-    const minHandleElement = this.get('minHandleElement');
-    const maxHandleElement = this.get('maxHandleElement');
-    const middleHandleElement = this.get('middleHandleElement');
+    const width = this.get("width");
+    const height = this.get("height");
+    const minHandleElement = this.get("minHandleElement");
+    const maxHandleElement = this.get("maxHandleElement");
+    const middleHandleElement = this.get("middleHandleElement");
 
     minHandleElement.initTransform();
     maxHandleElement.initTransform();
 
-    if (layout === 'horizontal') {
+    if (layout === "horizontal") {
       middleHandleElement.attr({
         x: width * minRatio,
         y: 0,
@@ -139,24 +136,25 @@ class Slider extends Group {
   }
 
   _renderHorizontal() {
-    this._transform('horizontal');
+    this._transform("horizontal");
   }
 
   _renderVertical() {
-    this._transform('vertical');
+    this._transform("vertical");
   }
 
   _bindUI() {
-    this.on('mousedown', Util.wrapBehavior(this, '_onMouseDown'));
+    this.on("mousedown", Util.wrapBehavior(this, "_onMouseDown"));
   }
 
-  _isElement(target, name) { // 判断是否是该元素
+  _isElement(target, name) {
+    // 判断是否是该元素
     const element = this.get(name);
     if (target === element) {
       return true;
     }
     if (element.isGroup) {
-      const elementChildren = element.get('children');
+      const elementChildren = element.get("children");
       return elementChildren.indexOf(target) > -1;
     }
     return false;
@@ -170,35 +168,38 @@ class Slider extends Group {
   }
 
   _updateStatus(dim, ev) {
-    const totalLength = dim === 'x' ? this.get('width') : this.get('height');
+    const totalLength = dim === "x" ? this.get("width") : this.get("height");
     dim = Util.upperFirst(dim);
-    const range = this.get('range');
-    const page = this.get('page' + dim);
-    const currentTarget = this.get('currentTarget');
-    const rangeStash = this.get('rangeStash');
-    const layout = this.get('layout');
-    const sign = layout === 'vertical' ? -1 : 1;
-    const currentPage = ev['page' + dim];
+    const range = this.get("range");
+    const page = this.get("page" + dim);
+    const currentTarget = this.get("currentTarget");
+    const rangeStash = this.get("rangeStash");
+    const layout = this.get("layout");
+    const sign = layout === "vertical" ? -1 : 1;
+    const currentPage = ev["page" + dim];
     const diffPage = currentPage - page;
-    const diffRange = (diffPage / totalLength) * 100 * sign;
+    const diffRange = diffPage / totalLength * 100 * sign;
     let diffStashRange;
 
     if (range[1] <= range[0]) {
-      if (this._isElement(currentTarget, 'minHandleElement') || this._isElement(currentTarget, 'maxHandleElement')) {
+      if (
+        this._isElement(currentTarget, "minHandleElement") ||
+        this._isElement(currentTarget, "maxHandleElement")
+      ) {
         range[0] = this._getRange(diffRange, range[0]);
         range[1] = this._getRange(diffRange, range[0]);
       }
     } else {
-      if (this._isElement(currentTarget, 'minHandleElement')) {
+      if (this._isElement(currentTarget, "minHandleElement")) {
         range[0] = this._getRange(diffRange, range[0]);
       }
-      if (this._isElement(currentTarget, 'maxHandleElement')) {
+      if (this._isElement(currentTarget, "maxHandleElement")) {
         range[1] = this._getRange(diffRange, range[1]);
       }
     }
 
-    if (this._isElement(currentTarget, 'middleHandleElement')) {
-      diffStashRange = (rangeStash[1] - rangeStash[0]);
+    if (this._isElement(currentTarget, "middleHandleElement")) {
+      diffStashRange = rangeStash[1] - rangeStash[0];
       range[0] = this._getRange(diffRange, range[0]);
       range[1] = range[0] + diffStashRange;
       if (range[1] > 100) {
@@ -207,41 +208,49 @@ class Slider extends Group {
       }
     }
 
-    this.emit('sliderchange', {
+    this.emit("sliderchange", {
       range
     });
 
-    this.set('page' + dim, currentPage);
+    this.set("page" + dim, currentPage);
     this._renderUI();
-    this.get('canvas').draw(); // need delete
+    this.get("canvas").draw(); // need delete
     return;
   }
 
   _onMouseDown(ev) {
     const currentTarget = ev.currentTarget;
     const originEvent = ev.event;
-    const range = this.get('range');
+    const range = this.get("range");
     originEvent.stopPropagation();
     originEvent.preventDefault();
-    this.set('pageX', originEvent.pageX);
-    this.set('pageY', originEvent.pageY);
-    this.set('currentTarget', currentTarget);
-    this.set('rangeStash', [range[0], range[1]]);
+    this.set("pageX", originEvent.pageX);
+    this.set("pageY", originEvent.pageY);
+    this.set("currentTarget", currentTarget);
+    this.set("rangeStash", [range[0], range[1]]);
     this._bindCanvasEvents();
   }
 
   _bindCanvasEvents() {
-    const containerDOM = this.get('canvas').get('containerDOM');
-    this.onMouseMoveListener = DomUtil.addEventListener(containerDOM, 'mousemove', Util.wrapBehavior(this, '_onCanvasMouseMove'));
-    this.onMouseUpListener = DomUtil.addEventListener(containerDOM, 'mouseup', Util.wrapBehavior(this, '_onCanvasMouseUp'));
+    const containerDOM = this.get("canvas").get("containerDOM");
+    this.onMouseMoveListener = DomUtil.addEventListener(
+      containerDOM,
+      "mousemove",
+      Util.wrapBehavior(this, "_onCanvasMouseMove")
+    );
+    this.onMouseUpListener = DomUtil.addEventListener(
+      containerDOM,
+      "mouseup",
+      Util.wrapBehavior(this, "_onCanvasMouseUp")
+    );
   }
 
   _onCanvasMouseMove(ev) {
-    const layout = this.get('layout');
-    if (layout === 'horizontal') {
-      this._updateStatus('x', ev);
+    const layout = this.get("layout");
+    if (layout === "horizontal") {
+      this._updateStatus("x", ev);
     } else {
-      this._updateStatus('y', ev);
+      this._updateStatus("y", ev);
     }
   }
 

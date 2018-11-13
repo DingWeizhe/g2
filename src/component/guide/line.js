@@ -2,11 +2,9 @@
  * @fileOverview the line guide
  * @author sima.zhang
  */
-const Util = require('../../util');
-const Base = require('./base');
-const {
-  vec2
-} = require('g-node').MatrixUtil;
+const Util = require("../../util");
+const Base = require("./base");
+const { vec2 } = require("@ay/g-node").MatrixUtil;
 
 class Line extends Base {
   getDefaultCfg() {
@@ -16,7 +14,7 @@ class Line extends Base {
        * 辅助元素类型
        * @type {String}
        */
-      type: 'line',
+      type: "line",
       zIndex: 15,
       /**
        * 辅助线的起点位置
@@ -33,7 +31,7 @@ class Line extends Base {
        * @type {Object}
        */
       lineStyle: {
-        stroke: '#000',
+        stroke: "#000",
         lineWidth: 1
       },
       /**
@@ -41,13 +39,13 @@ class Line extends Base {
        * @type {Object}
        */
       text: {
-        position: 'end', // 文本的显示位置： start / center / end / 百分比
+        position: "end", // 文本的显示位置： start / center / end / 百分比
         autoRotate: true, // 文本是否沿着辅助线的方向自动旋转
         style: {
-          fill: '#999',
+          fill: "#999",
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: 'sans-serif'
+          fontFamily: "sans-serif"
         }, // 辅助文本的样式
         content: null // 辅助文本的文字
       }
@@ -68,17 +66,17 @@ class Line extends Base {
   }
 
   _drawLines(start, end, group) {
-    const path = [
-      ['M', start.x, start.y],
-      ['L', end.x, end.y]
-    ];
-    const guideLine = group.addShape('Path', {
-      attrs: Util.mix({
-        path
-      }, this.lineStyle)
+    const path = [["M", start.x, start.y], ["L", end.x, end.y]];
+    const guideLine = group.addShape("Path", {
+      attrs: Util.mix(
+        {
+          path
+        },
+        this.lineStyle
+      )
     });
-    guideLine.name = 'guide-line';
-    this.appendInfo && guideLine.setSilent('appendInfo', this.appendInfo);
+    guideLine.name = "guide-line";
+    this.appendInfo && guideLine.setSilent("appendInfo", this.appendInfo);
   }
 
   _drawText(start, end, group) {
@@ -87,11 +85,11 @@ class Line extends Base {
     const textStyle = textCfg.style;
 
     let percent;
-    if (position === 'start') {
+    if (position === "start") {
       percent = 0;
-    } else if (position === 'center') {
+    } else if (position === "center") {
       percent = 0.5;
-    } else if (Util.isString(position) && position.indexOf('%') !== -1) {
+    } else if (Util.isString(position) && position.indexOf("%") !== -1) {
       percent = parseInt(position, 10) / 100;
     } else if (Util.isNumber(position)) {
       percent = position;
@@ -108,11 +106,13 @@ class Line extends Base {
       y: start.y + (end.y - start.y) * percent
     };
 
-    if (textCfg.offsetX) { // 设置了偏移量
+    if (textCfg.offsetX) {
+      // 设置了偏移量
       cfg.x += textCfg.offsetX;
     }
 
-    if (textCfg.offsetY) { // 设置了偏移量
+    if (textCfg.offsetY) {
+      // 设置了偏移量
       cfg.y += textCfg.offsetY;
     }
 
@@ -122,14 +122,14 @@ class Line extends Base {
       const angle = vec2.angleTo([end.x - start.x, end.y - start.y], [1, 0], 1);
       cfg.rotate = angle;
     } else if (textStyle.rotate) {
-      cfg.rotate = (textStyle.rotate * Math.PI) / 180;
+      cfg.rotate = textStyle.rotate * Math.PI / 180;
     }
 
-    const shape = group.addShape('Text', {
+    const shape = group.addShape("Text", {
       attrs: cfg
     });
-    shape.name = 'guide-line-text';
-    this.appendInfo && shape.setSilent('appendInfo', this.appendInfo);
+    shape.name = "guide-line-text";
+    this.appendInfo && shape.setSilent("appendInfo", this.appendInfo);
   }
 }
 

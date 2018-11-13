@@ -3,9 +3,9 @@
  * @author dxq613@gmail.com
  */
 
-const Util = require('../../util');
-const PathUtil = require('../util/path');
-const GPath = require('g-node').PathUtil;
+const Util = require("../../util");
+const PathUtil = require("../util/path");
+const GPath = require("@ay/g-node").PathUtil;
 const Shape = {};
 
 const ShapeBase = {
@@ -70,7 +70,7 @@ const ShapeBase = {
   parsePoints(points) {
     const coord = this._coord;
     const rst = [];
-    Util.each(points, function (point) {
+    Util.each(points, function(point) {
       rst.push(coord.convertPoint(point));
     });
     return rst;
@@ -97,7 +97,7 @@ const ShapeFactoryBase = {
     const points = fn(cfg);
     return points;
   },
-  getDefaultPoints( /* cfg */ ) {
+  getDefaultPoints(/* cfg */) {
     return [];
   },
   getMarkerCfg(type, cfg) {
@@ -113,7 +113,7 @@ const ShapeFactoryBase = {
     const shape = this.getShape(type);
     const gShape = shape.draw(cfg, container);
     if (gShape) {
-      gShape.setSilent('origin', cfg.origin);
+      gShape.setSilent("origin", cfg.origin);
       gShape._id = cfg.yIndex ? cfg._id + cfg.yIndex : cfg._id;
       gShape.name = this.name;
     }
@@ -122,7 +122,7 @@ const ShapeFactoryBase = {
 };
 
 // 注册 Geometry 获取图形的入口
-Shape.registerFactory = function (factoryName, cfg) {
+Shape.registerFactory = function(factoryName, cfg) {
   const className = Util.upperFirst(factoryName);
   const geomObj = Util.assign({}, ShapeFactoryBase, cfg);
   Shape[className] = geomObj;
@@ -131,7 +131,7 @@ Shape.registerFactory = function (factoryName, cfg) {
 };
 
 // 注册图形
-Shape.registerShape = function (factoryName, shapeType, cfg) {
+Shape.registerShape = function(factoryName, shapeType, cfg) {
   const className = Util.upperFirst(factoryName);
   const factory = Shape[className];
   const shapeObj = Util.assign({}, ShapeBase, cfg);
@@ -140,9 +140,9 @@ Shape.registerShape = function (factoryName, shapeType, cfg) {
 };
 
 // 获得Geom 对应的 shapeFactory
-Shape.getShapeFactory = function (factoryName) {
+Shape.getShapeFactory = function(factoryName) {
   const self = this;
-  factoryName = factoryName || 'point';
+  factoryName = factoryName || "point";
   const className = Util.upperFirst(factoryName);
   return self[className];
 };

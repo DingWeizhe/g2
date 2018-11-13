@@ -1,16 +1,14 @@
-const expect = require('chai').expect;
-const {
-  Canvas
-} = require('g-node');
-const Coord = require('../../../../src/coord/index');
-const Region = require('../../../../src/component/guide/region');
-const Scale = require('../../../../src/scale/index');
+const expect = require("chai").expect;
+const { Canvas } = require("@ay/g-node");
+const Coord = require("../../../../src/coord/index");
+const Region = require("../../../../src/component/guide/region");
+const Scale = require("../../../../src/scale/index");
 
-const div = document.createElement('div');
-div.id = 'c1';
+const div = document.createElement("div");
+div.id = "c1";
 document.body.appendChild(div);
 
-describe('Guide: 辅助背景框', function () {
+describe("Guide: 辅助背景框", function() {
   const coord = new Coord.Rect({
     start: {
       x: 60,
@@ -23,7 +21,7 @@ describe('Guide: 辅助背景框', function () {
   });
 
   const canvas = new Canvas({
-    containerId: 'c1',
+    containerId: "c1",
     width: 500,
     height: 500,
     pixelRatio: 2
@@ -32,7 +30,7 @@ describe('Guide: 辅助背景框', function () {
   const group = canvas.addGroup();
 
   const xScale = Scale.cat({
-    values: ['一月', '二月', '三月', '四月', '五月']
+    values: ["一月", "二月", "三月", "四月", "五月"]
   });
 
   const yScale = Scale.linear({
@@ -40,7 +38,7 @@ describe('Guide: 辅助背景框', function () {
     max: 1200
   });
 
-  it('guide region', function () {
+  it("guide region", function() {
     const region = new Region({
       xScales: {
         month: xScale
@@ -58,17 +56,17 @@ describe('Guide: 辅助背景框', function () {
       },
       style: {
         lineWidth: 1,
-        fill: '#CCD7EB',
+        fill: "#CCD7EB",
         fillOpacity: 0.4,
-        stroke: 'blue'
+        stroke: "blue"
       }
     });
     region.render(coord, group);
     canvas.draw();
-    const children = group.get('children');
-    const path = children[0].attr('path');
+    const children = group.get("children");
+    const path = children[0].attr("path");
     expect(children.length).to.equal(1);
-    expect(children[0].name).to.equal('guide-region');
+    expect(children[0].name).to.equal("guide-region");
     expect(path[1][1] - path[0][1]).to.equal(400);
     expect(path[0][2] - path[3][2]).to.equal(200);
   });

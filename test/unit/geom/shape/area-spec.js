@@ -1,13 +1,11 @@
-const expect = require('chai').expect;
-const {
-  Canvas
-} = require('g-node');
-const Area = require('../../../../src/geom/shape/area');
-const Coord = require('../../../../src/coord/');
+const expect = require("chai").expect;
+const { Canvas } = require("@ay/g-node");
+const Area = require("../../../../src/geom/shape/area");
+const Coord = require("../../../../src/coord/");
 // const Global = require('../../../../src/global');
 
-const div = document.createElement('div');
-div.id = 'csarea';
+const div = document.createElement("div");
+div.id = "csarea";
 document.body.appendChild(div);
 
 let coord = new Coord.Rect({
@@ -22,22 +20,21 @@ let coord = new Coord.Rect({
 });
 
 const canvas = new Canvas({
-  containerId: 'csarea',
+  containerId: "csarea",
   width: 500,
   height: 500
 });
 
-
-describe('area shapes', function () {
+describe("area shapes", function() {
   Area._coord = coord;
-  describe('default', function () {
-    it('default shape type', function () {
-      expect(Area.defaultShapeType).equal('area');
+  describe("default", function() {
+    it("default shape type", function() {
+      expect(Area.defaultShapeType).equal("area");
     });
   });
-  describe('area', function () {
-    it('getShapePoints && drawShape', function () {
-      const type = 'area';
+  describe("area", function() {
+    it("getShapePoints && drawShape", function() {
+      const type = "area";
       const points1 = Area.getShapePoints(type, {
         x: 0.1,
         y: 0.2,
@@ -60,75 +57,88 @@ describe('area shapes', function () {
       expect(points2[1].x).eql(0.2);
       expect(points2[1].y).eql(0.5);
 
-      const shape = Area.drawShape(type, {
-        points,
-        color: 'red'
-      }, canvas);
-      expect(shape.attr('stroke')).eql('red');
-      expect(shape.attr('fill')).eql('red');
-      expect(shape.attr('path').length).eql(5);
-      expect(shape.attr('path')[0].length).eql(3);
-      expect(shape.attr('path')[1].length).eql(3);
-      expect(shape.attr('path')[2].length).eql(3);
-      expect(shape.attr('path')[3].length).eql(3);
-      expect(shape.attr('path')[4].length).eql(1);
+      const shape = Area.drawShape(
+        type,
+        {
+          points,
+          color: "red"
+        },
+        canvas
+      );
+      expect(shape.attr("stroke")).eql("red");
+      expect(shape.attr("fill")).eql("red");
+      expect(shape.attr("path").length).eql(5);
+      expect(shape.attr("path")[0].length).eql(3);
+      expect(shape.attr("path")[1].length).eql(3);
+      expect(shape.attr("path")[2].length).eql(3);
+      expect(shape.attr("path")[3].length).eql(3);
+      expect(shape.attr("path")[4].length).eql(1);
     });
-    it('getMarkerCfg', function () {
+    it("getMarkerCfg", function() {
       const point = {
-        points: [{
-          B: 2,
-          points: [{
-            x: 273,
-            y: 480
-          }, {
-            x: 273,
-            y: 304
-          }]
-        }, {
-          B: 3,
-          points: [{
-            x: 500,
-            y: 480
-          }, {
-            x: 500,
-            y: 216
-          }]
-        }],
+        points: [
+          {
+            B: 2,
+            points: [
+              {
+                x: 273,
+                y: 480
+              },
+              {
+                x: 273,
+                y: 304
+              }
+            ]
+          },
+          {
+            B: 3,
+            points: [
+              {
+                x: 500,
+                y: 480
+              },
+              {
+                x: 500,
+                y: 216
+              }
+            ]
+          }
+        ],
         size: 30,
-        yDim: 'B',
+        yDim: "B",
         opacity: 0.8,
-        color: '#ff8800'
+        color: "#ff8800"
       };
 
-      const pointCfg = Area.getMarkerCfg('area', point);
+      const pointCfg = Area.getMarkerCfg("area", point);
 
       // expect(pointCfg.fill).equal('#ff8800');
       expect(pointCfg.symbol).to.be.an.instanceof(Function);
     });
 
-    xit('getActiveCfg', function () {
-      let activeCfg = Area.getActiveCfg('area');
+    xit("getActiveCfg", function() {
+      let activeCfg = Area.getActiveCfg("area");
       expect(activeCfg).eql({
-        fill: '#fff',
+        fill: "#fff",
         fillOpacity: 0.3
       });
 
-      activeCfg = Area.getActiveCfg('line');
+      activeCfg = Area.getActiveCfg("line");
       expect(activeCfg).eql({
         lineWidth: 2
       });
 
       activeCfg = Area.getActiveCfg();
       expect(activeCfg).eql({
-        fill: '#fff',
+        fill: "#fff",
         fillOpacity: 0.3
       });
     });
   });
 
-  describe('smooth', function () {
-    it('getShapePoints && drawShape', function () {
-      const type = 'smooth';
+  describe("smooth", function() {
+    it("getShapePoints && drawShape", function() {
+      const type = "smooth";
       const points1 = Area.getShapePoints(type, {
         x: 0.1,
         y: 0.2,
@@ -157,34 +167,38 @@ describe('area shapes', function () {
       expect(points2[0].y).eql(0);
       expect(points2[1].x).eql(0.2);
       expect(points2[1].y).eql(0.5);
-      const shape = Area.drawShape(type, {
-        points,
-        color: 'red'
-      }, canvas);
-      expect(shape.attr('stroke')).eql('red');
-      expect(shape.attr('fill')).eql('red');
-      expect(shape.attr('path').length).eql(7);
-      expect(shape.attr('path')[0].length).eql(3);
-      expect(shape.attr('path')[1].length).eql(7);
-      expect(shape.attr('path')[2].length).eql(7);
-      expect(shape.attr('path')[3].length).eql(3);
-      expect(shape.attr('path')[4].length).eql(7);
+      const shape = Area.drawShape(
+        type,
+        {
+          points,
+          color: "red"
+        },
+        canvas
+      );
+      expect(shape.attr("stroke")).eql("red");
+      expect(shape.attr("fill")).eql("red");
+      expect(shape.attr("path").length).eql(7);
+      expect(shape.attr("path")[0].length).eql(3);
+      expect(shape.attr("path")[1].length).eql(7);
+      expect(shape.attr("path")[2].length).eql(7);
+      expect(shape.attr("path")[3].length).eql(3);
+      expect(shape.attr("path")[4].length).eql(7);
     });
-    it('getMarkerCfg', function () {
+    it("getMarkerCfg", function() {
       const point = {
-        fill: 'red'
+        fill: "red"
       };
 
-      const pointCfg = Area.getMarkerCfg('smooth', point);
+      const pointCfg = Area.getMarkerCfg("smooth", point);
       // const splinePointCfg = Area.getMarkerCfg('spline', point);
       // expect(splinePointCfg).equal(pointCfg);
       expect(pointCfg.symbol).to.be.an.instanceof(Function);
     });
   });
 
-  describe('line', function () {
-    it('getShapePoints && drawShape', function () {
-      const type = 'line';
+  describe("line", function() {
+    it("getShapePoints && drawShape", function() {
+      const type = "line";
       const points1 = Area.getShapePoints(type, {
         x: 0.1,
         y: 0.2,
@@ -206,43 +220,56 @@ describe('area shapes', function () {
       expect(points2[0].y).eql(0);
       expect(points2[1].x).eql(0.2);
       expect(points2[1].y).eql(0.5);
-      const shape = Area.drawShape(type, {
-        points,
-        color: 'red'
-      }, canvas);
-      expect(shape.attr('stroke')).eql('red');
-      expect(shape.attr('path')[0].length).eql(3);
-      expect(shape.attr('path')[1].length).eql(3);
-      expect(shape.attr('path')[2].length).eql(3);
-      expect(shape.attr('path')[3].length).eql(3);
-      expect(shape.attr('path')[4].length).eql(1);
+      const shape = Area.drawShape(
+        type,
+        {
+          points,
+          color: "red"
+        },
+        canvas
+      );
+      expect(shape.attr("stroke")).eql("red");
+      expect(shape.attr("path")[0].length).eql(3);
+      expect(shape.attr("path")[1].length).eql(3);
+      expect(shape.attr("path")[2].length).eql(3);
+      expect(shape.attr("path")[3].length).eql(3);
+      expect(shape.attr("path")[4].length).eql(1);
     });
-    it('getMarkerCfg', function () {
+    it("getMarkerCfg", function() {
       const point = {
-        points: [{
-          B: 2,
-          points: [{
-            x: 273,
-            y: 480
-          }, {
-            x: 273,
-            y: 304
-          }]
-        }, {
-          B: 3,
-          points: [{
-            x: 500,
-            y: 480
-          }, {
-            x: 500,
-            y: 216
-          }]
-        }],
-        yDim: 'B',
+        points: [
+          {
+            B: 2,
+            points: [
+              {
+                x: 273,
+                y: 480
+              },
+              {
+                x: 273,
+                y: 304
+              }
+            ]
+          },
+          {
+            B: 3,
+            points: [
+              {
+                x: 500,
+                y: 480
+              },
+              {
+                x: 500,
+                y: 216
+              }
+            ]
+          }
+        ],
+        yDim: "B",
         isInCircle: true
       };
 
-      const pointCfg = Area.getMarkerCfg('line', point);
+      const pointCfg = Area.getMarkerCfg("line", point);
 
       // expect(pointCfg.fill).equal('#fff');
       // expect(pointCfg.fillOpacity).equal(0);
@@ -250,7 +277,7 @@ describe('area shapes', function () {
     });
   });
 
-  describe('area shapes Polar', function () {
+  describe("area shapes Polar", function() {
     coord = new Coord.Polar({
       start: {
         x: 0,
@@ -261,8 +288,8 @@ describe('area shapes', function () {
         y: 0
       }
     });
-    it('getShapePoints && drawShape', function () {
-      const type = 'area';
+    it("getShapePoints && drawShape", function() {
+      const type = "area";
       const points1 = Area.getShapePoints(type, {
         x: 0.1,
         y: 0.2,
@@ -284,22 +311,26 @@ describe('area shapes', function () {
       expect(points2[0].y).eql(0);
       expect(points2[1].x).eql(0.2);
       expect(points2[1].y).eql(0.5);
-      const shape = Area.drawShape(type, {
-        points,
-        color: 'red',
-        isInCircle: true
-      }, canvas);
-      expect(shape.attr('stroke')).eql('red');
-      expect(shape.attr('path')[0].length).eql(3);
-      expect(shape.attr('path')[1].length).eql(3);
-      expect(shape.attr('path')[2].length).eql(3);
-      expect(shape.attr('path')[3].length).eql(3);
-      expect(shape.attr('path')[4].length).eql(3);
-      expect(shape.attr('path')[5].length).eql(3);
-      expect(shape.attr('path')[6].length).eql(1);
+      const shape = Area.drawShape(
+        type,
+        {
+          points,
+          color: "red",
+          isInCircle: true
+        },
+        canvas
+      );
+      expect(shape.attr("stroke")).eql("red");
+      expect(shape.attr("path")[0].length).eql(3);
+      expect(shape.attr("path")[1].length).eql(3);
+      expect(shape.attr("path")[2].length).eql(3);
+      expect(shape.attr("path")[3].length).eql(3);
+      expect(shape.attr("path")[4].length).eql(3);
+      expect(shape.attr("path")[5].length).eql(3);
+      expect(shape.attr("path")[6].length).eql(1);
     });
 
-    it('clear', function () {
+    it("clear", function() {
       canvas.destroy();
     });
   });

@@ -2,14 +2,10 @@
  * @fileOverview The controller of axis
  * @author sima.zhang
  */
-const Util = require('../../util');
-const {
-  Axis
-} = require('../../component/index');
-const {
-  vec2
-} = require('g-node').MatrixUtil;
-const Global = require('../../global');
+const Util = require("../../util");
+const { Axis } = require("../../component/index");
+const { vec2 } = require("@ay/g-node").MatrixUtil;
+const Global = require("../../global");
 
 function formatTicks(ticks) {
   let tmp = [];
@@ -41,7 +37,8 @@ class AxisController {
     Util.mix(this, cfg);
   }
 
-  _isHide(field) { // 对应的坐标轴是否隐藏
+  _isHide(field) {
+    // 对应的坐标轴是否隐藏
     const options = this.options;
 
     if (options && options[field] === false) {
@@ -65,38 +62,42 @@ class AxisController {
     let isVertical;
     const field = scale.field;
     const options = this.options;
-    let position = '';
+    let position = "";
     if (options[field] && options[field].position) {
       position = options[field].position;
     }
 
-    if (dimType === 'x') { // x轴的坐标轴,底部的横坐标
+    if (dimType === "x") {
+      // x轴的坐标轴,底部的横坐标
       start = {
         x: 0,
-        y: position === 'top' ? 1 : 0
+        y: position === "top" ? 1 : 0
       };
       end = {
         x: 1,
-        y: position === 'top' ? 1 : 0
+        y: position === "top" ? 1 : 0
       };
       isVertical = false;
-    } else { // y轴坐标轴
-      if (index) { // 多轴的情况
+    } else {
+      // y轴坐标轴
+      if (index) {
+        // 多轴的情况
         start = {
-          x: position === 'left' ? 0 : 1,
+          x: position === "left" ? 0 : 1,
           y: 0
         };
         end = {
-          x: position === 'left' ? 0 : 1,
+          x: position === "left" ? 0 : 1,
           y: 1
         };
-      } else { // 单个y轴，或者第一个y轴
+      } else {
+        // 单个y轴，或者第一个y轴
         start = {
-          x: position === 'right' ? 1 : 0,
+          x: position === "right" ? 1 : 0,
           y: 0
         };
         end = {
-          x: position === 'right' ? 1 : 0,
+          x: position === "right" ? 1 : 0,
           y: 1
         };
       }
@@ -125,7 +126,10 @@ class AxisController {
       isVertical = !isVertical;
     }
 
-    if ((isVertical && (start.x > center.x)) || (!isVertical && (start.y > center.y))) {
+    if (
+      (isVertical && start.x > center.x) ||
+      (!isVertical && start.y > center.y)
+    ) {
       factor = 1;
     } else {
       factor = -1;
@@ -173,7 +177,9 @@ class AxisController {
     circleCfg.startAngle = startAngle;
     circleCfg.endAngle = endAngle;
     circleCfg.center = center;
-    circleCfg.radius = Math.sqrt(Math.pow(start.x - center.x, 2) + Math.pow(start.y - center.y, 2));
+    circleCfg.radius = Math.sqrt(
+      Math.pow(start.x - center.x, 2) + Math.pow(start.y - center.y, 2)
+    );
     circleCfg.inner = coord.innerRadius || 0;
     return circleCfg;
   }
@@ -211,7 +217,7 @@ class AxisController {
 
   // 确定坐标轴的位置
   _getAxisPosition(coord, dimType, index, field) {
-    let position = '';
+    let position = "";
     // 用户自己定义了 position
     const options = this.options;
     if (options[field] && options[field].position) {
@@ -219,21 +225,21 @@ class AxisController {
     } else {
       const coordType = coord.type;
       if (coord.isRect) {
-        if (dimType === 'x') {
-          position = 'bottom';
-        } else if (dimType === 'y') {
+        if (dimType === "x") {
+          position = "bottom";
+        } else if (dimType === "y") {
           if (index) {
-            position = 'right';
+            position = "right";
           } else {
-            position = 'left';
+            position = "left";
           }
         }
-      } else if (coordType === 'helix') {
-        position = 'helix';
-      } else if (dimType === 'x') {
-        position = coord.isTransposed ? 'radius' : 'circle';
+      } else if (coordType === "helix") {
+        position = "helix";
+      } else if (dimType === "x") {
+        position = coord.isTransposed ? "radius" : "circle";
       } else {
-        position = coord.isTransposed ? 'circle' : 'radius';
+        position = coord.isTransposed ? "circle" : "radius";
       }
     }
 
@@ -246,7 +252,9 @@ class AxisController {
     let cfg = {};
     const options = self.options;
     const field = scale.field;
-    const isShowTitle = !!(Global.axis[position] && Global.axis[position].title); // 用户全局禁用 title
+    const isShowTitle = !!(
+      Global.axis[position] && Global.axis[position].title
+    ); // 用户全局禁用 title
     let titleCfg;
 
     // bugfix: title was set by chart.axis('field', { title: {} })
@@ -262,7 +270,10 @@ class AxisController {
     cfg.ticks = scale.getTicks();
 
     if (coord.isPolar && !scale.isCategory) {
-      if (type === 'x' && Math.abs(coord.endAngle - coord.startAngle) === Math.PI * 2) {
+      if (
+        type === "x" &&
+        Math.abs(coord.endAngle - coord.startAngle) === Math.PI * 2
+      ) {
         cfg.ticks.pop();
       }
     }
@@ -275,11 +286,12 @@ class AxisController {
   }
 
   // 确定坐标轴的配置信息
-  _getAxisCfg(coord, scale, verticalScale, dimType, index = '', viewId) {
+  _getAxisCfg(coord, scale, verticalScale, dimType, index = "", viewId) {
     const self = this;
     const position = self._getAxisPosition(coord, dimType, index, scale.field);
     const cfg = self._getAxisDefaultCfg(coord, scale, dimType, position);
-    if (!Util.isEmpty(cfg.grid) && verticalScale) { // 生成 gridPoints
+    if (!Util.isEmpty(cfg.grid) && verticalScale) {
+      // 生成 gridPoints
       const gridPoints = [];
       const verticalTicks = formatTicks(verticalScale.getTicks());
       // 没有垂直的坐标点时不会只栅格
@@ -288,15 +300,15 @@ class AxisController {
         Util.each(ticks, (tick, idx) => {
           const subPoints = [];
           let value = tick.value;
-          if (cfg.grid.align === 'center') {
+          if (cfg.grid.align === "center") {
             value = self._getMiddleValue(value, ticks, idx);
           }
           if (!Util.isNil(value)) {
             const rangeX = coord.x;
             const rangeY = coord.y;
             Util.each(verticalTicks, verticalTick => {
-              const x = dimType === 'x' ? value : verticalTick.value;
-              let y = dimType === 'x' ? verticalTick.value : value;
+              const x = dimType === "x" ? value : verticalTick.value;
+              let y = dimType === "x" ? verticalTick.value : value;
               const point = coord.convert({
                 x,
                 y
@@ -307,21 +319,29 @@ class AxisController {
                   y = 1 - y;
                 }
                 point.flag = rangeX.start > rangeX.end ? 0 : 1;
-                point.radius = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
+                point.radius = Math.sqrt(
+                  Math.pow(point.x - center.x, 2) +
+                    Math.pow(point.y - center.y, 2)
+                );
               }
               subPoints.push(point);
             });
             gridPoints.push({
-              _id: viewId + '-' + dimType + index + '-grid-' + tick.tickValue,
+              _id: viewId + "-" + dimType + index + "-grid-" + tick.tickValue,
               points: subPoints
             });
           }
         });
 
         // TODO: 临时解决，需要添加一条以满足最后一格能颜色交替
-        if ((ticks.length % 2 === 0) && (cfg.grid.align === 'center') && cfg.grid.alternateColor) {
+        if (
+          ticks.length % 2 === 0 &&
+          cfg.grid.align === "center" &&
+          cfg.grid.alternateColor
+        ) {
           gridPoints.push({
-            points: [{
+            points: [
+              {
                 x: coord.end.x,
                 y: coord.start.y
               },
@@ -372,28 +392,35 @@ class AxisController {
     let C; // 坐标轴类
     let appendCfg; // 每个坐标轴 start end 等绘制边界的信息
 
-    if (coord.type === 'cartesian') {
+    if (coord.type === "cartesian") {
       C = Axis.Line;
       appendCfg = this._getLineCfg(coord, scale, dimType, index);
-    } else if (coord.type === 'helix' && dimType === 'x') {
+    } else if (coord.type === "helix" && dimType === "x") {
       C = Axis.Helix;
       appendCfg = this._getHelixCfg(coord);
-    } else if (dimType === 'x') {
+    } else if (dimType === "x") {
       C = Axis.Circle;
       appendCfg = this._getCircleCfg(coord);
     } else {
       C = Axis.Line;
       appendCfg = this._getRadiusCfg(coord);
     }
-    let cfg = this._getAxisCfg(coord, scale, verticalScale, dimType, index, viewId);
+    let cfg = this._getAxisCfg(
+      coord,
+      scale,
+      verticalScale,
+      dimType,
+      index,
+      viewId
+    );
     cfg = Util.mix({}, cfg, appendCfg);
 
-    if (dimType === 'y' && xAxis && xAxis.get('type') === 'circle') {
+    if (dimType === "y" && xAxis && xAxis.get("type") === "circle") {
       cfg.circle = xAxis;
     }
-    cfg._id = viewId + '-' + dimType;
+    cfg._id = viewId + "-" + dimType;
     if (!Util.isNil(index)) {
-      cfg._id = viewId + '-' + dimType + index;
+      cfg._id = viewId + "-" + dimType + index;
     }
 
     const axis = container.addGroup(C, cfg);
@@ -407,15 +434,18 @@ class AxisController {
     const coordType = coord.type;
 
     // theta坐标系默认不绘制坐标轴
-    if (coordType !== 'theta' && !(coordType === 'polar' && coord.isTransposed)) {
+    if (
+      coordType !== "theta" &&
+      !(coordType === "polar" && coord.isTransposed)
+    ) {
       let xAxis;
       if (xScale && !self._isHide(xScale.field)) {
-        xAxis = self._drawAxis(coord, xScale, yScales[0], 'x', viewId); // 绘制 x 轴
+        xAxis = self._drawAxis(coord, xScale, yScales[0], "x", viewId); // 绘制 x 轴
       }
-      if (!Util.isEmpty(yScales) && coordType !== 'helix') {
+      if (!Util.isEmpty(yScales) && coordType !== "helix") {
         Util.each(yScales, (yScale, index) => {
           if (!self._isHide(yScale.field)) {
-            self._drawAxis(coord, yScale, xScale, 'y', viewId, xAxis, index);
+            self._drawAxis(coord, yScale, xScale, "y", viewId, xAxis, index);
           }
         });
       }
@@ -424,14 +454,14 @@ class AxisController {
 
   changeVisible(visible) {
     const axes = this.axes;
-    Util.each(axes, function (axis) {
-      axis.set('visible', visible);
+    Util.each(axes, function(axis) {
+      axis.set("visible", visible);
     });
   }
 
   clear() {
     const axes = this.axes;
-    Util.each(axes, function (axis) {
+    Util.each(axes, function(axis) {
       axis.remove();
     });
     this.axes = [];
