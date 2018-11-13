@@ -1,6 +1,6 @@
 {
   "name": "@ay/g2-node",
-  "version": "3.0.14",
+  "version": "3.0.15",
   "description": "the Grammar of Graphics in Javascript",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -59,7 +59,7 @@
     "silent": false
   },
   "dependencies": {
-    "@ay/g-node": "^2.0.18",
+    "@ay/g-node": "^2.0.19",
     "babel-cli": "^6.26.0",
     "canvas": "^2.0.0-alpha.6",
     "fecha": "^2.3.1",
