@@ -2,9 +2,9 @@
  * @fileOverview The controller of guide
  * @author sima.zhang
  */
-const Util = require('../../util');
-const { Guide } = require('../../component/index');
-const Global = require('../../global');
+const Util = require("../../util");
+const { Guide } = require("../../component/index");
+const Global = require("../../global");
 
 class GuideController {
   constructor(cfg) {
@@ -23,10 +23,14 @@ class GuideController {
     const yScales = this.yScales;
     options.forEach(function(option) {
       let type = option.type;
-      const config = Util.deepMix({
-        xScales,
-        yScales
-      }, Global.guide[type], option);
+      const config = Util.deepMix(
+        {
+          xScales,
+          yScales
+        },
+        Global.guide[type],
+        option
+      );
       type = Util.upperFirst(type);
       const guide = new Guide[type](config);
       self.guides.push(guide);
@@ -36,57 +40,100 @@ class GuideController {
   }
 
   line(cfg = {}) {
-    this.options.push(Util.mix({
-      type: 'line'
-    }, cfg));
+    this.options.push(
+      Util.mix(
+        {
+          type: "line"
+        },
+        cfg
+      )
+    );
     return this;
   }
 
   arc(cfg = {}) {
-    this.options.push(Util.mix({
-      type: 'arc'
-    }, cfg));
+    this.options.push(
+      Util.mix(
+        {
+          type: "arc"
+        },
+        cfg
+      )
+    );
     return this;
   }
 
   text(cfg = {}) {
-    this.options.push(Util.mix({
-      type: 'text'
-    }, cfg));
+    this.options.push(
+      Util.mix(
+        {
+          type: "text"
+        },
+        cfg
+      )
+    );
     return this;
   }
 
   image(cfg = {}) {
-    this.options.push(Util.mix({
-      type: 'image'
-    }, cfg));
+    this.options.push(
+      Util.mix(
+        {
+          type: "image"
+        },
+        cfg
+      )
+    );
     return this;
   }
 
   region(cfg = {}) {
-    this.options.push(Util.mix({
-      type: 'region'
-    }, cfg));
+    this.options.push(
+      Util.mix(
+        {
+          type: "region"
+        },
+        cfg
+      )
+    );
+    return this;
+  }
+
+  regionFilter(cfg = {}) {
+    this.options.push(
+      Util.mix(
+        {
+          type: "regionFilter"
+        },
+        cfg
+      )
+    );
     return this;
   }
 
   html(cfg = {}) {
-    this.options.push(Util.mix({
-      type: 'html'
-    }, cfg));
+    this.options.push(
+      Util.mix(
+        {
+          type: "html"
+        },
+        cfg
+      )
+    );
     return this;
   }
 
-  render(coord) {
+  render(coord, view) {
     const self = this;
     const guides = self._creatGuides();
     let container = self.backContainer;
 
     Util.each(guides, guide => {
-      if (guide.top) { // 默认 guide 绘制到 backPlot，用户也可以声明 top: true，显示在最上层
+      if (guide.top) {
+        // 默认 guide 绘制到 backPlot，用户也可以声明 top: true，显示在最上层
         container = self.frontContainer;
       }
-      guide.render(coord, container);
+      guide.render(coord, container, view);
     });
   }
 

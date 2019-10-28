@@ -3,18 +3,22 @@
  * @author dxq613@gmail.com
  */
 
-const Base = require('../base');
-const Geom = require('../geom/');
-const Util = require('../util');
-const Controller = require('./controller/index');
-const Global = require('../global');
-const FIELD_ORIGIN = '_origin';
+const Base = require("../base");
+const Geom = require("../geom/");
+const Util = require("../util");
+const Controller = require("./controller/index");
+const Global = require("../global");
+const FIELD_ORIGIN = "_origin";
 // const Animate = require('../animate/index');
 
 function isFullCircle(coord) {
   const startAngle = coord.startAngle;
   const endAngle = coord.endAngle;
-  if (!Util.isNil(startAngle) && !Util.isNil(endAngle) && (endAngle - startAngle) < Math.PI * 2) {
+  if (
+    !Util.isNil(startAngle) &&
+    !Util.isNil(endAngle) &&
+    endAngle - startAngle < Math.PI * 2
+  ) {
     return false;
   }
   return true;
@@ -29,13 +33,19 @@ function isPointInCoord(coord, point) {
   let result = false;
   if (coord) {
     const type = coord.type;
-    if (type === 'theta') {
+    if (type === "theta") {
       const start = coord.start;
       const end = coord.end;
-      result = isBetween(point.x, start.x, end.x) && isBetween(point.y, start.y, end.y);
+      result =
+        isBetween(point.x, start.x, end.x) &&
+        isBetween(point.y, start.y, end.y);
     } else {
       const invertPoint = coord.invert(point);
-      result = invertPoint.x >= 0 && invertPoint.y >= 0 && invertPoint.x <= 1 && invertPoint.y <= 1;
+      result =
+        invertPoint.x >= 0 &&
+        invertPoint.y >= 0 &&
+        invertPoint.x <= 1 &&
+        invertPoint.y <= 1;
     }
   }
   return result;
@@ -90,8 +100,8 @@ class View extends Base {
    */
   init() {
     this._initViewPlot(); // 先创建容器
-    if (this.get('data')) {
-      this._initData(this.get('data'));
+    if (this.get("data")) {
+      this._initData(this.get("data"));
     }
     this._initOptions();
     this._initControllers();
@@ -101,7 +111,7 @@ class View extends Base {
   // 初始化配置项
   _initOptions() {
     const self = this;
-    const options = Util.mix({}, self.get('options')); // 防止修改原始值
+    const options = Util.mix({}, self.get("options")); // 防止修改原始值
     if (!options.scales) {
       options.scales = {};
     }
@@ -110,11 +120,12 @@ class View extends Base {
     }
 
     if (options.animate === false) {
-      this.set('animate', false);
+      this.set("animate", false);
     }
 
-    if (options.tooltip === false || Util.isNull(options.tooltip)) { // 配置项方式关闭 tooltip
-      this.set('tooltipEnable', false);
+    if (options.tooltip === false || Util.isNull(options.tooltip)) {
+      // 配置项方式关闭 tooltip
+      this.set("tooltipEnable", false);
     }
 
     if (options.geoms && options.geoms.length) {
@@ -122,15 +133,15 @@ class View extends Base {
         self._createGeom(geomOption);
       });
     }
-    const scaleController = self.get('scaleController');
+    const scaleController = self.get("scaleController");
     if (scaleController) {
       scaleController.defs = options.scales;
     }
-    const coordController = self.get('coordController');
+    const coordController = self.get("coordController");
     if (coordController) {
       coordController.reset(options.coord);
     }
-    this.set('options', options);
+    this.set("options", options);
   }
 
   _createGeom(cfg) {
@@ -140,14 +151,14 @@ class View extends Base {
       geom = this[type]();
       Util.each(cfg, function(v, k) {
         if (geom[k]) {
-
-          if (Util.isObject(v) && v.field) { // 配置项传入
-            if (v === 'label') {
+          if (Util.isObject(v) && v.field) {
+            // 配置项传入
+            if (v === "label") {
               geom[k](v.field, v.callback, v.cfg);
             } else {
               let cfg;
               Util.each(v, (value, key) => {
-                if (key !== 'field') {
+                if (key !== "field") {
                   cfg = value;
                 }
               });
@@ -163,48 +174,49 @@ class View extends Base {
 
   // 初始化所有的控制器
   _initControllers() {
-    const options = this.get('options');
+    const options = this.get("options");
 
     const scaleController = new Controller.Scale({
       defs: options.scales
     });
     const coordController = new Controller.Coord(options.coord);
-    this.set('scaleController', scaleController);
-    this.set('coordController', coordController);
+    this.set("scaleController", scaleController);
+    this.set("coordController", coordController);
 
     const axisController = new Controller.Axis();
-    this.set('axisController', axisController);
+    this.set("axisController", axisController);
 
     const guideController = new Controller.Guide({
       options: options.guides || []
     });
-    this.set('guideController', guideController);
+    this.set("guideController", guideController);
   }
 
   _initViewPlot() {
-    if (!this.get('viewContainer')) { // 用于 geom 的绘制
-      this.set('viewContainer', this.get('middlePlot'));
+    if (!this.get("viewContainer")) {
+      // 用于 geom 的绘制
+      this.set("viewContainer", this.get("middlePlot"));
     }
   }
 
   _initGeoms() {
-    const geoms = this.get('geoms');
-    const filteredData = this.get('filteredData');
-    const coord = this.get('coord');
-    const viewId = this.get('_id');
+    const geoms = this.get("geoms");
+    const filteredData = this.get("filteredData");
+    const coord = this.get("coord");
+    const viewId = this.get("_id");
     for (let i = 0; i < geoms.length; i++) {
       const geom = geoms[i];
-      geom.set('data', filteredData);
-      geom.set('coord', coord);
-      geom.set('_id', viewId + '-geom' + i);
-      geom.set('keyFields', this.get('keyFields'));
+      geom.set("data", filteredData);
+      geom.set("coord", coord);
+      geom.set("_id", viewId + "-geom" + i);
+      geom.set("keyFields", this.get("keyFields"));
       geom.init();
     }
   }
 
   _clearGeoms() {
     const self = this;
-    const geoms = self.get('geoms');
+    const geoms = self.get("geoms");
     for (let i = 0; i < geoms.length; i++) {
       const geom = geoms[i];
       geom.clear();
@@ -213,7 +225,7 @@ class View extends Base {
 
   _removeGeoms() {
     const self = this;
-    const geoms = self.get('geoms');
+    const geoms = self.get("geoms");
     while (geoms.length > 0) {
       const geom = geoms.shift();
       geom.destroy();
@@ -221,8 +233,8 @@ class View extends Base {
   }
 
   _drawGeoms() {
-    const geoms = this.get('geoms');
-    const coord = this.get('coord');
+    const geoms = this.get("geoms");
+    const coord = this.get("coord");
     for (let i = 0; i < geoms.length; i++) {
       const geom = geoms[i];
       geom.setCoord(coord);
@@ -237,7 +249,7 @@ class View extends Base {
    */
   getViewRegion() {
     const self = this;
-    const parent = self.get('parent');
+    const parent = self.get("parent");
     let start;
     let end;
     if (parent) {
@@ -246,8 +258,8 @@ class View extends Base {
       start = viewRegion.start;
       end = viewRegion.end;
     } else {
-      start = self.get('start');
-      end = self.get('end');
+      start = self.get("start");
+      end = self.get("end");
     }
     return {
       start,
@@ -257,13 +269,13 @@ class View extends Base {
 
   // 获取 range 所在的范围
   _getViewRegion(plotStart, plotEnd) {
-    const start = this.get('start');
-    const end = this.get('end');
+    const start = this.get("start");
+    const end = this.get("end");
     const startX = start.x;
     const startY = 1 - end.y;
     const endX = end.x;
     const endY = 1 - start.y;
-    const padding = this.get('padding');
+    const padding = this.get("padding");
     // 转换成 上、右、下、左的模式
     const allPadding = Util.toAllPadding(padding);
     const top = allPadding[0];
@@ -274,7 +286,6 @@ class View extends Base {
     const startPoint = {
       x: startX * (plotEnd.x - plotStart.x) + plotStart.x + left,
       y: startY * (plotEnd.y - plotStart.y) + plotStart.y - bottom
-
     };
     const endPoint = {
       x: endX * (plotEnd.x - plotStart.x) + plotStart.x - right,
@@ -288,60 +299,61 @@ class View extends Base {
   }
 
   _createCoord() {
-    const coordController = this.get('coordController');
+    const coordController = this.get("coordController");
     const region = this.getViewRegion();
     const coord = coordController.createCoord(region.start, region.end);
-    this.set('coord', coord);
+    this.set("coord", coord);
   }
 
   _renderAxes() {
-    const options = this.get('options');
+    const options = this.get("options");
     const axesOptions = options.axes;
-    if (axesOptions === false) { // 不渲染坐标轴
+    if (axesOptions === false) {
+      // 不渲染坐标轴
       return;
     }
-    const axisController = this.get('axisController');
-    axisController.container = this.get('backPlot');
-    axisController.coord = this.get('coord');
+    const axisController = this.get("axisController");
+    axisController.container = this.get("backPlot");
+    axisController.coord = this.get("coord");
     axisController.options = axesOptions || {};
     const xScale = this.getXScale();
     const yScales = this.getYScales();
-    const viewId = this.get('_id');
+    const viewId = this.get("_id");
     axisController.createAxis(xScale, yScales, viewId);
   }
 
   _renderGuides() {
-    const guideController = this.get('guideController');
+    const guideController = this.get("guideController");
     if (!Util.isEmpty(guideController.options)) {
-      const coord = this.get('coord');
-      guideController.backContainer = this.get('backPlot');
-      guideController.frontContainer = this.get('frontPlot');
-      guideController.xScales = this._getScales('x');
-      guideController.yScales = this._getScales('y');
-      guideController.render(coord);
+      const coord = this.get("coord");
+      guideController.backContainer = this.get("backPlot");
+      guideController.frontContainer = this.get("frontPlot");
+      guideController.xScales = this._getScales("x");
+      guideController.yScales = this._getScales("y");
+      guideController.render(coord, this);
     }
   }
   // 注册事件
   _bindEvents() {
     const eventController = new Controller.Event({
       view: this,
-      canvas: this.get('canvas')
+      canvas: this.get("canvas")
     });
     eventController.bindEvents();
-    this.set('eventController', eventController);
+    this.set("eventController", eventController);
   }
   // 清理时间
   _clearEvents() {
-    const eventController = this.get('eventController');
+    const eventController = this.get("eventController");
     eventController && eventController.clearEvents();
   }
 
   _getScales(dimType) {
-    const geoms = this.get('geoms');
+    const geoms = this.get("geoms");
     const result = {};
     for (let i = 0; i < geoms.length; i++) {
       const geom = geoms[i];
-      const scale = (dimType === 'x') ? geom.getXScale() : geom.getYScale();
+      const scale = dimType === "x" ? geom.getXScale() : geom.getYScale();
       if (scale && !result[scale.field]) {
         result[scale.field] = scale;
       }
@@ -351,13 +363,13 @@ class View extends Base {
 
   _adjustScale() {
     this._setCatScalesRange();
-    const geoms = this.get('geoms');
-    const scaleController = this.get('scaleController');
+    const geoms = this.get("geoms");
+    const scaleController = this.get("scaleController");
     const colDefs = scaleController.defs;
 
     for (let i = 0; i < geoms.length; i++) {
       const geom = geoms[i];
-      if (geom.get('type') === 'interval') {
+      if (geom.get("type") === "interval") {
         const yScale = geom.getYScale();
         const field = yScale.field;
         if (!(colDefs[field] && colDefs[field].min) && yScale.min > 0) {
@@ -371,7 +383,7 @@ class View extends Base {
 
   _setCatScalesRange() {
     const self = this;
-    const coord = self.get('coord');
+    const coord = self.get("coord");
     const xScale = self.getXScale();
     const yScales = self.getYScales();
     let scales = [];
@@ -379,28 +391,32 @@ class View extends Base {
     xScale && scales.push(xScale);
     scales = scales.concat(yScales);
     const inFullCircle = coord.isPolar && isFullCircle(coord);
-    const scaleController = self.get('scaleController');
+    const scaleController = self.get("scaleController");
     const colDefs = scaleController.defs;
     Util.each(scales, function(scale) {
-      if ((scale.isCategory || scale.isIdentity) && scale.values && !(colDefs[scale.field] && colDefs[scale.field].range)) {
+      if (
+        (scale.isCategory || scale.isIdentity) &&
+        scale.values &&
+        !(colDefs[scale.field] && colDefs[scale.field].range)
+      ) {
         const count = scale.values.length;
         let range;
         if (count === 1) {
-          range = [ 0.5, 1 ]; // 只有一个分类时,防止计算出现 [0.5,0.5]的状态
+          range = [0.5, 1]; // 只有一个分类时,防止计算出现 [0.5,0.5]的状态
         } else {
           let widthRatio = 1;
           let offset = 0;
           if (inFullCircle) {
             if (!coord.isTransposed) {
-              range = [ 0, 1 - 1 / count ];
+              range = [0, 1 - 1 / count];
             } else {
               widthRatio = Global.widthRatio.multiplePie;
-              offset = 1 / count * widthRatio;
-              range = [ offset / 2, 1 - offset / 2 ];
+              offset = (1 / count) * widthRatio;
+              range = [offset / 2, 1 - offset / 2];
             }
           } else {
-            offset = 1 / count * 1 / 2; // 两边留下分类空间的一半
-            range = [ offset, 1 - offset ]; // 坐标轴最前面和最后面留下空白防止绘制柱状图时
+            offset = ((1 / count) * 1) / 2; // 两边留下分类空间的一半
+            range = [offset, 1 - offset]; // 坐标轴最前面和最后面留下空白防止绘制柱状图时
           }
         }
         scale.range = range;
@@ -409,8 +425,8 @@ class View extends Base {
   }
 
   getXScale() {
-    const geoms = this.get('geoms').filter(function(geom) {
-      return geom.get('visible');
+    const geoms = this.get("geoms").filter(function(geom) {
+      return geom.get("visible");
     });
     let xScale = null;
     if (!Util.isEmpty(geoms)) {
@@ -420,8 +436,8 @@ class View extends Base {
   }
 
   getYScales() {
-    const geoms = this.get('geoms').filter(function(geom) {
-      return geom.get('visible');
+    const geoms = this.get("geoms").filter(function(geom) {
+      return geom.get("visible");
     });
     const rst = [];
 
@@ -442,9 +458,9 @@ class View extends Base {
    */
   getXY(item) {
     const self = this;
-    const coord = self.get('coord');
-    const xScales = self._getScales('x');
-    const yScales = self._getScales('y');
+    const coord = self.get("coord");
+    const xScales = self._getScales("x");
+    const yScales = self._getScales("y");
     let x;
     let y;
 
@@ -474,10 +490,10 @@ class View extends Base {
    */
   getSnapRecords(point) {
     const self = this;
-    const geoms = self.get('geoms');
+    const geoms = self.get("geoms");
     const rst = [];
     Util.each(geoms, geom => {
-      const dataArray = geom.get('dataArray');
+      const dataArray = geom.get("dataArray");
       let record;
       Util.each(dataArray, function(data) {
         record = geom.findPoint(point, data);
@@ -494,12 +510,12 @@ class View extends Base {
    */
   addGeom(geom) {
     const self = this;
-    const geoms = self.get('geoms');
+    const geoms = self.get("geoms");
     geoms.push(geom);
-    geom.set('view', self);
-    const container = self.get('viewContainer');
-    geom.set('container', container);
-    geom.set('animate', self.get('animate'));
+    geom.set("view", self);
+    const container = self.get("viewContainer");
+    geom.set("container", container);
+    geom.set("animate", self.get("animate"));
     geom.bindEvents();
   }
 
@@ -509,27 +525,27 @@ class View extends Base {
    * @param {Geom} geom 几何标记
    */
   removeGeom(geom) {
-    const geoms = this.get('geoms');
+    const geoms = this.get("geoms");
     Util.Array.remove(geoms, geom);
     geom.destroy();
   }
 
   createScale(field, data) {
-    const scales = this.get('scales');
-    const parent = this.get('parent');
+    const scales = this.get("scales");
+    const parent = this.get("parent");
     let scale = scales[field];
     const filters = this._getFilters();
     if (!data) {
-      const filteredData = this.get('filteredData');
+      const filteredData = this.get("filteredData");
       // 过滤导致数据为空时，需要使用全局数据
       // 参与过滤的字段的度量也根据全局数据来生成
       if (filteredData.length && !(filters && filters[field])) {
         data = filteredData;
       } else {
-        data = this.get('data');
+        data = this.get("data");
       }
     }
-    const scaleController = this.get('scaleController');
+    const scaleController = this.get("scaleController");
     if (!scale) {
       scale = scaleController.createScale(field, data);
       if (scale.sync && parent) {
@@ -537,7 +553,8 @@ class View extends Base {
         scale = this._getSyncScale(parentScale, scale);
       }
       scales[field] = scale;
-    } else if (scale.sync) { // 防止 view 内部创建的scale，Chart 上的scale 范围更大
+    } else if (scale.sync) {
+      // 防止 view 内部创建的scale，Chart 上的scale 范围更大
       const newScale = scaleController.createScale(field, data);
       this._syncScale(scale, newScale);
     }
@@ -575,7 +592,7 @@ class View extends Base {
   }
 
   getFilteredValues(field) {
-    const scale = this.get('scales')[field];
+    const scale = this.get("scales")[field];
     const values = scale.values;
     const filters = this._getFilters();
     let rst;
@@ -588,7 +605,7 @@ class View extends Base {
   }
 
   filter(field, condition) {
-    const options = this.get('options');
+    const options = this.get("options");
     if (!options.filters) {
       options.filters = {};
     }
@@ -597,7 +614,7 @@ class View extends Base {
 
   // 获取 filters
   _getFilters() {
-    const options = this.get('options');
+    const options = this.get("options");
     return options.filters;
   }
 
@@ -621,7 +638,7 @@ class View extends Base {
   }
 
   axis(field, cfg) {
-    const options = this.get('options');
+    const options = this.get("options");
     if (field === false) {
       options.axes = false;
     } else {
@@ -636,7 +653,7 @@ class View extends Base {
   }
 
   guide() {
-    return this.get('guideController');
+    return this.get("guideController");
   }
 
   _getKeyFields(scaleDefs) {
@@ -646,11 +663,11 @@ class View extends Base {
         keyFields.push(field);
       }
     });
-    this.set('keyFields', keyFields);
+    this.set("keyFields", keyFields);
   }
 
   scale(field, cfg) {
-    const options = this.get('options');
+    const options = this.get("options");
     const scaleDefs = options.scales;
     if (Util.isObject(field)) {
       Util.mix(scaleDefs, field);
@@ -663,19 +680,19 @@ class View extends Base {
   }
 
   tooltip(visible) {
-    this.set('tooltipEnable', visible);
+    this.set("tooltipEnable", visible);
     return this;
   }
 
   animate(enable) {
-    const options = this.get('options');
+    const options = this.get("options");
     options.animate = enable;
-    this.set('animate', enable);
+    this.set("animate", enable);
     return this;
   }
 
   changeOptions(options) {
-    this.set('options', options);
+    this.set("options", options);
     this._initOptions(options);
     return this;
   }
@@ -687,14 +704,14 @@ class View extends Base {
    */
   getViewsByPoint(point) {
     const rst = [];
-    const views = this.get('views');
+    const views = this.get("views");
 
-    if (isPointInCoord(this.get('coord'), point)) {
+    if (isPointInCoord(this.get("coord"), point)) {
       rst.push(this);
     }
 
     Util.each(views, view => {
-      if (view.get('visible') && isPointInCoord(view.get('coord'), point)) {
+      if (view.get("visible") && isPointInCoord(view.get("coord"), point)) {
         rst.push(view);
       }
     });
@@ -708,16 +725,16 @@ class View extends Base {
    */
   eachShape(fn) {
     const self = this;
-    const views = self.get('views');
-    const canvas = self.get('canvas');
+    const views = self.get("views");
+    const canvas = self.get("canvas");
     Util.each(views, function(view) {
       view.eachShape(fn);
     });
-    const geoms = this.get('geoms');
+    const geoms = this.get("geoms");
     Util.each(geoms, function(geom) {
       const shapes = geom.getShapes();
       Util.each(shapes, shape => {
-        const origin = shape.get('origin');
+        const origin = shape.get("origin");
         if (Util.isArray(origin)) {
           const arr = origin.map(function(subOrigin) {
             return subOrigin[FIELD_ORIGIN];
@@ -741,9 +758,9 @@ class View extends Base {
   filterShape(fn) {
     const callback = function(record, shape, geom, view) {
       if (!fn(record, shape, geom, view)) {
-        shape.set('visible', false);
+        shape.set("visible", false);
       } else {
-        shape.set('visible', true);
+        shape.set("visible", true);
       }
     };
     this.eachShape(callback);
@@ -751,14 +768,14 @@ class View extends Base {
   }
 
   clearInner() {
-    this.set('scales', {});
-    const options = this.get('options');
+    this.set("scales", {});
+    const options = this.get("options");
     options.geoms = null;
     this._clearGeoms();
     // reset guide
-    this.get('guideController') && this.get('guideController').reset();
+    this.get("guideController") && this.get("guideController").reset();
     // clear axis
-    this.get('axisController') && this.get('axisController').clear();
+    this.get("axisController") && this.get("axisController").clear();
   }
 
   /**
@@ -766,15 +783,15 @@ class View extends Base {
    * @return {View} 当前视图
    */
   clear() {
-    const options = this.get('options');
+    const options = this.get("options");
     options.filters = null;
     this._removeGeoms();
     // const container = this.get('viewContainer');
     // container.clear();
     this.clearInner();
-    this.get('guideController') && this.get('guideController').clear();
-    this.set('isUpdate', false);
-    this.set('keyFields', []);
+    this.get("guideController") && this.get("guideController").clear();
+    this.set("isUpdate", false);
+    this.set("keyFields", []);
     return this;
   }
 
@@ -785,7 +802,7 @@ class View extends Base {
    * @return {Object} coordController 坐标系的管理器
    */
   coord(type, cfg) {
-    const coordController = this.get('coordController');
+    const coordController = this.get("coordController");
     coordController.reset({
       type,
       cfg
@@ -805,89 +822,87 @@ class View extends Base {
    * 绘制 geometry 前处理一些度量统一
    * @protected
    */
-  beforeDraw() {
-  }
+  beforeDraw() {}
 
   source(data, scales) {
     this._initData(data);
     if (scales) {
       this.scale(scales);
     }
-    this.emit('setdata');
+    this.emit("setdata");
     return this;
   }
 
   changeData(data) {
-    this.emit('beforechangedata');
+    this.emit("beforechangedata");
     this._initData(data);
-    this.emit('afterchangedata');
+    this.emit("afterchangedata");
     this.repaint();
     return this;
   }
 
   _initData(data) {
-    const dataView = this.get('dataView');
+    const dataView = this.get("dataView");
     if (dataView) {
-      dataView.off('change', Util.getWrapBehavior(this, '_onViewChange'));
-      this.set('dataView', null);
+      dataView.off("change", Util.getWrapBehavior(this, "_onViewChange"));
+      this.set("dataView", null);
     }
     if (data && data.isDataView) {
-      data.on('change', Util.wrapBehavior(this, '_onViewChange'));
-      this.set('dataView', data);
+      data.on("change", Util.wrapBehavior(this, "_onViewChange"));
+      this.set("dataView", data);
       data = data.rows;
     }
-    this.set('data', data);
+    this.set("data", data);
   }
 
   _onViewChange() {
-    this.emit('beforechangedata');
-    const dataView = this.get('dataView');
+    this.emit("beforechangedata");
+    const dataView = this.get("dataView");
     const rows = dataView.rows;
-    this.set('data', rows);
-    this.emit('afterchangedata');
+    this.set("data", rows);
+    this.emit("afterchangedata");
     this.repaint();
   }
 
   render(stopDraw) {
-    this.emit('beforerender');
-    const views = this.get('views');
+    this.emit("beforerender");
+    const views = this.get("views");
     // 初始化 View 的数据
     Util.each(views, function(view) {
       view.initView();
     });
     this.initView();
-    this.emit('beforepaint');
+    this.emit("beforepaint");
     // 绘制
     Util.each(views, function(view) {
       view.paint();
     });
     this.paint();
-    this.emit('afterpaint');
+    this.emit("afterpaint");
     if (!stopDraw) {
-      const backPlot = this.get('backPlot');
+      const backPlot = this.get("backPlot");
       backPlot.sort();
-      const canvas = this.get('canvas');
+      const canvas = this.get("canvas");
 
       canvas.draw();
     }
-    this.emit('afterrender');
+    this.emit("afterrender");
     return this;
   }
 
   initView() {
-    const data = this.get('data') || [];
+    const data = this.get("data") || [];
     const filteredData = this.execFilter(data);
-    this.set('filteredData', filteredData);
+    this.set("filteredData", filteredData);
     // if (!Util.isEmpty(data)) {
     this._createCoord(); // draw geometry 前绘制区域可能会发生改变
     this._initGeoms();
     this._adjustScale();
     // }
-
   }
 
   paint() {
-    const data = this.get('data');
+    const data = this.get("data");
     if (!Util.isEmpty(data)) {
       this.beforeDraw();
       this._drawGeoms();
@@ -897,29 +912,33 @@ class View extends Base {
   }
 
   changeVisible(visible) {
-    const geoms = this.get('geoms');
+    const geoms = this.get("geoms");
     Util.each(geoms, function(geom) {
-      if (geom.get('visible')) { // geom 隐藏时不受
+      if (geom.get("visible")) {
+        // geom 隐藏时不受
         geom.changeVisible(visible, true);
       }
     });
-    this.get('axisController') && this.get('axisController').changeVisible(visible);
-    this.get('guideController') && this.get('guideController').changeVisible(visible);
-    const canvas = this.get('canvas');
+    this.get("axisController") &&
+      this.get("axisController").changeVisible(visible);
+    this.get("guideController") &&
+      this.get("guideController").changeVisible(visible);
+    const canvas = this.get("canvas");
 
     canvas.draw();
   }
 
   repaint() {
-    this.set('isUpdate', true);
+    this.set("isUpdate", true);
     this.clearInner();
     this.render();
   }
 
   destroy() {
     this._clearEvents();
-    const dataView = this.get('dataView');
-    dataView && dataView.off('change', Util.getWrapBehavior(this, '_onViewChange'));
+    const dataView = this.get("dataView");
+    dataView &&
+      dataView.off("change", Util.getWrapBehavior(this, "_onViewChange"));
     this.clear();
     super.destroy();
   }
