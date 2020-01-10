@@ -81,7 +81,7 @@ function arrayCeiling(values, value) {
 const Util = {
   // 获取逼近的数值
   snapFactorTo(v, arr, snapType) { // 假设 v = -512,isFloor = true
-    if (isNaN(v)) {
+    if (isNaN(v)|| v === Infinity || v === -Infinity) {
       return NaN;
     }
     let factor = 1; // 计算系数

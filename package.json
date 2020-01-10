@@ -1,6 +1,6 @@
 {
   "name": "@ay/g2-node",
-  "version": "3.0.16",
+  "version": "3.0.17",
   "description": "the Grammar of Graphics in Javascript",
   "main": "dist/index.js",
   "module": "dist/index.js",
